@@ -1,0 +1,27 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Scripts/PlayArea.gd" type="Script" id=1]
+[ext_resource path="res://Components/PlayAreaSlot.tscn" type="PackedScene" id=2]
+
+[node name="PlayArea" type="Node2D"]
+z_index = -1
+script = ExtResource( 1 )
+
+[node name="Background" type="ColorRect" parent="."]
+margin_left = -276.0
+margin_right = 276.0
+margin_bottom = 416.0
+mouse_filter = 2
+color = Color( 0.164706, 0.164706, 0.164706, 1 )
+
+[node name="PlayAreaSlot" parent="Background" instance=ExtResource( 2 )]
+position = Vector2( 8, 8 )
+
+[node name="PlayAreaSlot2" parent="Background" instance=ExtResource( 2 )]
+position = Vector2( 144, 8 )
+
+[node name="PlayAreaSlot3" parent="Background" instance=ExtResource( 2 )]
+position = Vector2( 280, 8 )
+
+[node name="PlayAreaSlot4" parent="Background" instance=ExtResource( 2 )]
+position = Vector2( 416, 8 )
