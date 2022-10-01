@@ -10,7 +10,3 @@ class PlaySlotData:
         self.slot_type = _slot_type
         self.index = _index
         print("Slot initialized: %s (%s %s)" % [self.get_instance_id(), self.slot_type, self.index])
-    func card_played(_card: cd.CardData):
-        self.card = _card
-        self.card.set_owner(self)
-        State.play_card(_card, self)

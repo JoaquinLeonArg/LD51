@@ -7,21 +7,56 @@
 z_index = -1
 script = ExtResource( 1 )
 
-[node name="Background" type="ColorRect" parent="."]
-margin_left = -276.0
-margin_right = 276.0
-margin_bottom = 416.0
-mouse_filter = 2
-color = Color( 0.164706, 0.164706, 0.164706, 1 )
+[node name="PlayAreaSlot1" parent="." instance=ExtResource( 2 )]
+position = Vector2( -424, 8 )
 
-[node name="PlayAreaSlot" parent="Background" instance=ExtResource( 2 )]
+[node name="PlayAreaSlot2" parent="." instance=ExtResource( 2 )]
+position = Vector2( -280, 8 )
+
+[node name="PlayAreaSlot3" parent="." instance=ExtResource( 2 )]
+position = Vector2( -136, 8 )
+
+[node name="PlayAreaSlot4" parent="." instance=ExtResource( 2 )]
 position = Vector2( 8, 8 )
 
-[node name="PlayAreaSlot2" parent="Background" instance=ExtResource( 2 )]
-position = Vector2( 144, 8 )
+[node name="PlayAreaSlot5" parent="." instance=ExtResource( 2 )]
+position = Vector2( 152, 8 )
 
-[node name="PlayAreaSlot3" parent="Background" instance=ExtResource( 2 )]
-position = Vector2( 280, 8 )
+[node name="PlayAreaSlot6" parent="." instance=ExtResource( 2 )]
+position = Vector2( 296, 8 )
 
-[node name="PlayAreaSlot4" parent="Background" instance=ExtResource( 2 )]
-position = Vector2( 416, 8 )
+[node name="PlayAreaSlot7" parent="." instance=ExtResource( 2 )]
+position = Vector2( -424, 216 )
+
+[node name="PlayAreaSlot8" parent="." instance=ExtResource( 2 )]
+position = Vector2( -280, 216 )
+
+[node name="PlayAreaSlot9" parent="." instance=ExtResource( 2 )]
+position = Vector2( -136, 216 )
+
+[node name="PlayAreaSlot10" parent="." instance=ExtResource( 2 )]
+position = Vector2( 8, 216 )
+
+[node name="PlayAreaSlot11" parent="." instance=ExtResource( 2 )]
+position = Vector2( 152, 216 )
+
+[node name="PlayAreaSlot12" parent="." instance=ExtResource( 2 )]
+position = Vector2( 296, 216 )
+
+[node name="PlayAreaSlot13" parent="." instance=ExtResource( 2 )]
+position = Vector2( -424, 424 )
+
+[node name="PlayAreaSlot14" parent="." instance=ExtResource( 2 )]
+position = Vector2( -280, 424 )
+
+[node name="PlayAreaSlot15" parent="." instance=ExtResource( 2 )]
+position = Vector2( -136, 424 )
+
+[node name="PlayAreaSlot16" parent="." instance=ExtResource( 2 )]
+position = Vector2( 8, 424 )
+
+[node name="PlayAreaSlot17" parent="." instance=ExtResource( 2 )]
+position = Vector2( 152, 424 )
+
+[node name="PlayAreaSlot18" parent="." instance=ExtResource( 2 )]
+position = Vector2( 296, 424 )

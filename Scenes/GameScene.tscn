@@ -1,16 +1,24 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Components/PlayerHand.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Components/PlayArea.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Components/ResourceArea.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Components/SeasonArea.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Components/DeckArea.tscn" type="PackedScene" id=5]
 
 [node name="GameScene" type="Node2D"]
 
 [node name="PlayerHand" parent="." instance=ExtResource( 1 )]
-position = Vector2( 640, 740 )
+position = Vector2( 960, 1032 )
 
 [node name="PlayArea" parent="." instance=ExtResource( 2 )]
-position = Vector2( 640, 23 )
+position = Vector2( 960, 96 )
 
 [node name="ResourceArea" parent="." instance=ExtResource( 3 )]
-position = Vector2( 38, 37 )
+position = Vector2( 64, 64 )
+
+[node name="SeasonArea" parent="." instance=ExtResource( 4 )]
+position = Vector2( 1824, 96 )
+
+[node name="DeckArea" parent="." instance=ExtResource( 5 )]
+position = Vector2( 128, 952 )

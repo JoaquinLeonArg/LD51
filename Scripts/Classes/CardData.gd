@@ -7,10 +7,12 @@ class BaseCardZoneData:
 	static func get_zone():
 		return null
 
-class HandCardZoneData  extends BaseCardZoneData:
-	var index: int
-	static func get_zone():
-		return CardZone.HAND
+class HandCardZoneData extends BaseCardZoneData:
+    var index: int
+    func _init(_index: int):
+        self.index = _index
+    static func get_zone():
+        return CardZone.HAND
 
 class FieldCardZoneData extends BaseCardZoneData:
 	var slot
@@ -21,12 +23,10 @@ class FieldCardZoneData extends BaseCardZoneData:
 	
 
 class CardDataProperties:
-	var name: String = "Unknown"
-	var cost: int
-	var artwork_path: String
-	var behaviors: Array # <CardBehavior>
-	func _init():
-		pass
+    var name: String = "Unknown"
+    var cost: int
+    var artwork_path: String
+    var behaviors: Array # <CardBehavior>
 
 class CardData:
 	var ui_owner: Node2D
@@ -74,8 +74,8 @@ class CardData:
 		print("Yielded")
 		for behavior in self.behaviors:
 			behavior.on_play()
-	func entered_hand():
-		self.zone_data = HandCardZoneData.new()
+	func entered_hand(_index):
+		self.zone_data = HandCardZoneData.new(_index)
 		emit_signal("entered_hand")
 		#yield(self.ui_owner, "entered_hand_finished") # Wait for animations
 		print("Yielded")

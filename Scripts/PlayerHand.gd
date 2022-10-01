@@ -21,7 +21,13 @@ var cards: Array = [] # <Card>
 func _ready():
 	State.state.hand = self
 	for _i in range(CARD_COUNT):
-		self.add_card(content_cards.CardTest.new())
+		var card_props = content_cards.CardTest.new()
+		var card = card_component.instance()
+		card.set_data(cd.CardData.new(card_props))
+		card.data.ui_owner = card
+		card.owner = self
+		card.data.zone_data = cd.HandCardZoneData.new(_i)
+		self.add_card(card)
 
 func update_card_positions():
 	for i in range(len(self.cards)):
@@ -38,13 +44,11 @@ func update_card_positions():
 		card.rest_position = card.global_position
 		card.rest_rotation = card.rotation
 
-func add_card(card_data: cd.CardDataProperties):
-	var new_card = card_component.instance()
-	new_card.data = cd.CardData.new(card_data)
-	new_card.data.ui_owner = new_card
-	print(new_card.data.ui_owner)
-	self.cards.append(new_card)
-	self.add_child(new_card)
+func add_card(card: Node2D):
+	self.cards.append(card)
+	if card.get_parent():
+		card.get_parent().remove_child(card)
+	self.add_child(card)
 	self.update_card_positions()
 
 func _process(_delta):
