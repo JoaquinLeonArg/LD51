@@ -11,6 +11,7 @@ const ROTATION_RATE: float = 0.12
 
 # Imports
 const cd = preload("res://Scripts/Classes/CardData.gd")
+const content_cards = preload("res://Scripts/Content/Cards.gd")
 const card_component = preload("res://Components/Card.tscn")
 
 # Instance properties
@@ -20,7 +21,7 @@ var cards: Array = [] # <Card>
 func _ready():
 	State.state.hand = self
 	for _i in range(CARD_COUNT):
-		self.add_card(cd.CardData.new(cd.CardDataProperties.new()))
+		self.add_card(content_cards.CardTest.new())
 
 func update_card_positions():
 	for i in range(len(self.cards)):
@@ -37,9 +38,9 @@ func update_card_positions():
 		card.rest_position = card.global_position
 		card.rest_rotation = card.rotation
 
-func add_card(card_data: cd.CardData):
+func add_card(card_data: cd.CardDataProperties):
 	var new_card = card_component.instance()
-	new_card.data = card_data
+	new_card.data = cd.CardData.new(card_data)
 	new_card.data.ui_owner = new_card
 	print(new_card.data.ui_owner)
 	self.cards.append(new_card)

@@ -24,12 +24,9 @@ class CardDataProperties:
     var name: String = "Unknown"
     var cost: int
     var artwork_path: String
-    var behaviors: Array # <GDScript>
+    var behaviors: Array # <CardBehavior>
     func _init():
         pass
-
-class Artworker:
-    var artwork
 
 class CardData:
     var ui_owner: Node2D
@@ -56,10 +53,9 @@ class CardData:
         self.artwork = load(_props.artwork_path)
         self.behaviors = []
         for behavior in _props.behaviors:
-            assert(behavior is GDScript)
-            var behavior_instance = behavior.new(self)
-            print("\t Attaching behavior: %s" % behavior_instance)
-            self.behaviors.append(behavior_instance)
+            behavior.set_owner(self)
+            print("\t Attaching behavior: %s" % behavior)
+            self.behaviors.append(behavior)
         self.behaviors.sort_custom(self, "sort_behaviors")
     func can_be_played():
         for behavior in self.behaviors:
@@ -74,14 +70,14 @@ class CardData:
     func entered_field(_slot):
         self.zone_data = FieldCardZoneData.new(_slot)
         emit_signal("entered_field", _slot)
-        yield(self.ui_owner, "entered_field_finished") # Wait for animations
+        #yield(self.ui_owner, "entered_field_finished") # Wait for animations
         print("Yielded")
         for behavior in self.behaviors:
             behavior.on_play()
     func entered_hand():
         self.zone_data = HandCardZoneData.new()
         emit_signal("entered_hand")
-        yield(self.ui_owner, "entered_hand_finished") # Wait for animations
+        #yield(self.ui_owner, "entered_hand_finished") # Wait for animations
         print("Yielded")
         for behavior in self.behaviors:
             behavior.on_draw()
@@ -96,9 +92,10 @@ class CardBehavior:
     var owner: CardData
     var priority: int
 
-    func _init(_owner: CardData, _priority=CardBehaviorPriority.NORMAL):
-        self.owner = _owner
+    func _init(_priority=CardBehaviorPriority.NORMAL):
         self.priority = _priority
+    func set_owner(_owner: CardData):
+        self.owner = _owner
     func _to_string():
         return self.get_class()
     func on_play(_target=null):
@@ -109,4 +106,3 @@ class CardBehavior:
         print("Triggered: on_draw for %s on card %s (%s)" % [self, self.owner.name, self.owner.get_instance_id()])
     func can_be_played():
         return true
-    

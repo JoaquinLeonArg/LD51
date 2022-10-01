@@ -61,11 +61,11 @@ func on_mouse_entered():
 	self.hovering = true
 	self.z_index = 1
 	if not self.dragging and self.status == Status.ON_HAND:
-		tween.tween_property(self, "scale", Vector2(1.2, 1.2), 0.1)
-		tween.tween_property(self, "global_position", Vector2(self.global_position.x, self.rest_position.y - 15), 0.2)
+		tween.tween_property(self, "scale", Vector2(1.5, 1.5), 0.1)
+		tween.tween_property(self, "global_position", Vector2(self.global_position.x, self.rest_position.y - 55), 0.2)
 		tween.tween_property(self, "rotation", 0.0, 0.05)
 	if self.status == Status.ON_FIELD:
-		tween.tween_property(self, "scale", Vector2(1.2, 1.2), 0.1)
+		tween.tween_property(self, "scale", Vector2(1.5, 1.5), 0.1)
 
 func on_mouse_exited():
 	var tween = create_tween()
