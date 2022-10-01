@@ -17,6 +17,7 @@ config/icon="res://icon.png"
 [autoload]
 
 State="*res://Scripts/Classes/GameStateManager.gd"
+Utils="*res://Scripts/Classes/Utils.gd"
 
 [display]
 

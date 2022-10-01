@@ -11,59 +11,60 @@ const ROTATION_RATE: float = 0.12
 
 # Imports
 const cd = preload("res://Scripts/Classes/CardData.gd")
+const hd = preload("res://Scripts/Classes/HandData.gd")
 const content_cards = preload("res://Scripts/Content/Cards.gd")
 const card_component = preload("res://Components/Card.tscn")
 
 # Instance properties
-var cards: Array = [] # <Card>
+var data: hd.HandData
 
 # Methods
 func _ready():
 	State.state.hand = self
-	var test_cards = [content_cards.IntermitentFastingCard]
-	for _i in range(len(test_cards)):
-		var card_props = test_cards[_i].new()
-		var card = card_component.instance()
-		card.set_data(cd.CardData.new(card_props))
-		card.data.ui_owner = card
-		card.owner = self
-		card.data.zone_data = cd.HandCardZoneData.new(_i)
-		self.add_card(card)
+	self.data = hd.HandData.new()
 
 func update_card_positions():
-	for i in range(len(self.cards)):
-		var card = self.cards[i]
+	for i in range(len(self.data.cards)):
+		var card = self.data.cards[i]
 		card.card_index = i
 		var center_factor
-		if len(self.cards) != 1:
-			center_factor = (i / (float(len(self.cards)) - 1)) - 0.5
+		if len(self.data.cards) != 1:
+			center_factor = (i / (float(len(self.data.cards)) - 1)) - 0.5
 		else:
 			center_factor = 0.0
-		card.position.x = center_factor * min(MAX_DISTANCE_X, CARD_SPACING_X*len(self.cards))
-		card.position.y = abs(center_factor) * MAX_DISTANCE_Y
-		card.rotation = center_factor * ROTATION_RATE
-		card.rest_position = card.global_position
-		card.rest_rotation = card.rotation
+		var position = Vector2.ZERO
+		position.x = center_factor * min(MAX_DISTANCE_X, CARD_SPACING_X*len(self.data.cards))
+		position.y = abs(center_factor) * MAX_DISTANCE_Y
+		position += self.global_position
+
+		card.rest_rotation = center_factor * ROTATION_RATE
+		card.rest_position = position
+		card.rest_scale = Vector2(1.0, 1.0)
+		card.hover_rotation = 0
+		card.hover_position = position + Vector2(0, -35)
+		card.hover_scale = Vector2(1.3, 1.3)
+		card.draggable = false
+
+		card.update_position()
+		
 
 func add_card(card: Node2D):
-	self.cards.append(card)
+	self.data.cards.append(card)
+	var old = card.global_position
 	if card.get_parent():
 		card.get_parent().remove_child(card)
 	self.add_child(card)
+	card.global_position = old
 	self.update_card_positions()
 
 func remove_card(card: Node2D):
 	self.remove_child(card)
-	self.cards.erase(card)
 	self.update_card_positions()
+	self.data.cards.erase(card)
 
 func _process(_delta):
 	self.debug_process()
 
 func debug_process():
 	if Input.is_action_just_pressed("ui_up"):
-		self.add_card(null)
-	if Input.is_action_just_pressed("ui_down"):
-		var card = self.cards.pop_back()
-		card.queue_free()
-		self.update_card_positions()
+		State.state.start_game()

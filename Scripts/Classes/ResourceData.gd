@@ -34,12 +34,14 @@ class ResourceData:
 		ResourceType.GOLD: 0,
 	}
 	var extra_resources: Dictionary = {
-		ExtraResourceType.HAND_SIZE: 3
+		ExtraResourceType.HAND_SIZE: 10
 	}
 
 	signal resource_value_changed(resource_type, old_amount, new_amount)
 	signal resource_change_changed(resource_type, old_amount, new_amount)
 	signal extra_resource_value_changed(resource_type, old_amount, new_amount)
+	signal max_resource_value_changed(resource_type, old_amount, new_amount)
+	signal mod_resource_value_changed(resource_type, old_amount, new_amount)
 
 	func _init():
 		print("Resource system starting up")
@@ -58,6 +60,14 @@ class ResourceData:
 		var old = self.extra_resources[_resource_type]
 		self.extra_resources[_resource_type] += _change
 		emit_signal("extra_resource_value_changed", _resource_type, old, self.extra_resources[_resource_type])
+	func change_mod_resource(_resource_type: int, _change: int):
+		var old = self.resource_mod[_resource_type]
+		self.resource_mod[_resource_type] += _change
+		emit_signal("resource_mod_value_changed", _resource_type, old, self.resource_mod[_resource_type])	
+	func change_max_resource(_resource_type: int, _change: int):
+		var old = self.max_resources[_resource_type]
+		self.max_resources[_resource_type] += _change
+		emit_signal("max_resource_value_changed", _resource_type, old, self.max_resources[_resource_type])
 	func resource_tick():
 		for resource in [ResourceType.PEOPLE, ResourceType.FOOD]:
 			var old = self.resources[resource]

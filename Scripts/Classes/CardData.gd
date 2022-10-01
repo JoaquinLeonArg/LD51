@@ -1,7 +1,7 @@
 enum CardBehaviorPriority { MIN, LOW, NORMAL, HIGH, MAX }
 enum CardType { ACTION, BUILDING }
-enum CardSubtype { STATIC, DYNAMIC, ACTIVABLE }
-enum CardZone { HAND, FIELD }
+enum CardSubType { STATIC, DYNAMIC, ACTIVABLE }
+enum CardZone { HAND, FIELD, DECK, DISCARD, DRAFT }
 
 class BaseCardZoneData:
 	static func get_zone():
@@ -21,14 +21,23 @@ class FieldCardZoneData extends BaseCardZoneData:
 	static func get_zone():
 		return CardZone.FIELD
 
+class DiscardCardZoneData extends BaseCardZoneData:
+	static func get_zone():
+		return CardZone.DISCARD
+
+class DeckCardZoneData extends BaseCardZoneData:
+	static func get_zone():
+		return CardZone.DECK
+
 class CardDataProperties:
 	var name: String = "Unknown"
+	var description: String = "Unknown"
 	var wood_cost: int
-	var gold_cost: int
+	var draft_cost: int
 	var duration: int = -1
 	var cooldown: int = -1
 	var card_type: int # <CardType>
-	var card_subtype: int # <CardSubtype>
+	var card_subtype: int # <CardSubType>
 	var artwork_path: String
 	var behaviors: Array # <CardBehavior>
 
@@ -37,19 +46,28 @@ class CardData:
 
 	var ui_owner: Node2D
 	var name: String
+	var description: String
 	var type: int # <CardType>
 	var subtypes: Array # <CardSubtype>
-	var remaining_duration: int
 	var wood_cost: int
-	var gold_cost: int
+	var draft_cost: int
 	var artwork: Resource
 	var behaviors: Array # <CardBehavior>
 	var zone_data: BaseCardZoneData
+
+	var remaining_duration: float
+	var max_duration: float
+
+	var remaining_cooldown: float
+	var max_cooldown: float
 
 	signal entered_field(field_data)
 	signal entered_hand
 	signal entered_discard
 	signal entered_deck
+
+	signal duration_over
+	signal cooldown_over
 
 	static func sort_behaviors(_ba: CardBehavior, _bb: CardBehavior):
 		return _ba.priority < _bb.priority
@@ -58,7 +76,7 @@ class CardData:
 		print("Creating card: %s (%s)" % [_props.name, self.get_instance_id()])
 		self.name = _props.name
 		self.wood_cost = _props.wood_cost
-		self.gold_cost = _props.gold_cost
+		self.draft_cost = _props.draft_cost
 		self.artwork = load(_props.artwork_path)
 		self.behaviors = []
 		for behavior in _props.behaviors:
@@ -67,10 +85,12 @@ class CardData:
 			self.behaviors.append(behavior)
 		self.behaviors.sort_custom(self, "sort_behaviors")
 		if _props.duration > 0:
+			self.max_duration = _props.duration
 			self.remaining_duration = _props.duration
+		if _props.cooldown > 0:
+			self.max_cooldown = _props.cooldown
+			self.remaining_cooldown = _props.cooldown
 	func can_be_played():
-		if State.state.resources.resources[rd.ResourceType.GOLD] < self.gold_cost:
-			return false
 		if State.state.resources.resources[rd.ResourceType.WOOD] < self.wood_cost:
 			return false
 		for behavior in self.behaviors:
@@ -78,19 +98,26 @@ class CardData:
 				return false
 		return true
 	func update(delta):
+		if self.zone_data.get_zone() != CardZone.FIELD:
+			return
 		if self.remaining_duration > 0:
 			self.remaining_duration -= delta
 			if self.remaining_duration <= 0:
-				for behavior in self.behaviors:
-					behavior.on_destroy()
 				self.entered_discard()
+				emit_signal("duration_over")
+		if self.remaining_cooldown > 0:
+			self.remaining_cooldown -= delta
+			if self.remaining_cooldown <= 0:
+				for behavior in self.behaviors:
+					behavior.on_cooldown()
+				self.remaining_cooldown = self.max_cooldown
+				emit_signal("cooldown_over")
 	func set_active(_active: bool):
 		if not _active and State.state.current_card == self:
 			State.state.current_card = null
 		if _active:
 			State.state.current_card = self
 	func entered_field(_slot):
-		State.state.resources.data.spend_resource(rd.ResourceType.GOLD, self.gold_cost)
 		State.state.resources.data.spend_resource(rd.ResourceType.WOOD, self.wood_cost)
 		self.zone_data = FieldCardZoneData.new(_slot)
 		emit_signal("entered_field", _slot)
@@ -98,6 +125,10 @@ class CardData:
 		print("Yielded")
 		for behavior in self.behaviors:
 			behavior.on_play()
+		if self.max_cooldown > 0:
+			self.remaining_cooldown = self.max_cooldown
+		if self.max_duration > 0:
+			self.remaining_duration = self.max_duration
 	func entered_hand(_index):
 		self.zone_data = HandCardZoneData.new(_index)
 		emit_signal("entered_hand")
@@ -106,10 +137,12 @@ class CardData:
 		for behavior in self.behaviors:
 			behavior.on_draw()
 	func entered_discard():
-		# TODO
+		self.zone_data = DiscardCardZoneData.new()
+		for behavior in self.behaviors:
+			behavior.on_destroy()
 		emit_signal("entered_discard")
 	func entered_deck():
-		# TODO
+		self.zone_data = DeckCardZoneData.new()
 		emit_signal("entered_deck")
 
 class CardBehavior:
@@ -130,5 +163,9 @@ class CardBehavior:
 		print("Triggered: on_draw for %s on card %s (%s)" % [self, self.owner.name, self.owner.get_instance_id()])
 	func on_destroy():
 		print("Triggered: on_destroy for %s on card %s (%s)" % [self, self.owner.name, self.owner.get_instance_id()])
+	func on_cooldown():
+		print("Triggered: on_cooldown for %s on card %s (%s)" % [self, self.owner.name, self.owner.get_instance_id()])
+	func on_activated():
+		print("Triggered: on_activated for %s on card %s (%s)" % [self, self.owner.name, self.owner.get_instance_id()])
 	func can_be_played():
 		return true

@@ -7,10 +7,10 @@ extends Node2D
 const psd = preload("res://Scripts/Classes/PlaySlotData.gd")
 
 # Instance properties
-var card
+var card = null
 var slot_index = 0
 var hovering: bool = false
-var data: psd.PlaySlotData = psd.PlaySlotData.new(psd.SlotType.SLOT_A, 0)
+var data: psd.PlaySlotData = null
 
 func _input(event):
 	if not self.hovering:
@@ -30,8 +30,8 @@ func _process(_delta):
 
 func is_mouse_hovering():
 	return [
-		(get_global_mouse_position().x - self.global_position.x) < 128,
-		(get_global_mouse_position().y - self.global_position.y) < 196,
-		(get_global_mouse_position().x - self.global_position.x) > 0,
-		(get_global_mouse_position().y - self.global_position.y) > 0
+		(get_global_mouse_position().x - self.global_position.x + 64) < 128,
+		(get_global_mouse_position().y - self.global_position.y + 152) < 196,
+		(get_global_mouse_position().x - self.global_position.x + 64) > 0,
+		(get_global_mouse_position().y - self.global_position.y + 152) > 0
 	].count(true) == 4
