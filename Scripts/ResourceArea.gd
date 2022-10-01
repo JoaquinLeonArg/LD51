@@ -34,4 +34,7 @@ func update_resource(resource_type: int, _old: int, new: int, change: int):
 	if change < 0:
 		change_color = "#126534"
 		change_sign = "-"
+	var tween = create_tween()
+	tween.tween_property(self, "scale", Vector2(1.1, 1.1), 0)
+	# var resource_ref = self.resource_nodes[resource_type]
 	self.resource_nodes[resource_type].bbcode_text = "%s ([color=%s]%s%s[/color])" % [new, change_color, change_sign, change]

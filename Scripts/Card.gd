@@ -4,12 +4,6 @@ extends Node2D
 signal entered_hand_finished
 signal entered_field_finished
 
-# Enums
-enum Status {ON_HAND, ON_FIELD}
-
-# Constants
-
-
 # Imports
 const cd = preload("res://Scripts/Classes/CardData.gd")
 
@@ -22,7 +16,6 @@ var hovering: bool = false
 var drag_offset: Vector2
 var rest_position: Vector2
 var rest_rotation: float
-var status: int = Status.ON_HAND
 
 # Methods
 func _ready():
@@ -30,16 +23,22 @@ func _ready():
 	_x = $CardArea.connect("mouse_entered", self, "on_mouse_entered")
 	_x = $CardArea.connect("mouse_exited", self, "on_mouse_exited")
 
-	_x = self.data.connect("entered_field", self, "entered_field")
+	
 	# var card_data = cd.CardDataProperties.new()
 	# card_data.behaviors = [cd.CardBehavior]
 	# self.data = cd.CardData.new(card_data)
 	# self.data.play()
 
+func set_data(_data):
+	print(_data)
+	self.data = _data
+	var _x
+	_x = self.data.connect("entered_field", self, "entered_field")
+
 func _input(event):
 	if not self.enabled:
 		return
-	if self.hovering and self.status == Status.ON_HAND:
+	if self.hovering and self.data.zone_data.get_zone() == cd.CardZone.HAND:
 		if event.is_action_pressed("left_click"):
 			self.dragging = true
 			self.data.set_active(true)
@@ -51,7 +50,7 @@ func _input(event):
 			var tween = create_tween()
 			tween.tween_property(self, "global_position", self.rest_position, 0.2)
 			tween.tween_property(self, "enabled", true, 0)
-	if self.dragging and self.status == Status.ON_HAND:
+	if self.dragging and self.data.zone_data.get_zone() == cd.CardZone.HAND:
 		var tween = create_tween()
 		tween.tween_property(self, "global_position", get_global_mouse_position() - self.drag_offset, 0.01)
 		self.rotation = (self.global_position.x - get_global_mouse_position().x + self.drag_offset.x)*0.002
@@ -60,22 +59,22 @@ func on_mouse_entered():
 	var tween = create_tween()
 	self.hovering = true
 	self.z_index = 1
-	if not self.dragging and self.status == Status.ON_HAND:
+	if not self.dragging and self.data.zone_data.get_zone() == cd.CardZone.HAND:
 		tween.tween_property(self, "scale", Vector2(1.5, 1.5), 0.1)
 		tween.tween_property(self, "global_position", Vector2(self.global_position.x, self.rest_position.y - 55), 0.2)
 		tween.tween_property(self, "rotation", 0.0, 0.05)
-	if self.status == Status.ON_FIELD:
+	if self.data.zone_data.get_zone() == cd.CardZone.FIELD:
 		tween.tween_property(self, "scale", Vector2(1.5, 1.5), 0.1)
 
 func on_mouse_exited():
 	var tween = create_tween()
 	self.hovering = false
 	self.z_index = 0
-	if self.status == Status.ON_HAND:
+	if self.data.zone_data.get_zone() == cd.CardZone.HAND:
 		tween.tween_property(self, "scale", Vector2(1.0, 1.0), 0.2)
 		tween.tween_property(self, "global_position", self.rest_position, 0.2)
 		tween.tween_property(self, "rotation", self.rest_rotation, 0.2)
-	if self.status == Status.ON_FIELD:
+	if self.data.zone_data.get_zone() == cd.CardZone.FIELD:
 		tween.tween_property(self, "scale", Vector2(1.0, 1.0), 0.1)
 
 func entered_field(slot):
@@ -89,7 +88,7 @@ func entered_field(slot):
 	tween.tween_property(self, "rotation", 0, 0)
 	tween.tween_property(self, "scale", Vector2(1.0, 1.0), 0)
 	tween.tween_callback(self, "signal_entered_field_finished")
-	self.status = Status.ON_FIELD
+	self.data.zone_data = cd.FieldCardZoneData.new(slot)
 
 func signal_entered_field_finished():
 	emit_signal("entered_field_finished")

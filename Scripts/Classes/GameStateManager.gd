@@ -9,6 +9,8 @@ class State:
     var field = null
     var hand = null
     var resources = null
+    var seasons = null
+    var deck = null
     var difficulty = df.Difficulty.EASY
 
 var state = State.new()
