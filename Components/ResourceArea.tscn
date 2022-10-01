@@ -1,8 +1,10 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=7 format=2]
 
-[ext_resource path="res://RawResources/Graphics/icon_wood.png" type="Texture" id=1]
 [ext_resource path="res://Resources/DosisRegular.tres" type="DynamicFont" id=2]
 [ext_resource path="res://Scripts/ResourceArea.gd" type="Script" id=3]
+[ext_resource path="res://RawResources/Graphics/wood_ico.png" type="Texture" id=4]
+[ext_resource path="res://RawResources/Graphics/food_ico.png" type="Texture" id=5]
+[ext_resource path="res://RawResources/Graphics/coin_ico.png" type="Texture" id=6]
 
 [sub_resource type="Theme" id=1]
 default_font = ExtResource( 2 )
@@ -11,19 +13,19 @@ default_font = ExtResource( 2 )
 script = ExtResource( 3 )
 
 [node name="PeopleIcon" type="Sprite" parent="."]
-texture = ExtResource( 1 )
+texture = ExtResource( 6 )
 
 [node name="FoodIcon" type="Sprite" parent="."]
 position = Vector2( 0, 40 )
-texture = ExtResource( 1 )
+texture = ExtResource( 5 )
 
 [node name="WoodIcon" type="Sprite" parent="."]
 position = Vector2( 0, 80 )
-texture = ExtResource( 1 )
+texture = ExtResource( 4 )
 
 [node name="GoldIcon" type="Sprite" parent="."]
 position = Vector2( 0, 120 )
-texture = ExtResource( 1 )
+texture = ExtResource( 6 )
 
 [node name="PeopleCount" type="RichTextLabel" parent="."]
 margin_left = 16.0
