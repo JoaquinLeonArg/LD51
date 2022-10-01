@@ -20,8 +20,9 @@ var cards: Array = [] # <Card>
 # Methods
 func _ready():
 	State.state.hand = self
-	for _i in range(CARD_COUNT):
-		var card_props = content_cards.SlaveryCard.new()
+	var test_cards = [content_cards.IntermitentFastingCard]
+	for _i in range(len(test_cards)):
+		var card_props = test_cards[_i].new()
 		var card = card_component.instance()
 		card.set_data(cd.CardData.new(card_props))
 		card.data.ui_owner = card

@@ -23,13 +23,29 @@ class ChangeResourceBehavior extends cd.CardBehavior:
 class StaticHandSizeBehavior extends cd.CardBehavior:
 	const rd = preload("res://Scripts/Classes/ResourceData.gd")
 
-	var amount: int
+	var change: int
 
-	func _init(_amount: int).(cd.CardBehaviorPriority.NORMAL):
-		self.amount = _amount
+	func _init(_change: int).(cd.CardBehaviorPriority.NORMAL):
+		self.change = _change
 	func on_play(_target=null):
 		.on_play()
-		State.state.resources.data.change_extra_resource(rd.ExtraResourceType.HAND_SIZE, self.amount)
+		State.state.resources.data.change_extra_resource(rd.ExtraResourceType.HAND_SIZE, self.change)
 	func on_destroy():
 		.on_destroy()
-		State.state.resources.data.change_extra_resource(rd.ExtraResourceType.HAND_SIZE, -self.amount)
+		State.state.resources.data.change_extra_resource(rd.ExtraResourceType.HAND_SIZE, -self.change)
+
+class ChangeMaxResourceBehavior extends cd.CardBehavior:
+	const rd = preload("res://Scripts/Classes/ResourceData.gd")
+	# TODO
+
+class DynamicBehavior extends cd.CardBehavior:
+	const rd = preload("res://Scripts/Classes/ResourceData.gd")
+	# TODO
+
+class ClickBehavior extends cd.CardBehavior:
+	const rd = preload("res://Scripts/Classes/ResourceData.gd")
+	# TODO
+
+class ChangeModifierBehavior extends cd.CardBehavior:
+	const rd = preload("res://Scripts/Classes/ResourceData.gd")
+	# TODO

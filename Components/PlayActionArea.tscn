@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Scripts/PlayAreaActions.gd" type="Script" id=1]
+
+[node name="PlayActionArea" type="ColorRect"]
+margin_left = -960.0
+margin_top = -100.0
+margin_right = 960.0
+margin_bottom = 760.0
+color = Color( 0, 0, 0, 0.117647 )
+script = ExtResource( 1 )

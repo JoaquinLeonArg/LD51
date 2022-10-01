@@ -42,6 +42,11 @@ func _ready():
 	_x = self.data.connect("resource_change_changed", self, "update_resource_change")
 
 func update_resource_value(resource_type, _old, value):
+	if _old == value:
+		return
+	var tween = create_tween()
+	tween.tween_property(self.resource_nodes[resource_type], "rect_scale", Vector2(0.12, 0.12), 0.1)
+	tween.tween_property(self.resource_nodes[resource_type], "rect_scale", Vector2(0.1, 0.1), 0.1)
 	self.resources[resource_type]["value"] = value
 	self.update_ui()
 
@@ -50,7 +55,6 @@ func update_resource_change(resource_type, _old, change):
 	self.update_ui()
 
 func update_ui():
-	print('testtest')
 	for resource_type in [rd.ResourceType.PEOPLE, rd.ResourceType.FOOD, rd.ResourceType.WOOD, rd.ResourceType.GOLD]:
 		var change_color: String
 		var change_sign: String
@@ -66,7 +70,5 @@ func update_ui():
 		if change < 0:
 			change_color = "#126534"
 			change_sign = "-"
-		var tween = create_tween()
 		self.resource_nodes[resource_type].bbcode_text = "%s ([color=%s]%s%s[/color])" % [new, change_color, change_sign, change]
-		tween.tween_property(self.resource_nodes[resource_type], "rect_scale", Vector2(0.12, 0.12), 0.1)
-		tween.tween_property(self.resource_nodes[resource_type], "rect_scale", Vector2(0.1, 0.1), 0.1)
+		

@@ -11,6 +11,7 @@ class State:
     var resources = null
     var seasons = null
     var deck = null
+    var discard = null
     var difficulty = df.Difficulty.EASY
 
 var state = State.new()

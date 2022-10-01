@@ -25,7 +25,8 @@ class CardDataProperties:
 	var name: String = "Unknown"
 	var wood_cost: int
 	var gold_cost: int
-	var build_time: int = 0
+	var duration: int = -1
+	var cooldown: int = -1
 	var card_type: int # <CardType>
 	var card_subtype: int # <CardSubtype>
 	var artwork_path: String
@@ -38,6 +39,7 @@ class CardData:
 	var name: String
 	var type: int # <CardType>
 	var subtypes: Array # <CardSubtype>
+	var remaining_duration: int
 	var wood_cost: int
 	var gold_cost: int
 	var artwork: Resource
@@ -64,6 +66,8 @@ class CardData:
 			print("\t Attaching behavior: %s" % behavior)
 			self.behaviors.append(behavior)
 		self.behaviors.sort_custom(self, "sort_behaviors")
+		if _props.duration > 0:
+			self.remaining_duration = _props.duration
 	func can_be_played():
 		if State.state.resources.resources[rd.ResourceType.GOLD] < self.gold_cost:
 			return false
@@ -73,6 +77,13 @@ class CardData:
 			if not behavior.can_be_played():
 				return false
 		return true
+	func update(delta):
+		if self.remaining_duration > 0:
+			self.remaining_duration -= delta
+			if self.remaining_duration <= 0:
+				for behavior in self.behaviors:
+					behavior.on_destroy()
+				self.entered_discard()
 	func set_active(_active: bool):
 		if not _active and State.state.current_card == self:
 			State.state.current_card = null

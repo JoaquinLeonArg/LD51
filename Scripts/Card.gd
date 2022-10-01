@@ -23,16 +23,19 @@ func _ready():
 	_x = $CardArea.connect("mouse_entered", self, "on_mouse_entered")
 	_x = $CardArea.connect("mouse_exited", self, "on_mouse_exited")
 
-	
-	# var card_data = cd.CardDataProperties.new()
-	# card_data.behaviors = [cd.CardBehavior]
-	# self.data = cd.CardData.new(card_data)
-	# self.data.play()
+func _process(delta):
+	self.data.update(delta)
 
 func set_data(_data):
 	self.data = _data
+	$CardArea/CardName.bbcode_text = "[center]%s[/center]" % self.data.name
+	if self.data.max_duration > 0:
+		$Duration.visible = true
+
+
 	var _x
 	_x = self.data.connect("entered_field", self, "entered_field")
+	_x = self.data.connect("entered_discard", self, "entered_discard")
 
 func _input(event):
 	if not self.enabled:
