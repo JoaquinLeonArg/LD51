@@ -68,3 +68,7 @@ func _process(_delta):
 func debug_process():
 	if Input.is_action_just_pressed("ui_up"):
 		State.state.start_game()
+
+
+func _on_Button_pressed():
+	get_tree().change_scene("res://Scenes/MainMenuScene.tscn")
