@@ -21,7 +21,7 @@ var cards: Array = [] # <Card>
 func _ready():
 	State.state.hand = self
 	for _i in range(CARD_COUNT):
-		var card_props = content_cards.GoHunting.new()
+		var card_props = content_cards.SlaveryCard.new()
 		var card = card_component.instance()
 		card.set_data(cd.CardData.new(card_props))
 		card.data.ui_owner = card
