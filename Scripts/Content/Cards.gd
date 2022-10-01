@@ -9,7 +9,8 @@ class GoHunting extends cd.CardDataProperties:
 
     func _init():
         self.name = "Go hunting"
-        self.cost = 0
+        self.wood_cost = 0
+        self.gold_cost = 0
         self.artwork_path = "res://RawResources/Graphics/art_test.jpg"
         self.behaviors = [
             cb.GainResourceBehavior.new(res.ResourceType.WOOD, 10)

@@ -46,6 +46,7 @@ class ResourceData:
         self.resources[_resource_type] += _amount * self.resource_mod_mult[_resource_type]
         self.resources[_resource_type] = min(self.resources[_resource_type], self.resource_max[_resource_type])
         emit_signal("resource_changed", _resource_type, old, self.resources[_resource_type])
+        print("Resource %s changed from %s to %s" % [_resource_type, old, self.resources[_resource_type]])
     func spend_resource(_resource_type: int, _amount: int):
         var old = self.resources[_resource_type]
         self.resources[_resource_type] -= _amount

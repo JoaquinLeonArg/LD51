@@ -77,8 +77,8 @@ class CardData:
 		if _active:
 			State.state.current_card = self
 	func entered_field(_slot):
-		State.state.resources.spend_resource(rd.ResourceType.GOLD, self.gold_cost)
-		State.state.resources.spend_resource(rd.ResourceType.WOOD, self.wood_cost)
+		State.state.resources.data.spend_resource(rd.ResourceType.GOLD, self.gold_cost)
+		State.state.resources.data.spend_resource(rd.ResourceType.WOOD, self.wood_cost)
 		self.zone_data = FieldCardZoneData.new(_slot)
 		emit_signal("entered_field", _slot)
 		#yield(self.ui_owner, "entered_field_finished") # Wait for animations
