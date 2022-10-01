@@ -15,7 +15,6 @@ class GoHunting extends cd.CardDataProperties:
 			cb.ChangeResourceBehavior.new(res.ResourceType.WOOD, 100),
 		]
 
-
 class SlaveryCard extends cd.CardDataProperties:
 	const res = preload("res://Scripts/Classes/ResourceData.gd")
 
