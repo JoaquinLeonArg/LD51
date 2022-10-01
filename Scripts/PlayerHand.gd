@@ -51,6 +51,11 @@ func add_card(card: Node2D):
 	self.add_child(card)
 	self.update_card_positions()
 
+func remove_card(card: Node2D):
+	self.remove_child(card)
+	self.cards.erase(card)
+	self.update_card_positions()
+
 func _process(_delta):
 	self.debug_process()
 

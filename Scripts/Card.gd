@@ -30,7 +30,6 @@ func _ready():
 	# self.data.play()
 
 func set_data(_data):
-	print(_data)
 	self.data = _data
 	var _x
 	_x = self.data.connect("entered_field", self, "entered_field")
@@ -53,6 +52,7 @@ func _input(event):
 	if self.dragging and self.data.zone_data.get_zone() == cd.CardZone.HAND:
 		var tween = create_tween()
 		tween.tween_property(self, "global_position", get_global_mouse_position() - self.drag_offset, 0.01)
+		tween.tween_property(self, "scale", Vector2(0.95, 0.95), 0.2)
 		self.rotation = (self.global_position.x - get_global_mouse_position().x + self.drag_offset.x)*0.002
 
 func on_mouse_entered():
@@ -81,7 +81,7 @@ func entered_field(slot):
 	var tween = create_tween()
 	self.rest_position = slot.global_position
 	var current_pos = self.global_position
-	self.get_parent().remove_child(self)
+	self.get_parent().remove_card(self)
 	State.state.field.add_child(self)
 	self.global_position = current_pos
 	tween.tween_property(self, "global_position", slot.global_position + $CardArea.rect_pivot_offset, 0.1)

@@ -8,11 +8,11 @@ class BaseCardZoneData:
 		return null
 
 class HandCardZoneData extends BaseCardZoneData:
-    var index: int
-    func _init(_index: int):
-        self.index = _index
-    static func get_zone():
-        return CardZone.HAND
+	var index: int
+	func _init(_index: int):
+		self.index = _index
+	static func get_zone():
+		return CardZone.HAND
 
 class FieldCardZoneData extends BaseCardZoneData:
 	var slot
@@ -23,17 +23,21 @@ class FieldCardZoneData extends BaseCardZoneData:
 	
 
 class CardDataProperties:
-    var name: String = "Unknown"
-    var cost: int
-    var artwork_path: String
-    var behaviors: Array # <CardBehavior>
+	var name: String = "Unknown"
+	var wood_cost: int
+	var gold_cost: int
+	var artwork_path: String
+	var behaviors: Array # <CardBehavior>
 
 class CardData:
+	const rd = preload("res://Scripts/Classes/ResourceData.gd") 
+
 	var ui_owner: Node2D
 	var name: String
 	var type: int # <CardType>
 	var subtypes: Array # <CardSubtype>
-	var cost: int
+	var wood_cost: int
+	var gold_cost: int
 	var artwork: Resource
 	var behaviors: Array # <CardBehavior>
 	var zone_data: BaseCardZoneData
@@ -49,7 +53,8 @@ class CardData:
 	func _init(_props: CardDataProperties):
 		print("Creating card: %s (%s)" % [_props.name, self.get_instance_id()])
 		self.name = _props.name
-		self.cost = _props.cost
+		self.wood_cost = _props.wood_cost
+		self.gold_cost = _props.gold_cost
 		self.artwork = load(_props.artwork_path)
 		self.behaviors = []
 		for behavior in _props.behaviors:
@@ -58,6 +63,10 @@ class CardData:
 			self.behaviors.append(behavior)
 		self.behaviors.sort_custom(self, "sort_behaviors")
 	func can_be_played():
+		if State.state.resources.resources[rd.ResourceType.GOLD] < self.gold_cost:
+			return false
+		if State.state.resources.resources[rd.ResourceType.WOOD] < self.wood_cost:
+			return false
 		for behavior in self.behaviors:
 			if not behavior.can_be_played():
 				return false
@@ -68,6 +77,8 @@ class CardData:
 		if _active:
 			State.state.current_card = self
 	func entered_field(_slot):
+		State.state.resources.spend_resource(rd.ResourceType.GOLD, self.gold_cost)
+		State.state.resources.spend_resource(rd.ResourceType.WOOD, self.wood_cost)
 		self.zone_data = FieldCardZoneData.new(_slot)
 		emit_signal("entered_field", _slot)
 		#yield(self.ui_owner, "entered_field_finished") # Wait for animations
@@ -104,5 +115,7 @@ class CardBehavior:
 		print("Triggered: on_discard for %s on card %s (%s)" % [self, self.owner.name, self.owner.get_instance_id()])
 	func on_draw():
 		print("Triggered: on_draw for %s on card %s (%s)" % [self, self.owner.name, self.owner.get_instance_id()])
+	func on_destroy():
+		print("Triggered: on_destroy for %s on card %s (%s)" % [self, self.owner.name, self.owner.get_instance_id()])
 	func can_be_played():
 		return true
