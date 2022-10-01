@@ -43,11 +43,11 @@ class GatherWoodCard extends cd.CardDataProperties:
 			cb.ChangeResourceBehavior.new(res.ResourceType.WOOD, 100),
 		]
 		
-class GoMiningCard extends cd.CardDataProperties:
+class GoldRushCard extends cd.CardDataProperties:
 	const res = preload("res://Scripts/Classes/ResourceData.gd")
 
 	func _init():
-		self.name = "Go Mining"
+		self.name = "Gold Rush"
 		self.wood_cost = 0
 		self.gold_cost = 0
 		self.card_type = cd.CardType.ACTION
@@ -175,11 +175,11 @@ class MillCard extends cd.CardDataProperties:
 		]
 		
 
-class BlacksmithCard extends cd.CardDataProperties:
+class CarpentryShopCard extends cd.CardDataProperties:
 	const res = preload("res://Scripts/Classes/ResourceData.gd")
 
 	func _init():
-		self.name = "Blacksmith"
+		self.name = "Carpentry Shop"
 		self.wood_cost = 0
 		self.gold_cost = 0
 		self.card_subtype = cd.CardSubType.STATIC
@@ -247,4 +247,20 @@ class HouseCard extends cd.CardDataProperties:
 		self.artwork_path = "res://RawResources/Graphics/art_test.jpg"
 		self.behaviors = [
 			cb.StaticHandSizeBehavior.new(1)
+		]
+
+class MiningCampCard extends cd.CardDataProperties:
+	const res = preload("res://Scripts/Classes/ResourceData.gd")
+
+	func _init():
+		self.name = "Mining Camp"
+		self.wood_cost = 0
+		self.gold_cost = 0
+		self.card_subtype = cd.CardSubType.DYNAMIC
+		self.card_type = cd.CardType.BUILDING
+		self.artwork_path = "res://RawResources/Graphics/art_test.jpg"
+		self.behaviors = [
+			cb.DynamicBehavior.new([
+				cb.ChangeResourceBehavior.new(res.ResourceType.GOLD, 100),
+			])
 		]
