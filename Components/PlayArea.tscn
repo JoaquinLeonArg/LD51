@@ -60,3 +60,10 @@ position = Vector2( 152, 424 )
 
 [node name="PlayAreaSlot18" parent="." instance=ExtResource( 2 )]
 position = Vector2( 296, 424 )
+
+[node name="ActionArea" type="ColorRect" parent="."]
+margin_left = -960.0
+margin_top = -100.0
+margin_right = 960.0
+margin_bottom = 760.0
+color = Color( 0, 0, 0, 0.117647 )

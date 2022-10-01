@@ -37,7 +37,8 @@ class ResourceData:
 		ExtraResourceType.HAND_SIZE: 3
 	}
 
-	signal resource_changed(resource_type, new_amount, old_amount)
+	signal resource_value_changed(resource_type, new_amount, old_amount)
+	signal resource_change_changed(resource_type, new_amount, old_amount)
 
 	func _init():
 		print("Resource system starting up")
@@ -45,18 +46,18 @@ class ResourceData:
 		var old = self.resources[_resource_type]
 		self.resources[_resource_type] += _amount * self.resource_mod_mult[_resource_type]
 		self.resources[_resource_type] = min(self.resources[_resource_type], self.resource_max[_resource_type])
-		emit_signal("resource_changed", _resource_type, old, self.resources[_resource_type])
+		emit_signal("resource_value_changed", _resource_type, old, self.resources[_resource_type])
 		print("Resource %s changed from %s to %s" % [_resource_type, old, self.resources[_resource_type]])
 	func spend_resource(_resource_type: int, _amount: int):
 		var old = self.resources[_resource_type]
 		self.resources[_resource_type] -= _amount
 		self.resources[_resource_type] = max(self.resources[_resource_type], 0)
-		emit_signal("resource_changed", _resource_type, old, self.resources[_resource_type])
+		emit_signal("resource_value_changed", _resource_type, old, self.resources[_resource_type])
 	func resource_tick():
 		for resource in [ResourceType.PEOPLE, ResourceType.FOOD]:
 			var old = self.resources[resource]
 			self.resources[resource] += self.resource_production[resource] - self.resource_maintenance[resource]
 			self.resources[resource] = max(self.resources[resource], 0)
 			self.resources[resource] = min(self.resources[resource], self.resource_max[resource])
-			emit_signal("resource_changed", resource, old, self.resources[resource])
+			emit_signal("resource_value_changed", resource, old, self.resources[resource])
 		

@@ -1,7 +1,7 @@
-enum CardBehaviorPriority {MIN, LOW, NORMAL, HIGH, MAX}
-enum CardType {}
-enum CardSubtype {}
-enum CardZone {HAND, FIELD}
+enum CardBehaviorPriority { MIN, LOW, NORMAL, HIGH, MAX }
+enum CardType { ACTION, BUILDING }
+enum CardSubtype { STATIC, DYNAMIC, ACTIVABLE }
+enum CardZone { HAND, FIELD }
 
 class BaseCardZoneData:
 	static func get_zone():
@@ -20,12 +20,14 @@ class FieldCardZoneData extends BaseCardZoneData:
 		self.slot = _slot
 	static func get_zone():
 		return CardZone.FIELD
-	
 
 class CardDataProperties:
 	var name: String = "Unknown"
 	var wood_cost: int
 	var gold_cost: int
+	var build_time: int = 0
+	var card_type: int # <CardType>
+	var card_subtype: int # <CardSubtype>
 	var artwork_path: String
 	var behaviors: Array # <CardBehavior>
 
