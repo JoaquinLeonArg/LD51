@@ -13,4 +13,4 @@ position = Vector2( 640, 740 )
 position = Vector2( 640, 23 )
 
 [node name="ResourceArea" parent="." instance=ExtResource( 3 )]
-position = Vector2( 32, 32 )
+position = Vector2( 38, 37 )
