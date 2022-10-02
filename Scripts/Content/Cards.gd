@@ -1,19 +1,17 @@
-extends Node
-
 # Imports
 const cd = preload("res://Scripts/Classes/CardData.gd")
 const cb = preload("res://Scripts/Content/Behaviors.gd")
 
 enum CardDraftCost {
-	COMMON = 100,
-	RARE = 500,
-	LEGENDARY = 1000
+	COMMON = 5,
+	RARE = 10,
+	LEGENDARY = 20
 }
 
 enum CardBuildCost {
-	COMMON = 100,
-	RARE = 300,
-	LEGENDARY = 500
+	COMMON = 5,
+	RARE = 10,
+	LEGENDARY = 20
 }
 
 class GoHuntingCard extends cd.CardDataProperties:
@@ -23,6 +21,7 @@ class GoHuntingCard extends cd.CardDataProperties:
 		self.name = "Go hunting"
 		self.description = "Gain food instantly."
 		self.wood_cost = 0
+		self.rarity = cd.CardRarity.COMMON
 		self.draft_cost = CardDraftCost.COMMON
 		self.card_type = cd.CardType.ACTION
 		self.behaviors = [
@@ -276,7 +275,7 @@ class HouseCard extends cd.CardDataProperties:
 		self.card_type = cd.CardType.BUILDING
 		self.artwork_path = "res://RawResources/Graphics/art_test.jpg"
 		self.behaviors = [
-			cb.StaticHandSizeBehavior.new(1)
+			cb.ChangeExtraResourceBehavior.new(res.ExtraResourceType.HAND_SIZE, 1)
 		]
 
 class MiningCampCard extends cd.CardDataProperties:
@@ -295,3 +294,24 @@ class MiningCampCard extends cd.CardDataProperties:
 				cb.ChangeResourceBehavior.new(res.ResourceType.GOLD, 100),
 			])
 		]
+
+var all_cards = [
+	GoHuntingCard,
+	DangerousMiningCard,
+	GatherWoodCard,
+	GoldRushCard,
+	MigratePeopleCard,
+	IntermitentFastingCard,
+	HuntMammothCard,
+	HireIllegalBulldozerCard,
+	FunHouseCard,
+	TradingPostCard,
+	StorageCard,
+	MillCard,
+	CarpentryShopCard,
+	BankCard,
+	FarmCard,
+	LumberCampCard,
+	HouseCard,
+	MiningCampCard
+]

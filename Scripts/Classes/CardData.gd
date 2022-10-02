@@ -1,7 +1,8 @@
 enum CardBehaviorPriority { MIN, LOW, NORMAL, HIGH, MAX }
 enum CardType { ACTION, BUILDING }
 enum CardSubType { STATIC, DYNAMIC, ACTIVABLE }
-enum CardZone { HAND, FIELD, DECK, DISCARD, DRAFT }
+enum CardZone { HAND, FIELD, DECK, DISCARD, SHOP }
+enum CardRarity { COMMON, RARE, LEGENDARY}
 
 class BaseCardZoneData:
 	static func get_zone():
@@ -29,9 +30,14 @@ class DeckCardZoneData extends BaseCardZoneData:
 	static func get_zone():
 		return CardZone.DECK
 
+class ShopCardZoneData extends BaseCardZoneData:
+	static func get_zone():
+		return CardZone.SHOP
+
 class CardDataProperties:
 	var name: String = "Unknown"
 	var description: String = "Unknown"
+	var rarity: int # <CardRarity>
 	var wood_cost: int
 	var draft_cost: int
 	var duration: int = -1
@@ -47,8 +53,9 @@ class CardData:
 	var ui_owner: Node2D
 	var name: String
 	var description: String
+	var rarity: int # <CardRarity>
 	var type: int # <CardType>
-	var subtypes: Array # <CardSubtype>
+	var subtype: int # <CardSubtype>
 	var wood_cost: int
 	var draft_cost: int
 	var artwork: Resource
@@ -73,15 +80,19 @@ class CardData:
 		return _ba.priority < _bb.priority
 
 	func _init(_props: CardDataProperties):
-		print("Creating card: %s (%s)" % [_props.name, self.get_instance_id()])
+		#print("Creating card: %s (%s)" % [_props.name, self.get_instance_id()])
 		self.name = _props.name
+		self.description = _props.description
+		self.rarity = _props.rarity
 		self.wood_cost = _props.wood_cost
 		self.draft_cost = _props.draft_cost
+		self.type = _props.card_type
+		self.subtype = _props.card_subtype
 		self.artwork = load(_props.artwork_path)
 		self.behaviors = []
 		for behavior in _props.behaviors:
 			behavior.set_owner(self)
-			print("\t Attaching behavior: %s" % behavior)
+			#print("\t Attaching behavior: %s" % behavior)
 			self.behaviors.append(behavior)
 		self.behaviors.sort_custom(self, "sort_behaviors")
 		if _props.duration > 0:
@@ -91,7 +102,7 @@ class CardData:
 			self.max_cooldown = _props.cooldown
 			self.remaining_cooldown = _props.cooldown
 	func can_be_played():
-		if State.state.resources.resources[rd.ResourceType.WOOD] < self.wood_cost:
+		if State.state.resources.data.resources[rd.ResourceType.WOOD] < self.wood_cost:
 			return false
 		for behavior in self.behaviors:
 			if not behavior.can_be_played():
@@ -122,7 +133,7 @@ class CardData:
 		self.zone_data = FieldCardZoneData.new(_slot)
 		emit_signal("entered_field", _slot)
 		#yield(self.ui_owner, "entered_field_finished") # Wait for animations
-		print("Yielded")
+		#print("Yielded")
 		for behavior in self.behaviors:
 			behavior.on_play()
 		if self.max_cooldown > 0:
@@ -133,7 +144,7 @@ class CardData:
 		self.zone_data = HandCardZoneData.new(_index)
 		emit_signal("entered_hand")
 		#yield(self.ui_owner, "entered_hand_finished") # Wait for animations
-		print("Yielded")
+		#print("Yielded")
 		for behavior in self.behaviors:
 			behavior.on_draw()
 	func entered_discard():
@@ -144,6 +155,12 @@ class CardData:
 	func entered_deck():
 		self.zone_data = DeckCardZoneData.new()
 		emit_signal("entered_deck")
+	func play_as_action():
+		State.state.resources.data.spend_resource(rd.ResourceType.WOOD, self.wood_cost)
+		#yield(self.ui_owner, "entered_field_finished") # Wait for animations
+		#print("Yielded")
+		for behavior in self.behaviors:
+			behavior.on_play()
 
 class CardBehavior:
 	var owner: CardData

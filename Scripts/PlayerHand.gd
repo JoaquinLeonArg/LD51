@@ -14,6 +14,7 @@ const cd = preload("res://Scripts/Classes/CardData.gd")
 const hd = preload("res://Scripts/Classes/HandData.gd")
 const content_cards = preload("res://Scripts/Content/Cards.gd")
 const card_component = preload("res://Components/Card.tscn")
+const shop = preload("res://Components/Shop.tscn")
 
 # Instance properties
 var data: hd.HandData
@@ -43,12 +44,16 @@ func update_card_positions():
 		card.hover_rotation = 0
 		card.hover_position = position + Vector2(0, -35)
 		card.hover_scale = Vector2(1.3, 1.3)
-		card.draggable = false
+		card.draggable = true
+
+		card.data.zone_data = cd.HandCardZoneData.new(i)
 
 		card.update_position()
 		
 
 func add_card(card: Node2D):
+	if not card:
+		return
 	self.data.cards.append(card)
 	var old = card.global_position
 	if card.get_parent():
@@ -58,9 +63,8 @@ func add_card(card: Node2D):
 	self.update_card_positions()
 
 func remove_card(card: Node2D):
-	self.remove_child(card)
-	self.update_card_positions()
 	self.data.cards.erase(card)
+	self.update_card_positions()
 
 func _process(_delta):
 	self.debug_process()
@@ -68,3 +72,5 @@ func _process(_delta):
 func debug_process():
 	if Input.is_action_just_pressed("ui_up"):
 		State.state.start_game()
+	if Input.is_action_just_pressed("ui_down"):
+		get_tree().current_scene.add_child(shop.instance())

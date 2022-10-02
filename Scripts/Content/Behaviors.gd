@@ -20,19 +20,21 @@ class ChangeResourceBehavior extends cd.CardBehavior:
 		else:
 			State.state.resources.data.spend_resource(self.resource_type, self.change)
 
-class ChangeHandSizeBehavior extends cd.CardBehavior:
+class ChangeExtraResourceBehavior extends cd.CardBehavior:
 	const rd = preload("res://Scripts/Classes/ResourceData.gd")
 
-	var change: int
+	var resource_type: int
+	var change: float
 
-	func _init(_change: int).(cd.CardBehaviorPriority.NORMAL):
+	func _init(_resource_type: int, _change: float).(cd.CardBehaviorPriority.NORMAL):
+		self.resource_type = _resource_type
 		self.change = _change
 	func on_play(_target=null):
 		.on_play()
-		State.state.resources.data.change_extra_resource(rd.ExtraResourceType.HAND_SIZE, self.change)
+		State.state.resources.data.change_extra_resource(self.resource_type, self.change)
 	func on_destroy():
 		.on_destroy()
-		State.state.resources.data.change_extra_resource(rd.ExtraResourceType.HAND_SIZE, -self.change)
+		State.state.resources.data.change_extra_resource(self.resource_type, -self.change)
 
 class ChangeMaxResourceBehavior extends cd.CardBehavior:
 	const rd = preload("res://Scripts/Classes/ResourceData.gd")
@@ -100,3 +102,20 @@ class ChangeModifierBehavior extends cd.CardBehavior:
 	func on_destroy():
 		.on_destroy()
 		State.state.resources.data.change_mod_resource(self.resource_type, -self.change)
+
+
+class ChangeMaintenanceBehavior extends cd.CardBehavior:
+	const rd = preload("res://Scripts/Classes/ResourceData.gd")
+	
+	var resource_type: int
+	var change: float
+
+	func _init(_resource_type: int, _change: float).(cd.CardBehaviorPriority.NORMAL):
+		self.resource_type = _resource_type
+		self.change = _change
+	func on_play(_target=null):
+		.on_play()
+		State.state.resources.data.change_maint_resource(self.resource_type, self.change)
+	func on_destroy():
+		.on_destroy()
+		State.state.resources.data.change_maint_resource(self.resource_type, -self.change)

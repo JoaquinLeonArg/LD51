@@ -1,5 +1,5 @@
 enum ResourceType { PEOPLE, FOOD, WOOD, GOLD }
-enum ExtraResourceType { HAND_SIZE }
+enum ExtraResourceType { HAND_SIZE, DRAW_SIZE, DRAW_TIME }
 
 class ResourceData:
 	var ui_owner: Node2D
@@ -23,7 +23,7 @@ class ResourceData:
 	}
 	var resource_maintenance: Dictionary = {
 		ResourceType.PEOPLE: 1,
-		ResourceType.FOOD: 3,
+		ResourceType.FOOD: 1,
 		ResourceType.WOOD: 0,
 		ResourceType.GOLD: 0,
 	}
@@ -34,45 +34,40 @@ class ResourceData:
 		ResourceType.GOLD: 0,
 	}
 	var extra_resources: Dictionary = {
-		ExtraResourceType.HAND_SIZE: 10
+		ExtraResourceType.HAND_SIZE: 10,
+		ExtraResourceType.DRAW_SIZE: 1,
+		ExtraResourceType.DRAW_TIME: 3.0
 	}
 
-	signal resource_value_changed(resource_type, old_amount, new_amount)
-	signal resource_change_changed(resource_type, old_amount, new_amount)
-	signal extra_resource_value_changed(resource_type, old_amount, new_amount)
-	signal max_resource_value_changed(resource_type, old_amount, new_amount)
-	signal mod_resource_value_changed(resource_type, old_amount, new_amount)
+	signal resources_changed
 
 	func _init():
-		print("Resource system starting up")
+		emit_signal("resources_changed")
 	func gain_resource(_resource_type: int, _amount: int):
-		var old = self.resources[_resource_type]
 		self.resources[_resource_type] += _amount * self.resource_mod[_resource_type]
 		self.resources[_resource_type] = min(self.resources[_resource_type], self.resource_max[_resource_type])
-		emit_signal("resource_value_changed", _resource_type, old, self.resources[_resource_type])
-		print("Resource %s changed from %s to %s" % [_resource_type, old, self.resources[_resource_type]])
+		emit_signal("resources_changed")
+		print("Resource %s changed by %s to %s" % [_resource_type, _amount, self.resources[_resource_type]])
 	func spend_resource(_resource_type: int, _amount: int):
-		var old = self.resources[_resource_type]
 		self.resources[_resource_type] -= _amount
 		self.resources[_resource_type] = max(self.resources[_resource_type], 0)
-		emit_signal("resource_value_changed", _resource_type, old, self.resources[_resource_type])
-	func change_extra_resource(_resource_type: int, _change: int):
-		var old = self.extra_resources[_resource_type]
+		emit_signal("resources_changed")
+	func change_extra_resource(_resource_type: int, _change: float):
 		self.extra_resources[_resource_type] += _change
-		emit_signal("extra_resource_value_changed", _resource_type, old, self.extra_resources[_resource_type])
-	func change_mod_resource(_resource_type: int, _change: int):
-		var old = self.resource_mod[_resource_type]
+		emit_signal("resources_changed")
+	func change_mod_resource(_resource_type: int, _change: float):
 		self.resource_mod[_resource_type] += _change
-		emit_signal("resource_mod_value_changed", _resource_type, old, self.resource_mod[_resource_type])	
+		emit_signal("resources_changed")
 	func change_max_resource(_resource_type: int, _change: int):
-		var old = self.max_resources[_resource_type]
 		self.max_resources[_resource_type] += _change
-		emit_signal("max_resource_value_changed", _resource_type, old, self.max_resources[_resource_type])
+		emit_signal("resources_changed")
+	func change_maint_resource(_resource_type: int, _change: int):
+		self.resource_maintenance[_resource_type] += _change
+		emit_signal("resources_changed")
 	func resource_tick():
 		for resource in [ResourceType.PEOPLE, ResourceType.FOOD]:
-			var old = self.resources[resource]
 			self.resources[resource] += self.resource_production[resource] - self.resource_maintenance[resource]
 			self.resources[resource] = max(self.resources[resource], 0)
 			self.resources[resource] = min(self.resources[resource], self.resource_max[resource])
-			emit_signal("resource_value_changed", resource, old, self.resources[resource])
+		emit_signal("resources_changed")
 		

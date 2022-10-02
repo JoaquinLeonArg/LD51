@@ -31,6 +31,7 @@ class State:
         ]
         for i in range(len(deck_cards)):
             Utils.create_card(deck_cards[i], cd.DeckCardZoneData.new())
-        self.deck.data.draw(1)
+        self.deck.data.draw(3)
+        
 
 var state = State.new()

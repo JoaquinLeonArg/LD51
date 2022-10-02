@@ -13,3 +13,5 @@ func create_card(card_data, zone_data):
         State.state.hand.data.add_card(card)
     if zone_data.get_zone() == cd.CardZone.DECK:
         State.state.deck.add_card(card)
+        card.global_position = State.state.deck.global_position
+        card.flip(0)

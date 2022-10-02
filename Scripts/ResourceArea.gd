@@ -38,16 +38,17 @@ func _ready():
 	self.data = rd.ResourceData.new()
 	State.state.resources = self
 	var _x
-	_x = self.data.connect("resource_value_changed", self, "update_resource_value")
-	_x = self.data.connect("resource_change_changed", self, "update_resource_change")
+	_x = self.data.connect("resources_changed", self, "update_resources")
+	self.update_resources()
+	self.update_ui()
 
-func update_resource_value(resource_type, _old, value):
-	if _old == value:
-		return
-	var tween = create_tween()
-	tween.tween_property(self.resource_nodes[resource_type], "rect_scale", Vector2(0.12, 0.12), 0.1)
-	tween.tween_property(self.resource_nodes[resource_type], "rect_scale", Vector2(0.1, 0.1), 0.1)
-	self.resources[resource_type]["value"] = value
+func update_resources():
+	print("resources updating")
+	#var tween = create_tween()
+	#tween.tween_property(self.resource_nodes[resource_type], "rect_scale", Vector2(0.12, 0.12), 0.1)
+	#tween.tween_property(self.resource_nodes[resource_type], "rect_scale", Vector2(0.1, 0.1), 0.1)
+	for resource in self.resources.keys():
+		self.resources[resource]["value"] = self.data.resources[resource]
 	self.update_ui()
 
 func update_resource_change(resource_type, _old, change):
