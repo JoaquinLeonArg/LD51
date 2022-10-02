@@ -1,0 +1,55 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://Resources/KanitBold.tres" type="DynamicFont" id=2]
+[ext_resource path="res://RawResources/Graphics/coin_ico.png" type="Texture" id=3]
+[ext_resource path="res://Resources/RobotoBold.tres" type="DynamicFont" id=4]
+[ext_resource path="res://Scripts/ShopOption.gd" type="Script" id=5]
+
+[sub_resource type="Theme" id=1]
+default_font = ExtResource( 2 )
+
+[sub_resource type="Theme" id=2]
+default_font = ExtResource( 4 )
+
+[node name="ShopOption" type="Node2D"]
+script = ExtResource( 5 )
+
+[node name="Cost" type="RichTextLabel" parent="."]
+margin_left = -8.0
+margin_top = 70.0
+margin_right = 792.0
+margin_bottom = 270.0
+rect_scale = Vector2( 0.2, 0.2 )
+theme = SubResource( 1 )
+bbcode_enabled = true
+bbcode_text = " 100"
+text = " 100"
+scroll_active = false
+deselect_on_focus_loss_enabled = false
+
+[node name="CostIcon" type="Sprite" parent="."]
+position = Vector2( -40, 96 )
+scale = Vector2( 3, 3 )
+texture = ExtResource( 3 )
+
+[node name="BuyButton" type="ColorRect" parent="."]
+margin_left = -64.0
+margin_top = 136.0
+margin_right = 64.0
+margin_bottom = 184.0
+color = Color( 0, 0.592157, 0.121569, 1 )
+
+[node name="BuyButtonText" type="RichTextLabel" parent="BuyButton"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 8.0
+margin_right = 512.0
+margin_bottom = 200.0
+rect_scale = Vector2( 0.2, 0.2 )
+mouse_filter = 2
+theme = SubResource( 2 )
+bbcode_enabled = true
+bbcode_text = "[center]BUY[/center]"
+text = "BUY"
+scroll_active = false
+deselect_on_focus_loss_enabled = false

@@ -1,0 +1,71 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://Resources/AntonTitle.tres" type="DynamicFont" id=1]
+[ext_resource path="res://Resources/RobotoBold.tres" type="DynamicFont" id=2]
+[ext_resource path="res://Components/ShopOption.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Scripts/Shop.gd" type="Script" id=4]
+
+[sub_resource type="Theme" id=1]
+default_font = ExtResource( 1 )
+
+[sub_resource type="Theme" id=2]
+default_font = ExtResource( 2 )
+
+[node name="Shop" type="Node2D"]
+script = ExtResource( 4 )
+
+[node name="ColorRect" type="ColorRect" parent="."]
+margin_left = 320.0
+margin_top = 100.0
+margin_right = 1600.0
+margin_bottom = 820.0
+color = Color( 0.454902, 0.454902, 0.454902, 0.392157 )
+
+[node name="ShopOption3" parent="ColorRect" instance=ExtResource( 3 )]
+position = Vector2( 636, 400 )
+
+[node name="ShopOption6" parent="ColorRect" instance=ExtResource( 3 )]
+position = Vector2( 860, 400 )
+
+[node name="ShopOption7" parent="ColorRect" instance=ExtResource( 3 )]
+position = Vector2( 1084, 400 )
+
+[node name="ShopOption4" parent="ColorRect" instance=ExtResource( 3 )]
+position = Vector2( 412, 400 )
+
+[node name="ShopOption5" parent="ColorRect" instance=ExtResource( 3 )]
+position = Vector2( 188, 400 )
+
+[node name="ShopText" type="RichTextLabel" parent="ColorRect"]
+margin_left = 512.0
+margin_top = 32.0
+margin_right = 3072.0
+margin_bottom = 852.0
+rect_scale = Vector2( 0.1, 0.1 )
+theme = SubResource( 1 )
+bbcode_enabled = true
+bbcode_text = "[center]SHOP[/center]"
+text = "SHOP"
+scroll_active = false
+
+[node name="ExitButton" type="ColorRect" parent="ColorRect"]
+margin_left = 572.0
+margin_top = 632.0
+margin_right = 700.0
+margin_bottom = 680.0
+color = Color( 0, 0.27451, 0.592157, 1 )
+
+[node name="ExitButtonText" type="RichTextLabel" parent="ColorRect/ExitButton"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 8.0
+margin_right = 512.0
+margin_bottom = 200.0
+rect_scale = Vector2( 0.2, 0.2 )
+mouse_filter = 2
+theme = SubResource( 2 )
+bbcode_enabled = true
+bbcode_text = "[center]DONE[/center]"
+text = "DONE"
+scroll_active = false
+deselect_on_focus_loss_enabled = false
