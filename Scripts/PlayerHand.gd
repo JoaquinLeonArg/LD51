@@ -74,3 +74,7 @@ func debug_process():
 		State.state.start_game()
 	if Input.is_action_just_pressed("ui_down"):
 		get_tree().current_scene.add_child(shop.instance())
+
+
+func _on_Button_pressed():
+	get_tree().change_scene("res://Scenes/MainMenuScene.tscn")

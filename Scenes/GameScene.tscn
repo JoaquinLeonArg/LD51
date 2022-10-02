@@ -27,3 +27,13 @@ position = Vector2( 256, 952 )
 
 [node name="DiscardArea" parent="." instance=ExtResource( 6 )]
 position = Vector2( 1664, 952 )
+
+[node name="Button" type="Button" parent="."]
+margin_left = 1881.0
+margin_top = 7.0
+margin_right = 1901.0
+margin_bottom = 27.0
+rect_scale = Vector2( 1.5, 1.5 )
+text = "X"
+
+[connection signal="pressed" from="Button" to="PlayerHand" method="_on_Button_pressed"]
