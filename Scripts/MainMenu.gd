@@ -21,12 +21,12 @@ func _on_NewGameBtn_pressed():
 
 
 func _on_OptionsBtn_pressed():
-	print("TODO Options menu")
+	get_tree().change_scene("res://Scenes/OptionsScene.tscn")
 	pass # Replace with function body.
 
 
 func _on_CreditsBtn_pressed():
-	print("TODO Credits menu")
+	get_tree().change_scene("res://Scenes/CreditsScene.tscn")
 	pass # Replace with function body.
 
 
