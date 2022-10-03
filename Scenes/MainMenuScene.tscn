@@ -56,10 +56,23 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="DifficultyUp" type="Button" parent="."]
-margin_left = 1338.0
+[node name="DifficultyName" type="Button" parent="."]
+margin_left = 1204.0
 margin_top = 592.0
-margin_right = 1530.0
+margin_right = 2020.0
+margin_bottom = 809.0
+rect_scale = Vector2( 0.25, 0.25 )
+theme = ExtResource( 1 )
+disabled = true
+text = "Normal"
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="DifficultyUp" type="Button" parent="."]
+margin_left = 1402.0
+margin_top = 592.0
+margin_right = 1594.0
 margin_bottom = 809.0
 rect_scale = Vector2( 0.25, 0.25 )
 theme = ExtResource( 1 )
@@ -106,10 +119,10 @@ __meta__ = {
 
 [connection signal="mouse_entered" from="HowToPlayBtn" to="VBoxContainer" method="_on_HowToPlayBtn_mouse_entered"]
 [connection signal="pressed" from="HowToPlayBtn" to="VBoxContainer" method="_on_HowToPlayBtn_pressed"]
-[connection signal="mouse_entered" from="DifficultyDown" to="VBoxContainer" method="_on_HowToPlayBtn_mouse_entered"]
-[connection signal="pressed" from="DifficultyDown" to="VBoxContainer" method="_on_HowToPlayBtn_pressed"]
-[connection signal="mouse_entered" from="DifficultyUp" to="VBoxContainer" method="_on_HowToPlayBtn_mouse_entered"]
-[connection signal="pressed" from="DifficultyUp" to="VBoxContainer" method="_on_HowToPlayBtn_pressed"]
+[connection signal="mouse_entered" from="DifficultyDown" to="VBoxContainer" method="_on_DifficultyDown_mouse_entered"]
+[connection signal="pressed" from="DifficultyDown" to="VBoxContainer" method="_on_DifficultyDown_pressed"]
+[connection signal="mouse_entered" from="DifficultyUp" to="VBoxContainer" method="_on_DifficultyUp_mouse_entered"]
+[connection signal="pressed" from="DifficultyUp" to="VBoxContainer" method="_on_DifficultyUp_pressed"]
 [connection signal="mouse_entered" from="NewGameBtn" to="VBoxContainer" method="_on_NewGameBtn_mouse_entered"]
 [connection signal="pressed" from="NewGameBtn" to="VBoxContainer" method="_on_NewGameBtn_pressed"]
 [connection signal="mouse_entered" from="CreditsBtn" to="VBoxContainer" method="_on_CreditsBtn_mouse_entered"]

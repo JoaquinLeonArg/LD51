@@ -1,5 +1,10 @@
 extends VBoxContainer
 
+var difficulty_names: Array = [
+	"Normal",
+	"Hard",
+	"Extreme"
+]
 
 func _on_MainMenuScene_ready():
 	Sound.sound.play_music("main_menu")
@@ -40,3 +45,22 @@ func _on_HowToPlayBtn_pressed():
 
 func _on_HowToPlayBtn_mouse_entered():
 	Sound.sound.play_effect("hover")
+
+
+
+func _on_DifficultyUp_pressed():
+	State.state.difficulty = (State.state.difficulty + 1) % 3
+	get_parent().get_node("DifficultyName").text = self.difficulty_names[State.state.difficulty]
+
+
+func _on_DifficultyUp_mouse_entered():
+	Sound.sound.play_effect("hover")
+
+
+func _on_DifficultyDown_mouse_entered():
+	Sound.sound.play_effect("hover")
+
+
+func _on_DifficultyDown_pressed():
+	State.state.difficulty = (State.state.difficulty - 1) % 3
+	get_parent().get_node("DifficultyName").text = self.difficulty_names[State.state.difficulty]

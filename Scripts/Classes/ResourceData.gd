@@ -3,6 +3,8 @@ enum ExtraResourceType { HAND_SIZE, DRAW_SIZE, DRAW_TIME, AP, AP_MAX }
 
 class ResourceData:
 
+	const fx_component = preload("res://Components/ResourceEffect.tscn")
+
 	var ui_owner: Node2D
 	var resources: Dictionary = {
 		ResourceType.PEOPLE: 30,
@@ -24,7 +26,7 @@ class ResourceData:
 	}
 	var resource_maintenance: Dictionary = {
 		ResourceType.PEOPLE: 0,
-		ResourceType.FOOD: 1,
+		ResourceType.FOOD: State.state.difficulty,
 		ResourceType.WOOD: 0,
 		ResourceType.GOLD: 0,
 	}
@@ -59,13 +61,18 @@ class ResourceData:
 		if self.resources[ResourceType.PEOPLE] <= 0:
 			emit_signal("game_over")
 			State.state.paused = true
-	func gain_resource(_resource_type: int, _amount: int):
+	func gain_resource(_resource_type: int, _amount: int, _owner=null):
+		# if _owner and _owner.ui_owner:
+		# 	var fx = fx_component.instance()
+		# 	fx.global_position = _owner.ui_owner.global_position
+		# 	fx.set_data(_resource_type, _amount)
+		# 	_owner.ui_owner.add_child(fx)
 		self.resources[_resource_type] += _amount * self.resource_mod[_resource_type]
 		self.resources[_resource_type] = min(self.resources[_resource_type], self.resource_max[_resource_type])
 		emit_signal("resources_changed")
 		print("Resource %s changed by %s to %s" % [_resource_type, _amount, self.resources[_resource_type]])
 	func spend_resource(_resource_type: int, _amount: int):
-		self.resources[_resource_type] += _amount
+		self.resources[_resource_type] -= _amount
 		if resources[ResourceType.FOOD] < 0 :
 			resources[ResourceType.PEOPLE] += 2*resources[ResourceType.FOOD]
 			resources[ResourceType.PEOPLE] = max(resources[ResourceType.PEOPLE], 0)

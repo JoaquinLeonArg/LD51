@@ -18,9 +18,9 @@ class ChangeResourceBehavior extends cd.CardBehavior:
 	func on_play(_target=null):
 		.on_play()
 		if(self.change > 0):
-			State.state.resources.data.gain_resource(self.resource_type, self.change + self.owner.upgrade * self.upgrade_factor)
+			State.state.resources.data.gain_resource(self.resource_type, self.change + self.owner.upgrade * self.upgrade_factor, self.owner)
 		else:
-			State.state.resources.data.spend_resource(self.resource_type, self.change)
+			State.state.resources.data.spend_resource(self.resource_type, -self.change)
 
 class ChangeExtraResourceBehavior extends cd.CardBehavior:
 	const rd = preload("res://Scripts/Classes/ResourceData.gd")
@@ -161,7 +161,7 @@ class YearChangeResourceBehavior extends cd.CardBehavior:
 		var mod = 1.0
 		if self.modifier != -1 and this_slot:
 			mod = this_slot.data.modifiers[psd.SlotModifier.FARM_PROD]
-		State.state.resources.data.gain_resource(self.resource_type, self.change*mod)
+		State.state.resources.data.gain_resource(self.resource_type, self.change*mod, self.owner)
 
 class SeasonChangeResourceByAdjacencyBehavior extends cd.CardBehavior:
 	const rd = preload("res://Scripts/Classes/ResourceData.gd")
@@ -187,7 +187,7 @@ class SeasonChangeResourceByAdjacencyBehavior extends cd.CardBehavior:
 			if adj:
 				count += 1
 		print("Gained %s of resource %s on season change" % [self.factor * count, self.resource_type])
-		State.state.resources.data.gain_resource(self.resource_type, self.factor * count)
+		State.state.resources.data.gain_resource(self.resource_type, self.factor * count, self.owner)
 
 class DestroyTypeBuildingBehavior extends cd.CardBehavior:
 	const rd = preload("res://Scripts/Classes/ResourceData.gd")
@@ -240,7 +240,7 @@ class DeforestationBehavior extends cd.CardBehavior:
 			if slot.card:
 				if slot.card.data.card_name == self.card_name:
 					slot.destroy_card()
-					State.state.resources.data.gain_resource(rd.ResourceType.WOOD, 10)
+					State.state.resources.data.gain_resource(rd.ResourceType.WOOD, 10, self.owner)
 
 class ReforestationBehavior extends cd.CardBehavior:
 	const rd = preload("res://Scripts/Classes/ResourceData.gd")
@@ -338,7 +338,7 @@ class FarmBehavior extends cd.CardBehavior:
 			print("Error: 3 can't find position on FarmBehavior")
 			return 
 		
-		State.state.resources.data.gain_resource(rd.ResourceType.FOOD, (5 + self.owner.upgrade)*this_slot.data.modifiers[psd.SlotModifier.FARM_PROD])
+		State.state.resources.data.gain_resource(rd.ResourceType.FOOD, (5 + self.owner.upgrade)*this_slot.data.modifiers[psd.SlotModifier.FARM_PROD], self.owner)
 
 class LumberCampBehavior extends cd.CardBehavior:
 	const rd = preload("res://Scripts/Classes/ResourceData.gd")
@@ -357,7 +357,7 @@ class LumberCampBehavior extends cd.CardBehavior:
 		if not this_slot:
 			print("Error: 3 can't find position on LumberCampBehavior")
 			return 
-		State.state.resources.data.gain_resource(rd.ResourceType.WOOD, (3 + self.owner.upgrade*2)*this_slot.data.modifiers[psd.SlotModifier.WOOD_PROD])
+		State.state.resources.data.gain_resource(rd.ResourceType.WOOD, (3 + self.owner.upgrade*2)*this_slot.data.modifiers[psd.SlotModifier.WOOD_PROD], self.owner)
 
 class UpgradeBehavior extends cd.CardBehavior:
 	const rd = preload("res://Scripts/Classes/ResourceData.gd")
