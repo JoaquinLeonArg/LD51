@@ -79,4 +79,5 @@ func debug_process():
 
 
 func _on_Button_pressed():
+	Sound.sound.play_effect("ui_click")
 	get_tree().change_scene("res://Scenes/MainMenuScene.tscn")

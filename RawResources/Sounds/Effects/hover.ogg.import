@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/hover.ogg-f9ba337ed5e58bbb058118caa05b4595.oggstr"
+
+[deps]
+
+source_file="res://RawResources/Sounds/Effects/hover.ogg"
+dest_files=[ "res://.import/hover.ogg-f9ba337ed5e58bbb058118caa05b4595.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

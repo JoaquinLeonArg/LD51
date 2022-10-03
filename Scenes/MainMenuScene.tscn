@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Resources/RobotoLightFlavor.tres" type="DynamicFont" id=1]
 [ext_resource path="res://Scripts/MainMenu.gd" type="Script" id=2]
+[ext_resource path="res://Scenes/SoundScene.tscn" type="PackedScene" id=3]
 
 [sub_resource type="Theme" id=1]
 default_font = ExtResource( 1 )
@@ -38,34 +39,29 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="OptionsBtn" type="Button" parent="VBoxContainer"]
+[node name="CreditsBtn" type="Button" parent="VBoxContainer"]
 margin_top = 24.0
 margin_right = 218.0
 margin_bottom = 44.0
-text = "Options"
-__meta__ = {
-"_editor_description_": ""
-}
-
-[node name="CreditsBtn" type="Button" parent="VBoxContainer"]
-margin_top = 48.0
-margin_right = 218.0
-margin_bottom = 68.0
 text = "Credits"
 __meta__ = {
 "_editor_description_": ""
 }
 
 [node name="QuitBtn" type="Button" parent="VBoxContainer"]
-margin_top = 72.0
+margin_top = 48.0
 margin_right = 218.0
-margin_bottom = 92.0
+margin_bottom = 68.0
 text = "Quit"
 __meta__ = {
 "_editor_description_": ""
 }
 
+[node name="SoundScene" parent="." instance=ExtResource( 3 )]
+
+[connection signal="mouse_entered" from="VBoxContainer/NewGameBtn" to="VBoxContainer" method="_on_NewGameBtn_mouse_entered"]
 [connection signal="pressed" from="VBoxContainer/NewGameBtn" to="VBoxContainer" method="_on_NewGameBtn_pressed"]
-[connection signal="pressed" from="VBoxContainer/OptionsBtn" to="VBoxContainer" method="_on_OptionsBtn_pressed"]
+[connection signal="mouse_entered" from="VBoxContainer/CreditsBtn" to="VBoxContainer" method="_on_CreditsBtn_mouse_entered"]
 [connection signal="pressed" from="VBoxContainer/CreditsBtn" to="VBoxContainer" method="_on_CreditsBtn_pressed"]
+[connection signal="mouse_entered" from="VBoxContainer/QuitBtn" to="VBoxContainer" method="_on_QuitBtn_mouse_entered"]
 [connection signal="pressed" from="VBoxContainer/QuitBtn" to="VBoxContainer" method="_on_QuitBtn_pressed"]

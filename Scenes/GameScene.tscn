@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Components/PlayerHand.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Components/PlayArea.tscn" type="PackedScene" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://Components/DiscardArea.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Scripts/GameScene.gd" type="Script" id=7]
 [ext_resource path="res://Components/Shop.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Scenes/SoundScene.tscn" type="PackedScene" id=9]
 
 [node name="GameScene" type="Node2D"]
 script = ExtResource( 7 )
@@ -48,4 +49,7 @@ margin_bottom = 27.0
 rect_scale = Vector2( 1.5, 1.5 )
 text = "X"
 
+[node name="SoundScene" parent="." instance=ExtResource( 9 )]
+
+[connection signal="mouse_entered" from="Button" to="." method="_on_Button_mouse_entered"]
 [connection signal="pressed" from="Button" to="PlayerHand" method="_on_Button_pressed"]

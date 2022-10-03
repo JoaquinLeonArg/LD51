@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/gather_wood.ogg-d93ebe8d067e5e4c62ef50ab9e0c4ad0.oggstr"
+
+[deps]
+
+source_file="res://RawResources/Sounds/Effects/gather_wood.ogg"
+dest_files=[ "res://.import/gather_wood.ogg-d93ebe8d067e5e4c62ef50ab9e0c4ad0.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0
