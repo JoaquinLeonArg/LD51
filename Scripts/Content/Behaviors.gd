@@ -87,7 +87,12 @@ class ClickBehavior extends cd.CardBehavior:
 	func on_activated():
 		.on_activated()
 		for behavior in self.behaviors:
-			behavior.on_play()
+			behavior.on_activated()
+	func can_be_activated():
+		for behavior in self.behaviors:
+			if not behavior.can_be_activated():
+				return false
+		return true
 
 class ChangeModifierBehavior extends cd.CardBehavior:
 	const rd = preload("res://Scripts/Classes/ResourceData.gd")
@@ -111,15 +116,19 @@ class ChangeMaintenanceBehavior extends cd.CardBehavior:
 	
 	var resource_type: int
 	var change: float
+	var perm: bool
 
-	func _init(_resource_type: int, _change: float).(cd.CardBehaviorPriority.NORMAL):
+	func _init(_resource_type: int, _change: float, _perm: bool=false ).(cd.CardBehaviorPriority.NORMAL):
 		self.resource_type = _resource_type
 		self.change = _change
+		self.perm = _perm
 	func on_play(_target=null):
 		.on_play()
 		State.state.resources.data.change_maint_resource(self.resource_type, self.change)
 	func on_destroy():
 		.on_destroy()
+		if self.perm:
+			return
 		State.state.resources.data.change_maint_resource(self.resource_type, -self.change)
 
 class YearChangeResourceBehavior extends cd.CardBehavior:
@@ -187,10 +196,8 @@ class DestroyTypeBuildingBehavior extends cd.CardBehavior:
 		self.card_name = _card_name
 		self.may = _may
 	func can_be_played():
-		print(self.card_name)
 		for slot in State.state.field.slots:
 			if slot.card:
-				print(slot.card.data.card_name)
 				if slot.card.data.card_name == self.card_name:
 					return true
 					
@@ -218,6 +225,7 @@ class DrawCardsBehavior extends cd.CardBehavior:
 
 class DeforestationBehavior extends cd.CardBehavior:
 	const rd = preload("res://Scripts/Classes/ResourceData.gd")
+
 	func can_be_played():
 		for slot in State.state.field.slots:
 			if slot.card:
@@ -231,6 +239,33 @@ class DeforestationBehavior extends cd.CardBehavior:
 				if slot.card.data.card_name == self.card_name:
 					slot.destroy_card()
 					State.state.resources.data.gain_resource(rd.ResourceType.WOOD, 10)
+
+class ReforestationBehavior extends cd.CardBehavior:
+	const rd = preload("res://Scripts/Classes/ResourceData.gd")
+	const cd = preload("res://Scripts/Classes/CardData.gd")
+	const card_component = preload("res://Components/Card.tscn")
+
+	var card_data
+	
+	func _init(_card_data).(cd.CardBehaviorPriority.NORMAL):
+		self.card_data = _card_data
+
+	func can_be_played():
+		return len(State.state.field.get_free_slots(true)) > 0
+	func on_play(_target=null):
+		.on_play()
+		var slots = State.state.field.get_free_slots(true)
+		slots.shuffle()
+		for slot in [slots.pop_back(), slots.pop_back()]:
+			if not slot:
+				return
+			var card_props = self.card_data.new()
+			var card = card_component.instance()
+			card.set_data(cd.CardData.new(card_props))
+			card.data.ui_owner = card
+			card.data.zone_data = cd.FieldCardZoneData.new(slot)
+			card.global_position = slot.global_position
+			slot.add_card(card)
 
 class HasResourceBehavior extends cd.CardBehavior:
 	const rd = preload("res://Scripts/Classes/ResourceData.gd")
@@ -320,7 +355,6 @@ class LumberCampBehavior extends cd.CardBehavior:
 		if not this_slot:
 			print("Error: 3 can't find position on LumberCampBehavior")
 			return 
-		
 		State.state.resources.data.gain_resource(rd.ResourceType.WOOD, (3 + self.owner.upgrade*2)*this_slot.data.modifiers[psd.SlotModifier.WOOD_PROD])
 
 class UpgradeBehavior extends cd.CardBehavior:
@@ -328,9 +362,11 @@ class UpgradeBehavior extends cd.CardBehavior:
 
 	var cost: int
 	func _init(_cost: int).(cd.CardBehaviorPriority.LOW):
-		self.cost = cost
+		self.cost = _cost
 
 	func on_activated():
-		if self.owner.upgrade < self.owner.max_upgrade and State.state.resources.data[rd.ResourceType.GOLD] >= self.cost:
-			State.state.resources.spend_resource(rd.ResourceType.GOLD, self.cost)
+		if self.owner.upgrade < self.owner.max_upgrade and State.state.resources.data.resources[rd.ResourceType.GOLD] >= self.cost:
+			State.state.resources.data.spend_resource(rd.ResourceType.GOLD, self.cost)
 			self.owner.get_upgraded()
+	func can_be_activated():
+		return self.owner.upgrade < self.owner.max_upgrade and State.state.resources.data.resources[rd.ResourceType.GOLD] >= self.cost

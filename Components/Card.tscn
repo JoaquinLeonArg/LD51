@@ -172,6 +172,44 @@ bbcode_text = "[center]10[/center]"
 text = "10"
 scroll_active = false
 
+[node name="Upgrade" type="Node2D" parent="Front"]
+
+[node name="Circle1" type="Sprite" parent="Front/Upgrade"]
+modulate = Color( 0.196078, 0, 0.0666667, 1 )
+position = Vector2( -16, -43 )
+scale = Vector2( 0.04, 0.04 )
+texture = ExtResource( 10 )
+
+[node name="CircleOn1" type="Sprite" parent="Front/Upgrade"]
+visible = false
+position = Vector2( -16, -43 )
+scale = Vector2( 0.03, 0.03 )
+texture = ExtResource( 10 )
+
+[node name="Circle2" type="Sprite" parent="Front/Upgrade"]
+modulate = Color( 0.196078, 0, 0.0666667, 1 )
+position = Vector2( 0, -43 )
+scale = Vector2( 0.04, 0.04 )
+texture = ExtResource( 10 )
+
+[node name="CircleOn2" type="Sprite" parent="Front/Upgrade"]
+visible = false
+position = Vector2( -1.90735e-06, -43 )
+scale = Vector2( 0.03, 0.03 )
+texture = ExtResource( 10 )
+
+[node name="Circle3" type="Sprite" parent="Front/Upgrade"]
+modulate = Color( 0.196078, 0, 0.0666667, 1 )
+position = Vector2( 16, -43 )
+scale = Vector2( 0.04, 0.04 )
+texture = ExtResource( 10 )
+
+[node name="CircleOn3" type="Sprite" parent="Front/Upgrade"]
+visible = false
+position = Vector2( 16, -43 )
+scale = Vector2( 0.03, 0.03 )
+texture = ExtResource( 10 )
+
 [node name="Back" type="Node2D" parent="."]
 visible = false
 

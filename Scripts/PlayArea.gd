@@ -65,6 +65,14 @@ func initialize():
 func get_slot_by_position(_pos: Vector2):
 	return self.slot_positions.get(_pos)
 
+func get_free_slots(_unlocked_only: bool=true):
+	var free_slots = []
+	for pos in self.slot_positions.keys():
+		var slot = self.slot_positions[pos]
+		if not slot.card and (not slot.data.locked or not _unlocked_only):
+			free_slots.append(slot)
+	return free_slots
+
 func get_position_with_card(_card):
 	for pos in self.slot_positions.keys():
 		var slot = self.slot_positions[pos]

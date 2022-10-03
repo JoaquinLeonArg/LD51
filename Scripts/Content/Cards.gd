@@ -210,6 +210,21 @@ class HireIllegalBulldozerCard extends cd.CardDataProperties:
 			cb.DeforestationBehavior.new()
 		]
 
+class ReforestationCard extends cd.CardDataProperties:
+	const res = preload("res://Scripts/Classes/ResourceData.gd")
+
+	func _init():
+		self.name = "Reforestation"
+		self.description = "[b]Play[/b]: Create two Woodlands at random locations."
+		self.ap_cost = 1
+		self.rarity = cd.CardRarity.COMMON
+		self.draft_cost = 5
+		self.card_type = cd.CardType.ACTION
+		self.artwork_path = "res://RawResources/Graphics/art_test.jpg"
+		self.behaviors = [
+			cb.ReforestationBehavior.new(WoodlandCard)
+		]
+
 class FunHouseCard extends cd.CardDataProperties:
 	const res = preload("res://Scripts/Classes/ResourceData.gd")
 
@@ -420,6 +435,7 @@ var all_cards = [
 	IntermitentFastingCard,
 	HuntMammothCard,
 	HireIllegalBulldozerCard,
+	ReforestationCard,
 	FunHouseCard,
 	TradingPostCard,
 	StorageCard,

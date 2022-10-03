@@ -47,7 +47,7 @@ func add_card(card):
 	
 func _process(_delta):
 	if self.is_mouse_hovering() and Input.is_action_just_pressed("left_click") and not State.state.current_card:
-		if State.state.resources.data.extra_resources[rd.ExtraResourceType.AP] > 0:
+		if State.state.resources.data.extra_resources[rd.ExtraResourceType.AP] > 0 and not State.state.paused:
 			self.data.draw_action()
 	self.draw_timer = max(self.draw_timer, 0.0)
 	$Progress.value = 1.0 - draw_timer / State.state.resources.data.extra_resources[rd.ExtraResourceType.DRAW_TIME]

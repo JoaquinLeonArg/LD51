@@ -46,6 +46,7 @@ func _ready():
 	_x = $Front/CardArea.connect("mouse_exited", self, "on_mouse_exited")
 	_x = $Back/CardArea.connect("mouse_entered", self, "on_mouse_entered")
 	_x = $Back/CardArea.connect("mouse_exited", self, "on_mouse_exited")
+	
 
 
 func _process(delta):
@@ -66,7 +67,10 @@ func set_data(_data):
 		$Front/WoodCost/WoodCostText.bbcode_text = "[center]%s[/center]" % self.data.wood_cost
 	else:
 		$Front/WoodCost.visible = false
-
+	if self.data.max_upgrade > 0:
+		$Front/Upgrade.visible = true
+	else:
+		$Front/Upgrade.visible = false
 	var _x
 	_x = self.data.connect("entered_field", self, "entered_field")
 	_x = self.data.connect("entered_discard", self, "entered_discard")
@@ -103,6 +107,9 @@ func process_input():
 					State.state.current_card = self
 					tween.tween_property(self, "scale", Vector2(0.95, 0.95), 0.2)
 					self.drag_offset = get_global_mouse_position() - self.global_position
+	if Input.is_action_just_pressed("left_click") and self.hovering:
+		if self.data.zone_data.get_zone() == cd.CardZone.FIELD and self.data.max_cooldown > 0 and self.data.remaining_cooldown == 0 and self.data.can_be_activated():
+			self.data.on_activate()
 	if self.dragging and self.draggable:
 		#tween.tween_property(self, "global_position", get_global_mouse_position() - self.drag_offset, 0.01)
 		self.global_position = get_global_mouse_position() - self.drag_offset
@@ -123,9 +130,17 @@ func process_play_hint(delta):
 		$Front/PlayHint.visible = true
 		$Front/PlayHint.color = "#933942"
 		return
-	if not self.data.can_be_played() and self.data.zone_data.get_zone() == cd.CardZone.HAND:
+	if self.data.can_be_activated() and self.data.zone_data.get_zone() == cd.CardZone.FIELD and self.data.remaining_cooldown == 0 and self.data.max_cooldown > 0:
+		$Front/PlayHint.visible = true
+		$Front/PlayHint.color = "#ffffff"
+		return
+	if not self.data.can_be_activated() and self.data.zone_data.get_zone() == cd.CardZone.FIELD and self.data.remaining_cooldown == 0:
 		$Front/PlayHint.visible = true
 		$Front/PlayHint.color = "#933942"
+		return
+	if self.data.zone_data.get_zone() == cd.CardZone.FIELD and self.data.max_cooldown > 0:
+		$Front/PlayHint.visible = true
+		$Front/PlayHint.color = "#b7a39d"
 		return
 	$Front/PlayHint.visible = false
 
@@ -133,7 +148,7 @@ func on_mouse_entered():
 	if State.state.current_card:
 		return
 	var tween = create_tween()
-	self.hovering = true
+	self.hovering = not State.state.paused and State.state.shop.global_position.y < 500
 	self.z_index = 1
 	tween.tween_property(self, "scale", self.hover_scale, 0.1)
 	tween.tween_property(self, "global_position", self.hover_position, 0.1)
@@ -173,6 +188,10 @@ func signal_entered_field_finished():
 func update_progress():
 	if data.max_duration > 0:
 		$Front/Duration.value = data.remaining_duration / data.max_duration
+	if data.max_cooldown > 0:
+		$Front/Duration.value = data.remaining_cooldown / data.max_cooldown
+	else:
+		$Front/Duration.visible = false
 
 func flip(duration: float):
 	#print(self.is_showing)
@@ -188,5 +207,16 @@ func flip(duration: float):
 	self.is_showing = not self.is_showing
 
 func get_upgraded():
-	pass
-	# Implement UI for upgrades
+	print(self.data.upgrade)
+	if self.data.upgrade >= 1:
+		$Front/Upgrade/CircleOn1.visible = true
+	else:
+		$Front/Upgrade/CircleOn1.visible = false
+	if self.data.upgrade >= 2:
+		$Front/Upgrade/CircleOn2.visible = true
+	else:
+		$Front/Upgrade/CircleOn2.visible = false
+	if self.data.upgrade >= 3:
+		$Front/Upgrade/CircleOn3.visible = true
+	else:
+		$Front/Upgrade/CircleOn3.visible = false

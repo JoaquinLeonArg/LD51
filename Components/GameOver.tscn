@@ -34,15 +34,15 @@ bbcode_enabled = true
 bbcode_text = "[center]GAME OVER[/center]"
 text = "GAME OVER"
 
-[node name="GameOverWin" type="RichTextLabel" parent="."]
+[node name="GameOverMsg" type="RichTextLabel" parent="."]
 margin_top = 448.0
 margin_right = 19200.0
 margin_bottom = 1448.0
 rect_scale = Vector2( 0.1, 0.1 )
 theme = SubResource( 2 )
 bbcode_enabled = true
-bbcode_text = "[center]You survived 10 years![/center]"
-text = "You survived 10 years!"
+bbcode_text = "[center]All your population died.[/center]"
+text = "All your population died."
 
 [node name="GameOverBack" type="RichTextLabel" parent="."]
 margin_top = 888.0

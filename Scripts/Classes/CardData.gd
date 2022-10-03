@@ -80,6 +80,7 @@ class CardData:
 
 	signal duration_over
 	signal cooldown_over
+	signal get_upgraded
 
 	static func sort_behaviors(_ba: CardBehavior, _bb: CardBehavior):
 		return _ba.priority < _bb.priority
@@ -119,7 +120,7 @@ class CardData:
 				return false
 		return true
 	func update(delta):
-		if self.zone_data.get_zone() != CardZone.FIELD:
+		if self.zone_data.get_zone() != CardZone.FIELD or State.state.paused:
 			return
 		if self.remaining_duration > 0:
 			self.remaining_duration -= delta
@@ -131,8 +132,8 @@ class CardData:
 			if self.remaining_cooldown <= 0:
 				for behavior in self.behaviors:
 					behavior.on_cooldown()
-				self.remaining_cooldown = self.max_cooldown
 				emit_signal("cooldown_over")
+				self.remaining_cooldown = 0
 	func set_active(_active: bool):
 		if not _active and State.state.current_card == self:
 			State.state.current_card = null
@@ -181,6 +182,15 @@ class CardData:
 	func get_upgraded():
 		self.upgrade += 1
 		emit_signal("get_upgraded")
+	func can_be_activated():
+		for behavior in self.behaviors:
+			if not behavior.can_be_activated():
+				return false
+		return true
+	func on_activate():
+		for behavior in self.behaviors:
+			behavior.on_activated()
+		self.remaining_cooldown = self.max_cooldown
 
 class CardBehavior:
 	var owner: CardData
@@ -194,20 +204,28 @@ class CardBehavior:
 	func _to_string():
 		return self.get_class()
 	func on_play(_target=null):
-		print("Triggered: on_play for %s targeting %s" % [self, _target])
+		pass
+		#print("Triggered: on_play for %s targeting %s" % [self, _target])
 	func on_discard():
-		print("Triggered: on_discard for %s" % [self])
+		pass
+		#print("Triggered: on_discard for %s" % [self])
 	func on_draw():
 		print("Triggered: on_draw for %s" % [self])
 	func on_destroy():
 		print("Triggered: on_destroy for %s" % [self])
 	func on_cooldown():
-		print("Triggered: on_cooldown for %s" % [self])
+		pass
+		#print("Triggered: on_cooldown for %s" % [self])
 	func on_activated():
-		print("Triggered: on_activated for %s" % [self])
+		pass
+		#print("Triggered: on_activated for %s" % [self])
 	func on_season_change():
-		print("Triggered: on_season_change for %s" % [self])
+		pass
+		#print("Triggered: on_season_change for %s" % [self])
 	func on_year_change():
-		print("Triggered: on_year_change for %s" % [self])
+		pass
+		#print("Triggered: on_year_change for %s" % [self])
 	func can_be_played():
+		return true
+	func can_be_activated():
 		return true

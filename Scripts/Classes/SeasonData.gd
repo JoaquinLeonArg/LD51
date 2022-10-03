@@ -14,19 +14,21 @@ class SeasonData:
 		],
 		Season.SUMMER: [
 			content_behaviors.ChangeModifierBehavior.new(rd.ResourceType.FOOD, 0.5),
-			content_behaviors.ChangeExtraResourceBehavior.new(rd.ExtraResourceType.DRAW_TIME, -0.5)
+			content_behaviors.ChangeExtraResourceBehavior.new(rd.ExtraResourceType.DRAW_SIZE, 1)
 		],
 		Season.AUTUMN: [
 			content_behaviors.ChangeModifierBehavior.new(rd.ResourceType.WOOD, 0.5)
 		],
 		Season.WINTER: [
 			content_behaviors.ChangeModifierBehavior.new(rd.ResourceType.WOOD, 0.5),
-			content_behaviors.ChangeMaintenanceBehavior.new(rd.ResourceType.PEOPLE, 3)
+			content_behaviors.ChangeMaintenanceBehavior.new(rd.ResourceType.FOOD, 3),
+			content_behaviors.ChangeMaintenanceBehavior.new(rd.ResourceType.FOOD, State.state.difficulty + 1, true)
 		],
 		Season.DRAFT: []
 	}
 
 	signal update_ui(season, year)
+	signal win
 
 	func update(delta):
 		if State.state.paused:
@@ -36,14 +38,13 @@ class SeasonData:
 			self.season_progress -= 10
 			if self.season != Season.DRAFT:
 				State.state.resources.data.replenish_ap()
-				State.state.deck.data.draw(State.state.resources.data.extra_resources[rd.ExtraResourceType.DRAW_SIZE])
 				State.state.field.season_end()
 			for behavior in self.season_behaviors[self.season]:
 				behavior.on_destroy()
 			self.season = (self.season + 1) % 5
 			for behavior in self.season_behaviors[self.season]:
 				behavior.on_play()
-			
+			State.state.deck.data.draw(State.state.resources.data.extra_resources[rd.ExtraResourceType.DRAW_SIZE])
 			if self.season == Season.DRAFT:
 				print("Draft time")
 				State.state.paused = true
@@ -53,7 +54,5 @@ class SeasonData:
 				self.year += 1
 				State.state.field.year_end()
 				if self.year == 10:
-					pass
-					# TODO
-					# ! trigger endgame event
+					emit_signal("win")
 			emit_signal("update_ui", self.season, self.year)
