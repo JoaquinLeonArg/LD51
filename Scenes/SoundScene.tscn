@@ -57,18 +57,23 @@ stream = ExtResource( 11 )
 
 [node name="MusicMainMenu" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 12 )
+bus = "Music"
 
 [node name="MusicAutumn" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 13 )
+bus = "Music"
 
 [node name="MusicSpring" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 14 )
+bus = "Music"
 
 [node name="MusicSummer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 15 )
+bus = "Music"
 
 [node name="MusicWinter" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 16 )
+bus = "Music"
 
 [node name="SoundEffectMining" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 18 )

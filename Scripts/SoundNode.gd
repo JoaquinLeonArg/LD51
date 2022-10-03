@@ -37,5 +37,11 @@ func play_effect(effect):
 	print("[DEBUG] Playing sound effect: " + effect)
 	effects.get(effect).play()
 
-func play_music(music):
-	music.get(music).play()
+func play_music(_music):
+	print("[DEBUG] Playing music: " + _music)
+	music.get(_music).play()
+
+func stop_music(_music):
+	print("[DEBUG] Playing music: " + _music)
+	music.get(_music).stop()
+	
