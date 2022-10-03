@@ -145,6 +145,7 @@ func process_play_hint(delta):
 	$Front/PlayHint.visible = false
 
 func on_mouse_entered():
+	Sound.sound.play_effect("hover")
 	if State.state.current_card:
 		return
 	var tween = create_tween()

@@ -94,3 +94,5 @@ bbcode_text = "[center]HIDE[/center]"
 text = "HIDE"
 scroll_active = false
 deselect_on_focus_loss_enabled = false
+
+[connection signal="mouse_entered" from="ColorRect/ExitButton" to="." method="_on_ExitButton_mouse_entered"]

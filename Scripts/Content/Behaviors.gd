@@ -370,3 +370,22 @@ class UpgradeBehavior extends cd.CardBehavior:
 			self.owner.get_upgraded()
 	func can_be_activated():
 		return self.owner.upgrade < self.owner.max_upgrade and State.state.resources.data.resources[rd.ResourceType.GOLD] >= self.cost
+
+class OnCardUseSoundBehavior extends cd.CardBehavior:
+
+	var sound: String
+	func _init(_sound: String):
+		self.sound = _sound
+
+	func on_play(_target=null):
+		Sound.sound.play_effect(sound)
+
+class OnCardInteractionSoundBehavior extends cd.CardBehavior:
+
+	var sound: String
+	func _init(_sound: String):
+		self.sound = _sound
+
+	func on_activated():
+		Sound.sound.play_effect(sound)
+		

@@ -129,6 +129,7 @@ class GatherWoodCard extends cd.CardDataProperties:
 		self.card_type = cd.CardType.ACTION
 		self.artwork_path = "res://RawResources/Graphics/art_test.jpg"
 		self.behaviors = [
+			cb.OnCardUseSoundBehavior.new("gather_wood"),
 			cb.DestroyTypeBuildingBehavior.new("Woodland"),
 			cb.ChangeResourceBehavior.new(res.ResourceType.WOOD, 3),
 		]
@@ -240,6 +241,7 @@ class FunHouseCard extends cd.CardDataProperties:
 		self.artwork_path = "res://RawResources/Graphics/art_test.jpg"
 		self.behaviors = [
 			cb.ClickBehavior.new([
+				cb.OnCardInteractionSoundBehavior.new("cash_register"),
 				cb.ChangeResourceBehavior.new(res.ResourceType.GOLD, 2),
 				cb.ChangeResourceBehavior.new(res.ResourceType.PEOPLE, -1),
 			]),
@@ -260,6 +262,7 @@ class TradingPostCard extends cd.CardDataProperties:
 		self.artwork_path = "res://RawResources/Graphics/art_test.jpg"
 		self.behaviors = [
 			cb.ClickBehavior.new([
+				cb.OnCardInteractionSoundBehavior.new("cash_register"),
 				cb.ChangeResourceBehavior.new(res.ResourceType.GOLD, 1),
 				cb.ChangeResourceBehavior.new(res.ResourceType.WOOD, -5),
 			]),
@@ -364,6 +367,7 @@ class FarmCard extends cd.CardDataProperties:
 		self.behaviors = [
 			cb.FarmBehavior.new(),
 			cb.ClickBehavior.new([
+				cb.OnCardInteractionSoundBehavior.new("cash_register"),
 				cb.UpgradeBehavior.new(3)
 			])
 		]
@@ -384,6 +388,7 @@ class LumberCampCard extends cd.CardDataProperties:
 		self.behaviors = [
 			cb.LumberCampBehavior.new(),
 			cb.ClickBehavior.new([
+				cb.OnCardInteractionSoundBehavior.new("gather_wood"),
 				cb.UpgradeBehavior.new(3)
 			])
 		]
@@ -418,6 +423,7 @@ class MiningCampCard extends cd.CardDataProperties:
 		self.artwork_path = "res://RawResources/Graphics/art_test.jpg"
 		self.behaviors = [
 			cb.ClickBehavior.new([
+				cb.OnCardInteractionSoundBehavior.new("cash_register"),
 				cb.UpgradeBehavior.new(0),
 				cb.ChangeResourceBehavior.new(res.ResourceType.GOLD, 3, 1),
 			])

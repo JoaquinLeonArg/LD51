@@ -18,6 +18,7 @@ config/icon="res://icon.png"
 
 State="*res://Scripts/Classes/GameStateManager.gd"
 Utils="*res://Scripts/Classes/Utils.gd"
+Sound="*res://Scripts/Classes/SoundManager.gd"
 
 [display]
 

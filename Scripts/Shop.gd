@@ -52,8 +52,10 @@ func _process(_delta):
 
 func _input(event):
 	if event.is_action_pressed("left_click") and self.button_hovering:
+		Sound.sound.play_effect("ui_click")	
 		self.close()
 	if event.is_action_pressed("left_click") and self.hide_hovering:
+		Sound.sound.play_effect("ui_click")			
 		if self.hidden:
 			self.hidden = false
 			$ColorRect.visible = true
@@ -66,12 +68,14 @@ func _input(event):
 			$HideButton/HideButtonText.bbcode_text = "[center]SHOW[/center]"
 
 func on_mouse_entered_button():
+	Sound.sound.play_effect("hover")	
 	self.button_hovering = true
 
 func on_mouse_exited_button():
 	self.button_hovering = false
 
 func on_mouse_entered_hide():
+	Sound.sound.play_effect("hover")	
 	self.hide_hovering = true
 
 func on_mouse_exited_hide():

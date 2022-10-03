@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Resources/RobotoLightFlavor.tres" type="DynamicFont" id=1]
 [ext_resource path="res://Scripts/CreditsMenu.gd" type="Script" id=2]
+[ext_resource path="res://Scenes/SoundScene.tscn" type="PackedScene" id=3]
 
 [sub_resource type="Theme" id=1]
 default_font = ExtResource( 1 )
@@ -76,4 +77,8 @@ rect_scale = Vector2( 1.5, 1.5 )
 text = "X"
 script = ExtResource( 2 )
 
+[node name="SoundScene" parent="." instance=ExtResource( 3 )]
+
+[connection signal="focus_entered" from="BackToMenu" to="BackToMenu" method="_on_BackToMenu_focus_entered"]
+[connection signal="mouse_entered" from="BackToMenu" to="BackToMenu" method="_on_BackToMenu_mouse_entered"]
 [connection signal="pressed" from="BackToMenu" to="BackToMenu" method="_on_BackToMenu_pressed"]

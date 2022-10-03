@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/card_click.ogg-171520b5e5f5c8e5daf4d653262bfe9f.oggstr"
+
+[deps]
+
+source_file="res://RawResources/Sounds/Effects/card_click.ogg"
+dest_files=[ "res://.import/card_click.ogg-171520b5e5f5c8e5daf4d653262bfe9f.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

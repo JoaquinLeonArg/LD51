@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/building.ogg-7c187a9a43eca328f5af0e889dc2b25b.oggstr"
+
+[deps]
+
+source_file="res://RawResources/Sounds/Effects/building.ogg"
+dest_files=[ "res://.import/building.ogg-7c187a9a43eca328f5af0e889dc2b25b.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

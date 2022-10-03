@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/draw_card_btn.ogg-42b9df2d316ee0c59850e1ea9e0385db.oggstr"
+
+[deps]
+
+source_file="res://RawResources/Sounds/Effects/draw_card_btn.ogg"
+dest_files=[ "res://.import/draw_card_btn.ogg-42b9df2d316ee0c59850e1ea9e0385db.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

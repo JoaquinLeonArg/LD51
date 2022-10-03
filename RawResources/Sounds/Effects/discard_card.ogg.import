@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/discard_card.ogg-db9a956ce315221bdcd9efa77791227a.oggstr"
+
+[deps]
+
+source_file="res://RawResources/Sounds/Effects/discard_card.ogg"
+dest_files=[ "res://.import/discard_card.ogg-db9a956ce315221bdcd9efa77791227a.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0
