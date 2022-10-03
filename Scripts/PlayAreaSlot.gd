@@ -5,6 +5,7 @@ extends Node2D
 
 # Imports
 const cd = preload("res://Scripts/Classes/CardData.gd")
+const rd = preload("res://Scripts/Classes/ResourceData.gd")
 const psd = preload("res://Scripts/Classes/PlaySlotData.gd")
 
 # Instance properties
@@ -27,11 +28,17 @@ func process_input():
 		return
 	if Input.is_action_just_released("left_click"):
 		if State.state.current_card and State.state.current_card.data.type == cd.CardType.BUILDING and not self.card:
-			self.add_card(State.state.current_card)
-			State.state.current_card = null
-			State.state.hand.remove_card(self.card)
-			self.card.update_position()
-			return
+			if State.state.resources.data.resources[rd.ResourceType.WOOD] >= State.state.current_card.data.wood_cost:
+				State.state.resources.data.spend_resource(rd.ResourceType.WOOD, State.state.current_card.data.wood_cost)
+				self.add_card(State.state.current_card)
+				State.state.current_card = null
+				State.state.hand.remove_card(self.card)
+				self.card.update_position()
+				return
+			else:
+				var curr_card = State.state.current_card
+				curr_card.dragging = false
+				State.state.current_card = null
 		if State.state.current_card and self.card:
 			var curr_card = State.state.current_card
 			curr_card.dragging = false

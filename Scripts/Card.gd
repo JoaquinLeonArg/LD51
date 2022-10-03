@@ -25,6 +25,7 @@ var rest_position: Vector2
 var hover_position: Vector2
 var rest_rotation: float
 var hover_rotation: float
+var play_hint_t: float = 0.0
 
 var type_names: Dictionary = {
 	cd.CardType.ACTION: "Action",
@@ -51,6 +52,7 @@ func _process(delta):
 	self.data.update(delta)
 	self.update_progress()
 	self.process_input()
+	self.process_play_hint(delta)
 
 func set_data(_data):
 	self.data = _data
@@ -59,6 +61,11 @@ func set_data(_data):
 	$Front/CardArea/CardDescription.bbcode_text = "[center]%s[/center]" % self.data.description
 	$Front/CardArea/CardTypes.bbcode_text = "[center]%s[/center]" % self.type_names[self.data.type]
 	$Front/CardArea/TypeSprite.texture = self.type_icons[self.data.type]
+	if self.data.type == cd.CardType.BUILDING:
+		$Front/WoodCost.visible = true
+		$Front/WoodCost/WoodCostText.bbcode_text = "[center]%s[/center]" % self.data.wood_cost
+	else:
+		$Front/WoodCost.visible = false
 
 	var _x
 	_x = self.data.connect("entered_field", self, "entered_field")
@@ -67,6 +74,7 @@ func set_data(_data):
 
 	_x = self.data.connect("duration_over", self, "duration_over")
 	_x = self.data.connect("cooldown_over", self, "cooldown_over")
+	_x = self.data.connect("get_upgraded", self, "get_upgraded")
 
 func process_input():
 	if not self.enabled:
@@ -89,15 +97,37 @@ func process_input():
 				card.dragging = false
 				State.state.current_card = null
 			else:
-				#print("Drag")
-				self.dragging = true
-				State.state.current_card = self
-				tween.tween_property(self, "scale", Vector2(0.95, 0.95), 0.2)
-				self.drag_offset = get_global_mouse_position() - self.global_position
+				if self.data.can_be_played():
+					#print("Drag")
+					self.dragging = true
+					State.state.current_card = self
+					tween.tween_property(self, "scale", Vector2(0.95, 0.95), 0.2)
+					self.drag_offset = get_global_mouse_position() - self.global_position
 	if self.dragging and self.draggable:
 		#tween.tween_property(self, "global_position", get_global_mouse_position() - self.drag_offset, 0.01)
 		self.global_position = get_global_mouse_position() - self.drag_offset
 		self.rotation = (self.global_position.x - get_global_mouse_position().x + self.drag_offset.x)*0.002
+
+func process_play_hint(delta):
+	self.play_hint_t += delta*10
+	$Front/PlayHint.rect_scale = Vector2(1.0 + 0.01*cos(self.play_hint_t), 1.0 + 0.01*cos(self.play_hint_t))
+	if State.state.current_card == self:
+		$Front/PlayHint.visible = true
+		$Front/PlayHint.color = "#8da24e"
+		return
+	if self.data.can_be_played() and self.data.zone_data.get_zone() == cd.CardZone.HAND:
+		$Front/PlayHint.visible = true
+		$Front/PlayHint.color = "#ffffff"
+		return
+	if not self.data.can_be_played() and self.data.zone_data.get_zone() == cd.CardZone.HAND:
+		$Front/PlayHint.visible = true
+		$Front/PlayHint.color = "#933942"
+		return
+	if not self.data.can_be_played() and self.data.zone_data.get_zone() == cd.CardZone.HAND:
+		$Front/PlayHint.visible = true
+		$Front/PlayHint.color = "#933942"
+		return
+	$Front/PlayHint.visible = false
 
 func on_mouse_entered():
 	if State.state.current_card:
@@ -156,3 +186,7 @@ func flip(duration: float):
 		tween.tween_property($Front, "visible", true, 0)
 	tween.tween_property(self, "scale", Vector2(self.rest_scale.x, self.rest_scale.y), duration)
 	self.is_showing = not self.is_showing
+
+func get_upgraded():
+	pass
+	# Implement UI for upgrades

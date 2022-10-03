@@ -6,6 +6,8 @@ const sd = preload("res://Scripts/Classes/SeasonData.gd")
 
 # Properties
 var button_hovering: bool = false
+var hide_hovering: bool = false
+var hidden = false
 var options: Array
 
 # Methods
@@ -18,6 +20,8 @@ func _ready():
 	var _x
 	_x = $ColorRect/ExitButton.connect("mouse_entered", self, "on_mouse_entered_button")
 	_x = $ColorRect/ExitButton.connect("mouse_exited", self, "on_mouse_exited_button")
+	_x = $HideButton.connect("mouse_entered", self, "on_mouse_entered_hide")
+	_x = $HideButton.connect("mouse_exited", self, "on_mouse_exited_hide")
 
 func initialize():
 	for option in self.options:
@@ -39,16 +43,36 @@ func close():
 func _process(_delta):
 	if self.button_hovering:
 		$ColorRect/ExitButton.color = "#55cc55"
-		return
 	else:
 		$ColorRect/ExitButton.color = "228822"
+	if self.hide_hovering:
+		$HideButton.color = "#cacaca"
+	else:
+		$HideButton.color = "a3a3a3"
 
 func _input(event):
 	if event.is_action_pressed("left_click") and self.button_hovering:
 		self.close()
+	if event.is_action_pressed("left_click") and self.hide_hovering:
+		if self.hidden:
+			self.hidden = false
+			$ColorRect.visible = true
+			$Options.visible = true
+			$HideButton/HideButtonText.bbcode_text = "[center]HIDE[/center]"
+		else:
+			self.hidden = true
+			$ColorRect.visible = false
+			$Options.visible = false
+			$HideButton/HideButtonText.bbcode_text = "[center]SHOW[/center]"
 
 func on_mouse_entered_button():
 	self.button_hovering = true
 
 func on_mouse_exited_button():
 	self.button_hovering = false
+
+func on_mouse_entered_hide():
+	self.hide_hovering = true
+
+func on_mouse_exited_hide():
+	self.hide_hovering = false

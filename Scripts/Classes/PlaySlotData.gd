@@ -1,4 +1,6 @@
 enum SlotType {SLOT_A, SLOT_B}
+enum SlotModifier { FARM_PROD, WOOD_PROD }
+
 
 class PlaySlotData:
     const cd = preload("res://Scripts/Classes/CardData.gd")
@@ -8,6 +10,11 @@ class PlaySlotData:
     var index: int
     var card: cd.CardData
     var locked = false
+
+    var modifiers = {
+        SlotModifier.FARM_PROD: 1.0,
+        SlotModifier.WOOD_PROD: 1.0,
+    }
 
     signal unlock
     signal lock

@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=2]
 
-[ext_resource path="res://Resources/AntonTitle.tres" type="DynamicFont" id=1]
+[ext_resource path="res://Resources/ShopTitle.tres" type="DynamicFont" id=1]
 [ext_resource path="res://Resources/RobotoBold.tres" type="DynamicFont" id=2]
 [ext_resource path="res://Components/ShopOption.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Scripts/Shop.gd" type="Script" id=4]
@@ -19,7 +19,7 @@ margin_left = 320.0
 margin_top = 100.0
 margin_right = 1600.0
 margin_bottom = 820.0
-color = Color( 0.454902, 0.454902, 0.454902, 0.392157 )
+color = Color( 0, 0, 0, 1 )
 
 [node name="ShopText" type="RichTextLabel" parent="ColorRect"]
 margin_left = 512.0
@@ -72,3 +72,25 @@ position = Vector2( 412, 400 )
 
 [node name="ShopOption5" parent="Options" instance=ExtResource( 3 )]
 position = Vector2( 188, 400 )
+
+[node name="HideButton" type="ColorRect" parent="."]
+margin_left = 340.0
+margin_top = 752.0
+margin_right = 468.0
+margin_bottom = 800.0
+color = Color( 0.639216, 0.639216, 0.639216, 1 )
+
+[node name="HideButtonText" type="RichTextLabel" parent="HideButton"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 8.0
+margin_right = 512.0
+margin_bottom = 200.0
+rect_scale = Vector2( 0.2, 0.2 )
+mouse_filter = 2
+theme = SubResource( 2 )
+bbcode_enabled = true
+bbcode_text = "[center]HIDE[/center]"
+text = "HIDE"
+scroll_active = false
+deselect_on_focus_loss_enabled = false

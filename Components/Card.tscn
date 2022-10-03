@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://Scripts/Card.gd" type="Script" id=1]
 [ext_resource path="res://Resources/CardCost.tres" type="DynamicFont" id=2]
@@ -11,6 +11,9 @@
 [ext_resource path="res://Resources/CardType.tres" type="DynamicFont" id=9]
 [ext_resource path="res://RawResources/Graphics/loading.png" type="Texture" id=10]
 [ext_resource path="res://RawResources/Graphics/icon-ACTION.png" type="Texture" id=11]
+[ext_resource path="res://Resources/CardDescriptionBold.tres" type="DynamicFont" id=12]
+[ext_resource path="res://RawResources/Graphics/wood_ico.png" type="Texture" id=13]
+[ext_resource path="res://RawResources/Graphics/caja-precio.png" type="Texture" id=14]
 
 [sub_resource type="Theme" id=1]
 default_font = ExtResource( 4 )
@@ -21,14 +24,25 @@ default_font = ExtResource( 9 )
 [sub_resource type="Theme" id=2]
 default_font = ExtResource( 3 )
 RichTextLabel/colors/default_color = Color( 0, 0, 0, 1 )
+RichTextLabel/fonts/bold_font = ExtResource( 3 )
 
 [sub_resource type="Theme" id=4]
 default_font = ExtResource( 2 )
+
+[sub_resource type="Theme" id=5]
+default_font = ExtResource( 4 )
 
 [node name="Card" type="Node2D"]
 script = ExtResource( 1 )
 
 [node name="Front" type="Node2D" parent="."]
+
+[node name="PlayHint" type="ColorRect" parent="Front"]
+margin_left = -68.0
+margin_top = -156.0
+margin_right = 68.0
+margin_bottom = 48.0
+rect_pivot_offset = Vector2( 66, 102 )
 
 [node name="Artwork" type="Sprite" parent="Front"]
 position = Vector2( 0, -54 )
@@ -93,12 +107,14 @@ text = "Type - Subtype"
 scroll_active = false
 
 [node name="CardDescription" type="RichTextLabel" parent="Front/CardArea"]
+margin_left = 8.0
 margin_top = 132.0
-margin_right = 1280.0
-margin_bottom = 732.0
+margin_right = 1128.0
+margin_bottom = 712.0
 rect_scale = Vector2( 0.1, 0.1 )
 mouse_filter = 2
 theme = SubResource( 2 )
+custom_fonts/bold_font = ExtResource( 12 )
 bbcode_enabled = true
 bbcode_text = "[center]Card description and effects goes here!
 Even a bit more...
@@ -122,7 +138,6 @@ text = "3"
 scroll_active = false
 
 [node name="Duration" type="TextureProgress" parent="Front"]
-modulate = Color( 0, 1, 0.953125, 1 )
 margin_left = -64.0
 margin_top = -152.0
 margin_right = 64.0
@@ -132,6 +147,30 @@ max_value = 1.0
 step = 0.001
 value = 0.5
 texture_progress = ExtResource( 5 )
+
+[node name="WoodCost" type="Node2D" parent="Front"]
+
+[node name="Background" type="Sprite" parent="Front/WoodCost"]
+position = Vector2( 0, -59 )
+scale = Vector2( 0.05, 0.1 )
+texture = ExtResource( 14 )
+
+[node name="WoodIcon" type="Sprite" parent="Front/WoodCost"]
+position = Vector2( -8, -119 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 13 )
+
+[node name="WoodCostText" type="RichTextLabel" parent="Front/WoodCost"]
+margin_left = -2.0
+margin_top = -125.0
+margin_right = 176.0
+margin_bottom = -5.0
+rect_scale = Vector2( 0.09, 0.09 )
+theme = SubResource( 5 )
+bbcode_enabled = true
+bbcode_text = "[center]10[/center]"
+text = "10"
+scroll_active = false
 
 [node name="Back" type="Node2D" parent="."]
 visible = false

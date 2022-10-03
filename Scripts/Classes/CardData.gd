@@ -37,16 +37,17 @@ class ShopCardZoneData extends BaseCardZoneData:
 class CardDataProperties:
 	var name: String = "Unknown"
 	var description: String = "Unknown"
-	var rarity: int # <CardRarity>
-	var ap_cost: int # 0, 1, 2, 3
-	var wood_cost: int
-	var draft_cost: int
-	var duration: int = -1
-	var cooldown: int = -1
+	var rarity: int = CardRarity.COMMON # <CardRarity>
+	var ap_cost: int = 0 # 0, 1, 2, 3
+	var wood_cost: int = 0
+	var draft_cost: int = 0
+	var duration: float = -1
+	var cooldown: float = -1
 	var card_type: int # <CardType>
 	var card_subtype: int # <CardSubType>
 	var artwork_path: String
-	var behaviors: Array # <CardBehavior>
+	var behaviors: Array = [] # <CardBehavior>
+	var max_upgrade: int = 0
 
 class CardData:
 	const rd = preload("res://Scripts/Classes/ResourceData.gd") 
@@ -63,6 +64,8 @@ class CardData:
 	var artwork: Resource
 	var behaviors: Array # <CardBehavior>
 	var zone_data: BaseCardZoneData
+	var upgrade: int
+	var max_upgrade: int
 
 	var remaining_duration: float
 	var max_duration: float
@@ -89,6 +92,8 @@ class CardData:
 		self.ap_cost = _props.ap_cost
 		self.wood_cost = _props.wood_cost
 		self.draft_cost = _props.draft_cost
+		self.max_upgrade = _props.max_upgrade
+		self.upgrade = 0
 		self.type = _props.card_type
 		self.subtype = _props.card_subtype
 		self.artwork = load(_props.artwork_path)
@@ -173,6 +178,9 @@ class CardData:
 	func on_year():
 		for behavior in self.behaviors:
 			behavior.on_year_change()
+	func get_upgraded():
+		self.upgrade += 1
+		emit_signal("get_upgraded")
 
 class CardBehavior:
 	var owner: CardData

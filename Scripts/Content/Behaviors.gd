@@ -9,14 +9,16 @@ class ChangeResourceBehavior extends cd.CardBehavior:
 
 	var resource_type: int
 	var change: int
+	var upgrade_factor: int
 
-	func _init(_resource_type: int, _change: int).(cd.CardBehaviorPriority.NORMAL):
+	func _init(_resource_type: int, _change: int, _upgrade_factor: int=1).(cd.CardBehaviorPriority.NORMAL):
 		self.resource_type = _resource_type
 		self.change = _change
+		self.upgrade_factor = _upgrade_factor
 	func on_play(_target=null):
 		.on_play()
 		if(self.change > 0):
-			State.state.resources.data.gain_resource(self.resource_type, self.change)
+			State.state.resources.data.gain_resource(self.resource_type, self.change + self.owner.upgrade * self.upgrade_factor)
 		else:
 			State.state.resources.data.spend_resource(self.resource_type, self.change)
 
@@ -122,16 +124,33 @@ class ChangeMaintenanceBehavior extends cd.CardBehavior:
 
 class YearChangeResourceBehavior extends cd.CardBehavior:
 	const rd = preload("res://Scripts/Classes/ResourceData.gd")
+	const psd = preload("res://Scripts/Classes/PlaySlotData.gd")
 	
 	var resource_type: int
 	var change: float
+	var modifier: int
 
-	func _init(_resource_type: int, _change: float).(cd.CardBehaviorPriority.NORMAL):
+	func _init(_resource_type: int, _change: float, _modifier: int=-1).(cd.CardBehaviorPriority.NORMAL):
 		self.resource_type = _resource_type
 		self.change = _change
+		self.modifier = _modifier
 	func on_year_change(_target=null):
 		.on_year_change()
-		State.state.resources.data.gain_resource(self.resource_type, self.change)
+
+		if not self.owner:
+			print("Error: 1 can't find position on YearChangeResourceBehavior")
+		var this_position = State.state.field.get_position_with_card(self.owner)
+		if not this_position:
+			print("Error: 2 can't find position on YearChangeResourceBehavior")
+		var this_slot = State.state.field.get_slot_by_position(this_position)
+		if not this_slot:
+			print("Error: 3 can't find position on YearChangeResourceBehavior")
+			return 
+
+		var mod = 1.0
+		if self.modifier != -1 and this_slot:
+			mod = this_slot.data.modifiers[psd.SlotModifier.FARM_PROD]
+		State.state.resources.data.gain_resource(self.resource_type, self.change*mod)
 
 class SeasonChangeResourceByAdjacencyBehavior extends cd.CardBehavior:
 	const rd = preload("res://Scripts/Classes/ResourceData.gd")
@@ -196,3 +215,122 @@ class DrawCardsBehavior extends cd.CardBehavior:
 	func on_play(_target=null):
 		.on_play()
 		State.state.deck.draw(self.card_count)
+
+class DeforestationBehavior extends cd.CardBehavior:
+	const rd = preload("res://Scripts/Classes/ResourceData.gd")
+	func can_be_played():
+		for slot in State.state.field.slots:
+			if slot.card:
+				if slot.card.data.card_name == "Woodlands":
+					return true
+		return false
+	func on_play(_target=null):
+		.on_play()
+		for slot in State.state.field.slots:
+			if slot.card:
+				if slot.card.data.card_name == self.card_name:
+					slot.destroy_card()
+					State.state.resources.data.gain_resource(rd.ResourceType.WOOD, 10)
+
+class HasResourceBehavior extends cd.CardBehavior:
+	const rd = preload("res://Scripts/Classes/ResourceData.gd")
+
+	var resource_type: int
+	var amount: int
+
+	func _init(_resource_type: int, _amount: int):
+		self.resource_type = _resource_type
+		self.amount = _amount
+
+	func can_be_played():
+		return State.state.resources.data.resource[self.resource_type] >= self.amount
+
+class ChangeAdjacentSlotsModifier extends cd.CardBehavior:
+	const rd = preload("res://Scripts/Classes/ResourceData.gd")
+	const psd = preload("res://Scripts/Classes/PlaySlotData.gd")
+	
+	var modifier_type: int
+	var change: float
+
+	func _init(_modifier_type: int, _change: float).(cd.CardBehaviorPriority.NORMAL):
+		self.modifier_type = _modifier_type
+		self.change = _change
+	func on_play(_target=null):
+		.on_play()
+		if not self.owner:
+			print("Error: 1 can't find position on ChangeAdjacentSlotsModifier")
+			return
+		var this_position = State.state.field.get_position_with_card(self.owner)
+		if not this_position:
+			print("Error: 2 can't find position on ChangeAdjacentSlotsModifier")
+			return
+		var adjacents = State.state.field.get_adjacent_slots(this_position)
+		for adj in adjacents:
+			if adj:
+				adj.modifiers[self.modifier_type] += self.change
+
+	func on_destroy(_target=null):
+		.on_destroy()
+		if not self.owner:
+			print("Error: 1 can't find position on ChangeAdjacentSlotsModifier")
+			return
+		var this_position = State.state.field.get_position_with_card(self.owner)
+		if not this_position:
+			print("Error: 2 can't find position on ChangeAdjacentSlotsModifier")
+			return
+		var adjacents = State.state.field.get_adjacent_slots(this_position)
+		for adj in adjacents:
+			if adj:
+				adj.modifiers[self.modifier_type] -= self.change
+
+class FarmBehavior extends cd.CardBehavior:
+	const rd = preload("res://Scripts/Classes/ResourceData.gd")
+	const psd = preload("res://Scripts/Classes/PlaySlotData.gd")
+
+	func on_season_change(_target=null):
+		.on_season_change()
+		if not self.owner:
+			print("Error: 1 can't find position on FarmBehavior")
+			return
+		var this_position = State.state.field.get_position_with_card(self.owner)
+		if not this_position:
+			print("Error: 2 can't find position on FarmBehavior")
+			return
+		var this_slot = State.state.field.get_slot_by_position(this_position)
+		if not this_slot:
+			print("Error: 3 can't find position on FarmBehavior")
+			return 
+		
+		State.state.resources.data.gain_resource(rd.ResourceType.FOOD, (5 + self.owner.upgrade)*this_slot.data.modifiers[psd.SlotModifier.FARM_PROD])
+
+class LumberCampBehavior extends cd.CardBehavior:
+	const rd = preload("res://Scripts/Classes/ResourceData.gd")
+	const psd = preload("res://Scripts/Classes/PlaySlotData.gd")
+
+	func on_season_change(_target=null):
+		.on_season_change()
+		if not self.owner:
+			print("Error: 1 can't find position on LumberCampBehavior")
+			return
+		var this_position = State.state.field.get_position_with_card(self.owner)
+		if not this_position:
+			print("Error: 2 can't find position on LumberCampBehavior")
+			return
+		var this_slot = State.state.field.get_slot_by_position(this_position)
+		if not this_slot:
+			print("Error: 3 can't find position on LumberCampBehavior")
+			return 
+		
+		State.state.resources.data.gain_resource(rd.ResourceType.WOOD, (3 + self.owner.upgrade*2)*this_slot.data.modifiers[psd.SlotModifier.WOOD_PROD])
+
+class UpgradeBehavior extends cd.CardBehavior:
+	const rd = preload("res://Scripts/Classes/ResourceData.gd")
+
+	var cost: int
+	func _init(_cost: int).(cd.CardBehaviorPriority.LOW):
+		self.cost = cost
+
+	func on_activated():
+		if self.owner.upgrade < self.owner.max_upgrade and State.state.resources.data[rd.ResourceType.GOLD] >= self.cost:
+			State.state.resources.spend_resource(rd.ResourceType.GOLD, self.cost)
+			self.owner.get_upgraded()

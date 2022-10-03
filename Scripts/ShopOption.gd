@@ -67,6 +67,7 @@ func choose_card():
 	return available_cards.pop_back()
 
 func refresh():
+	self.bought = false
 	if self.card:
 		self.card.queue_free()
 	self.data = cd.CardData.new(self.choose_card().new())
