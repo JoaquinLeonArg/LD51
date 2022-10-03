@@ -44,6 +44,30 @@ __meta__ = {
 "_editor_description_": ""
 }
 
+[node name="DifficultyDown" type="Button" parent="."]
+margin_left = 1162.0
+margin_top = 592.0
+margin_right = 1354.0
+margin_bottom = 809.0
+rect_scale = Vector2( 0.25, 0.25 )
+theme = ExtResource( 1 )
+text = "<"
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="DifficultyUp" type="Button" parent="."]
+margin_left = 1338.0
+margin_top = 592.0
+margin_right = 1530.0
+margin_bottom = 809.0
+rect_scale = Vector2( 0.25, 0.25 )
+theme = ExtResource( 1 )
+text = ">"
+__meta__ = {
+"_editor_description_": ""
+}
+
 [node name="NewGameBtn" type="Button" parent="."]
 margin_left = 810.0
 margin_top = 592.0
@@ -57,9 +81,9 @@ __meta__ = {
 }
 
 [node name="CreditsBtn" type="Button" parent="."]
-margin_left = 810.0
+margin_left = 818.0
 margin_top = 663.0
-margin_right = 2010.0
+margin_right = 2018.0
 margin_bottom = 880.0
 rect_scale = Vector2( 0.25, 0.25 )
 theme = ExtResource( 1 )
@@ -82,6 +106,10 @@ __meta__ = {
 
 [connection signal="mouse_entered" from="HowToPlayBtn" to="VBoxContainer" method="_on_HowToPlayBtn_mouse_entered"]
 [connection signal="pressed" from="HowToPlayBtn" to="VBoxContainer" method="_on_HowToPlayBtn_pressed"]
+[connection signal="mouse_entered" from="DifficultyDown" to="VBoxContainer" method="_on_HowToPlayBtn_mouse_entered"]
+[connection signal="pressed" from="DifficultyDown" to="VBoxContainer" method="_on_HowToPlayBtn_pressed"]
+[connection signal="mouse_entered" from="DifficultyUp" to="VBoxContainer" method="_on_HowToPlayBtn_mouse_entered"]
+[connection signal="pressed" from="DifficultyUp" to="VBoxContainer" method="_on_HowToPlayBtn_pressed"]
 [connection signal="mouse_entered" from="NewGameBtn" to="VBoxContainer" method="_on_NewGameBtn_mouse_entered"]
 [connection signal="pressed" from="NewGameBtn" to="VBoxContainer" method="_on_NewGameBtn_pressed"]
 [connection signal="mouse_entered" from="CreditsBtn" to="VBoxContainer" method="_on_CreditsBtn_mouse_entered"]
