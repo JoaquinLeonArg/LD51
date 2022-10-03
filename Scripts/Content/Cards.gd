@@ -40,7 +40,7 @@ class LakeCard extends cd.CardDataProperties:
 		self.rarity = cd.CardRarity.COMMON
 		self.draft_cost = 0
 		self.card_type = cd.CardType.ENVIRONMENT
-		self.artwork_path = "res://RawResources/Graphics/woodland.png"
+		self.artwork_path = "res://RawResources/Graphics/LAGO.png"
 		self.behaviors = [
 			cb.SeasonChangeResourceByAdjacencyBehavior.new(res.ResourceType.FOOD, 1),
 		]
@@ -134,7 +134,7 @@ class GatherWoodCard extends cd.CardDataProperties:
 		self.rarity = cd.CardRarity.COMMON
 		self.draft_cost = 1
 		self.card_type = cd.CardType.ACTION
-		self.artwork_path = "res://RawResources/Graphics/woodland.png"
+		self.artwork_path = "res://RawResources/Graphics/SIERRA.png"
 		self.behaviors = [
 			cb.OnCardUseSoundBehavior.new("gather_wood"),
 			cb.DestroyTypeBuildingBehavior.new("Woodland"),
@@ -415,7 +415,7 @@ class HouseCard extends cd.CardDataProperties:
 		self.rarity = cd.CardRarity.RARE
 		self.draft_cost = 3
 		self.card_type = cd.CardType.BUILDING
-		self.artwork_path = "res://RawResources/Graphics/FUN-HOUSE.png"
+		self.artwork_path = "res://RawResources/Graphics/CASA.png"
 		self.behaviors = [
 			cb.ChangeExtraResourceBehavior.new(res.ExtraResourceType.HAND_SIZE, 1)
 		]
