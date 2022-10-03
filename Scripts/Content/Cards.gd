@@ -55,7 +55,7 @@ class GoHuntingCard extends cd.CardDataProperties:
 		self.rarity = cd.CardRarity.COMMON
 		self.draft_cost = 3
 		self.card_type = cd.CardType.ACTION
-		self.artwork_path = "res://RawResources/Graphics/woodland.png"
+		self.artwork_path = "res://RawResources/Graphics/GO-HUNTING.png"
 		self.behaviors = [
 			cb.OnCardUseSoundBehavior.new("use_card"),
 			cb.ChangeResourceBehavior.new(res.ResourceType.FOOD, 5),
@@ -250,7 +250,7 @@ class FunHouseCard extends cd.CardDataProperties:
 		self.cooldown = 5
 		self.card_subtype = cd.CardSubType.ACTIVABLE
 		self.card_type = cd.CardType.BUILDING
-		self.artwork_path = "res://RawResources/Graphics/woodland.png"
+		self.artwork_path = "res://RawResources/Graphics/bar.png"
 		self.behaviors = [
 			cb.ClickBehavior.new([
 				cb.OnCardInteractionSoundBehavior.new("cash_register"),
@@ -271,7 +271,7 @@ class TradingPostCard extends cd.CardDataProperties:
 		self.cooldown = 1
 		self.card_subtype = cd.CardSubType.ACTIVABLE
 		self.card_type = cd.CardType.BUILDING
-		self.artwork_path = "res://RawResources/Graphics/woodland.png"
+		self.artwork_path = "res://RawResources/Graphics/trading_post.png"
 		self.behaviors = [
 			cb.ClickBehavior.new([
 				cb.OnCardInteractionSoundBehavior.new("cash_register"),
@@ -308,7 +308,7 @@ class TownCenterCard extends cd.CardDataProperties:
 		self.rarity = cd.CardRarity.RARE
 		self.draft_cost = 1
 		self.card_type = cd.CardType.BUILDING
-		self.artwork_path = "res://RawResources/Graphics/woodland.png"
+		self.artwork_path = "res://RawResources/Graphics/FUN-HOUSE.png"
 		self.behaviors = [
 			cb.ChangeExtraResourceBehavior.new(res.ExtraResourceType.AP_MAX, 1),
 		]
