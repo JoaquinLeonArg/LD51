@@ -74,6 +74,7 @@ __meta__ = {
 "_editor_description_": ""
 }
 
+[connection signal="ready" from="." to="VBoxContainer" method="_on_MainMenuScene_ready"]
 [connection signal="mouse_entered" from="HowToPlayBtn" to="VBoxContainer" method="_on_NewGameBtn_mouse_entered"]
 [connection signal="pressed" from="HowToPlayBtn" to="VBoxContainer" method="_on_NewGameBtn_pressed"]
 [connection signal="mouse_entered" from="NewGameBtn" to="VBoxContainer" method="_on_NewGameBtn_mouse_entered"]
