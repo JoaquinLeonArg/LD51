@@ -65,7 +65,7 @@ class ResourceData:
 		emit_signal("resources_changed")
 		print("Resource %s changed by %s to %s" % [_resource_type, _amount, self.resources[_resource_type]])
 	func spend_resource(_resource_type: int, _amount: int):
-		self.resources[_resource_type] -= _amount
+		self.resources[_resource_type] += _amount
 		if resources[ResourceType.FOOD] < 0 :
 			resources[ResourceType.PEOPLE] += 2*resources[ResourceType.FOOD]
 			resources[ResourceType.PEOPLE] = max(resources[ResourceType.PEOPLE], 0)
