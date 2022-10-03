@@ -52,7 +52,7 @@ class CardData:
 	const rd = preload("res://Scripts/Classes/ResourceData.gd") 
 
 	var ui_owner: Node2D
-	var name: String
+	var card_name: String
 	var description: String
 	var rarity: int # <CardRarity>
 	var type: int # <CardType>
@@ -82,8 +82,8 @@ class CardData:
 		return _ba.priority < _bb.priority
 
 	func _init(_props: CardDataProperties):
-		#print("Creating card: %s" % [_props.name, self.get_instance_id()])
-		self.name = _props.name
+		print("Creating card: %s" % [_props.name])
+		self.card_name = _props.name
 		self.description = _props.description
 		self.rarity = _props.rarity
 		self.ap_cost = _props.ap_cost
@@ -167,6 +167,12 @@ class CardData:
 		#print("Yielded")
 		for behavior in self.behaviors:
 			behavior.on_play()
+	func on_season():
+		for behavior in self.behaviors:
+			behavior.on_season_change()
+	func on_year():
+		for behavior in self.behaviors:
+			behavior.on_year_change()
 
 class CardBehavior:
 	var owner: CardData
@@ -191,5 +197,9 @@ class CardBehavior:
 		print("Triggered: on_cooldown for %s" % [self])
 	func on_activated():
 		print("Triggered: on_activated for %s" % [self])
+	func on_season_change():
+		print("Triggered: on_season_change for %s" % [self])
+	func on_year_change():
+		print("Triggered: on_year_change for %s" % [self])
 	func can_be_played():
 		return true

@@ -14,15 +14,43 @@ enum CardBuildCost {
 	LEGENDARY = 20
 }
 
+class WoodlandCard extends cd.CardDataProperties:
+	const res = preload("res://Scripts/Classes/ResourceData.gd")
+
+	func _init():
+		self.name = "Woodland"
+		self.description = "Gain 1 wood every year."
+		self.ap_cost = 0
+		self.rarity = cd.CardRarity.COMMON
+		self.draft_cost = 0
+		self.card_type = cd.CardType.ENVIRONMENT
+		self.behaviors = [
+			cb.YearChangeResourceBehavior.new(res.ResourceType.WOOD, 1),
+		]
+
+class LakeCard extends cd.CardDataProperties:
+	const res = preload("res://Scripts/Classes/ResourceData.gd")
+
+	func _init():
+		self.name = "Lake"
+		self.description = "Gain 1 food every season for each adjacent building."
+		self.ap_cost = 0
+		self.rarity = cd.CardRarity.COMMON
+		self.draft_cost = 0
+		self.card_type = cd.CardType.ENVIRONMENT
+		self.behaviors = [
+			cb.SeasonChangeResourceByAdjacencyBehavior.new(res.ResourceType.FOOD, 1),
+		]
+
 class GoHuntingCard extends cd.CardDataProperties:
 	const res = preload("res://Scripts/Classes/ResourceData.gd")
 
 	func _init():
-		self.name = "Go hunting"
+		self.name = "Hunters"
 		self.description = "Gain 5 food."
 		self.ap_cost = 1
 		self.rarity = cd.CardRarity.COMMON
-		self.draft_cost = 5
+		self.draft_cost = 3
 		self.card_type = cd.CardType.ACTION
 		self.behaviors = [
 			cb.ChangeResourceBehavior.new(res.ResourceType.FOOD, 5),
@@ -32,10 +60,11 @@ class DangerousMiningCard extends cd.CardDataProperties:
 	const res = preload("res://Scripts/Classes/ResourceData.gd")
 
 	func _init():
-		self.name = "Dangerous Mining"
-		self.description = "Go on an epic mining session to bring a ton of gold (100 people will die though)."
-		self.wood_cost = 0
-		self.draft_cost = CardDraftCost.LEGENDARY
+		self.name = "Miners"
+		self.description = "Gain 1 gold."
+		self.ap_cost = 1
+		self.rarity = cd.CardRarity.COMMON
+		self.draft_cost = 3
 		self.card_type = cd.CardType.ACTION
 		self.artwork_path = "res://RawResources/Graphics/art_test.jpg"
 		self.behaviors = [
@@ -43,18 +72,65 @@ class DangerousMiningCard extends cd.CardDataProperties:
 			cb.ChangeResourceBehavior.new(res.ResourceType.PEOPLE, -100)
 		]
 
+class ResearchCard extends cd.CardDataProperties:
+	const res = preload("res://Scripts/Classes/ResourceData.gd")
+
+	func _init():
+		self.name = "Research"
+		self.description = "Draw 2 cards."
+		self.ap_cost = 0
+		self.rarity = cd.CardRarity.COMMON
+		self.draft_cost = 5
+		self.card_type = cd.CardType.ACTION
+		self.artwork_path = "res://RawResources/Graphics/art_test.jpg"
+		self.behaviors = [
+			cb.DrawCardsBehavior.new(2)
+		]
+
+class HighResearchCard extends cd.CardDataProperties:
+	const res = preload("res://Scripts/Classes/ResourceData.gd")
+
+	func _init():
+		self.name = "High Research"
+		self.description = "Draw 3 cards."
+		self.ap_cost = 0
+		self.rarity = cd.CardRarity.RARE
+		self.draft_cost = 10
+		self.card_type = cd.CardType.ACTION
+		self.artwork_path = "res://RawResources/Graphics/art_test.jpg"
+		self.behaviors = [
+			cb.DrawCardsBehavior.new(4)
+		]
+
+class ExpertiseCard extends cd.CardDataProperties:
+	const res = preload("res://Scripts/Classes/ResourceData.gd")
+
+	func _init():
+		self.name = "Expertise"
+		self.description = "Draw 4 cards."
+		self.ap_cost = 0
+		self.rarity = cd.CardRarity.LEGENDARY
+		self.draft_cost = 20
+		self.card_type = cd.CardType.ACTION
+		self.artwork_path = "res://RawResources/Graphics/art_test.jpg"
+		self.behaviors = [
+			cb.DrawCardsBehavior.new(4)
+		]
+
 class GatherWoodCard extends cd.CardDataProperties:
 	const res = preload("res://Scripts/Classes/ResourceData.gd")
 
 	func _init():
-		self.name = "Gather Wood"
-		self.description = "Gain wood instantly."
-		self.wood_cost = 0
-		self.draft_cost = CardDraftCost.COMMON
+		self.name = "Lumberjacks"
+		self.description = "Destroy a random woodland.\nGain 3 wood."
+		self.ap_cost = 1
+		self.rarity = cd.CardRarity.COMMON
+		self.draft_cost = 1
 		self.card_type = cd.CardType.ACTION
 		self.artwork_path = "res://RawResources/Graphics/art_test.jpg"
 		self.behaviors = [
-			cb.ChangeResourceBehavior.new(res.ResourceType.WOOD, 100),
+			cb.DestroyTypeBuildingBehavior.new("Woodland"),
+			cb.ChangeResourceBehavior.new(res.ResourceType.WOOD, 3),
 		]
 		
 class GoldRushCard extends cd.CardDataProperties:
@@ -62,38 +138,41 @@ class GoldRushCard extends cd.CardDataProperties:
 
 	func _init():
 		self.name = "Gold Rush"
-		self.description = "Gain gold instantly."
-		self.wood_cost = 0
-		self.draft_cost = CardDraftCost.RARE
+		self.description = "Gain 2 gold."
+		self.ap_cost = 1
+		self.rarity = cd.CardRarity.COMMON
+		self.draft_cost = 3
 		self.card_type = cd.CardType.ACTION
 		self.artwork_path = "res://RawResources/Graphics/art_test.jpg"
 		self.behaviors = [
-			cb.ChangeResourceBehavior.new(res.ResourceType.GOLD, 100),
+			cb.ChangeResourceBehavior.new(res.ResourceType.GOLD, 2),
 		]
 
 class MigratePeopleCard extends cd.CardDataProperties:
 	const res = preload("res://Scripts/Classes/ResourceData.gd")
 
 	func _init():
-		self.name = "Migrate People"
-		self.description = "100 people immigrates to your village instantly."
-		self.wood_cost = 0
-		self.draft_cost = CardDraftCost.RARE
+		self.name = "New Arrivals"
+		self.description = "Gain 10 people."
+		self.ap_cost = 2
+		self.rarity = cd.CardRarity.COMMON
+		self.draft_cost = 3
 		self.card_type = cd.CardType.ACTION
 		self.artwork_path = "res://RawResources/Graphics/art_test.jpg"
 		self.behaviors = [
-			cb.ChangeResourceBehavior.new(res.ResourceType.PEOPLE, 100),
+			cb.ChangeResourceBehavior.new(res.ResourceType.PEOPLE, 10),
 		]
 
 class IntermitentFastingCard extends cd.CardDataProperties:
 	const res = preload("res://Scripts/Classes/ResourceData.gd")
 
 	func _init():
-		self.name = "Intermitent Fasting"
-		self.description = "Brings the secrets of the fitness community to halve food consumption for the rest of the season."
+		self.name = "Fasting"
+		self.description = "Halves food consumption.\nLasts 10 seconds."
 		self.wood_cost = 0
-		self.draft_cost = CardDraftCost.LEGENDARY
-		self.card_type = cd.CardType.ACTION
+		self.draft_cost = 5
+		self.rarity = cd.CardRarity.RARE
+		self.card_type = cd.CardType.BUILDING
 		self.duration = 10
 		self.artwork_path = "res://RawResources/Graphics/art_test.jpg"
 		self.behaviors = [
@@ -104,23 +183,24 @@ class HuntMammothCard extends cd.CardDataProperties:
 	const res = preload("res://Scripts/Classes/ResourceData.gd")
 
 	func _init():
-		self.name = "Hunt Mammoth"
-		self.description = "Go on an epic hunting session to provide a ton of food (100 people will die though)."
-		self.wood_cost = 0
-		self.draft_cost = CardDraftCost.LEGENDARY
+		self.name = "Mammoth Pack"
+		self.description = "Gain 30 food. Lose 5 people."
+		self.ap_cost = 1
+		self.rarity = cd.CardRarity.RARE
+		self.draft_cost = 5
 		self.card_type = cd.CardType.ACTION
 		self.artwork_path = "res://RawResources/Graphics/art_test.jpg"
 		self.behaviors = [
-			cb.ChangeResourceBehavior.new(res.ResourceType.FOOD, 500),
-			cb.ChangeResourceBehavior.new(res.ResourceType.PEOPLE, -100)
+			cb.ChangeResourceBehavior.new(res.ResourceType.FOOD, 30),
+			cb.ChangeResourceBehavior.new(res.ResourceType.PEOPLE, -5)
 		]
 
 class HireIllegalBulldozerCard extends cd.CardDataProperties:
 	const res = preload("res://Scripts/Classes/ResourceData.gd")
 
 	func _init():
-		self.name = "Hire Illegal Bulldozer"
-		self.description = "Go on an illegal deforestation session to provide a ton of wood (100 people against this attack to mother nature will die though)."
+		self.name = "Deforestation"
+		self.description = "Destroy all woodlands. Gain 10 wood for each one destroyed."
 		self.wood_cost = 0
 		self.draft_cost = CardDraftCost.LEGENDARY
 		self.card_type = cd.CardType.ACTION
@@ -128,18 +208,19 @@ class HireIllegalBulldozerCard extends cd.CardDataProperties:
 		self.behaviors = [
 			cb.ChangeResourceBehavior.new(res.ResourceType.WOOD, 500),
 			cb.ChangeResourceBehavior.new(res.ResourceType.PEOPLE, -100)
+			# TODO: Implement behavior
 		]
 
 class FunHouseCard extends cd.CardDataProperties:
 	const res = preload("res://Scripts/Classes/ResourceData.gd")
 
 	func _init():
-		self.name = "Fun House"
-		self.description = "Do (probably illegal) stuff to generate gold on demand in exchange of 100 people's lives."
-		self.wood_cost = CardBuildCost.COMMON
-		self.draft_cost = CardDraftCost.COMMON
+		self.name = "Bar"
+		self.description = "Gain 1 gold each season."
+		self.wood_cost = 10
+		self.rarity = cd.CardRarity.COMMON
+		self.draft_cost = 5
 		self.card_type = cd.CardType.BUILDING
-		self.card_subtype = cd.CardSubType.ACTIVABLE
 		self.artwork_path = "res://RawResources/Graphics/art_test.jpg"
 		self.behaviors = [
 			cb.ClickBehavior.new([
@@ -298,6 +379,9 @@ class MiningCampCard extends cd.CardDataProperties:
 var all_cards = [
 	GoHuntingCard,
 	DangerousMiningCard,
+	ResearchCard,
+	HighResearchCard,
+	ExpertiseCard,
 	GatherWoodCard,
 	GoldRushCard,
 	MigratePeopleCard,

@@ -37,6 +37,7 @@ class SeasonData:
 			if self.season != Season.DRAFT:
 				State.state.resources.data.replenish_ap()
 				State.state.deck.data.draw(State.state.resources.data.extra_resources[rd.ExtraResourceType.DRAW_SIZE])
+				State.state.field.season_end()
 			for behavior in self.season_behaviors[self.season]:
 				behavior.on_destroy()
 			self.season = (self.season + 1) % 5
@@ -50,6 +51,7 @@ class SeasonData:
 			if self.season == Season.SPRING:
 				State.state.shop.close()
 				self.year += 1
+				State.state.field.year_end()
 				if self.year == 10:
 					pass
 					# TODO

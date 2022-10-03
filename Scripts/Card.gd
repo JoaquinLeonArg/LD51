@@ -54,7 +54,7 @@ func _process(delta):
 
 func set_data(_data):
 	self.data = _data
-	$Front/CardArea/CardName.bbcode_text = "[center]%s[/center]" % self.data.name
+	$Front/CardArea/CardName.bbcode_text = "[center]%s[/center]" % self.data.card_name
 	$Front/CardArea/CardCost.bbcode_text = "[center]%s[/center]" % self.data.ap_cost
 	$Front/CardArea/CardDescription.bbcode_text = "[center]%s[/center]" % self.data.description
 	$Front/CardArea/CardTypes.bbcode_text = "[center]%s[/center]" % self.type_names[self.data.type]

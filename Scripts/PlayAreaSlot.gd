@@ -27,27 +27,8 @@ func process_input():
 		return
 	if Input.is_action_just_released("left_click"):
 		if State.state.current_card and State.state.current_card.data.type == cd.CardType.BUILDING and not self.card:
-			self.card = State.state.current_card
+			self.add_card(State.state.current_card)
 			State.state.current_card = null
-			
-			var old_pos = self.card.global_position
-			if self.card.get_parent():
-				self.card.get_parent().remove_child(self.card)
-			self.add_child(self.card)
-			self.card.global_position = old_pos
-
-			self.card.rest_rotation = 0
-			self.card.rest_position = self.global_position
-			self.card.rest_scale = Vector2(1.0, 1.0)
-			self.card.hover_rotation = 0
-			self.card.hover_position = self.global_position
-			self.card.hover_scale = Vector2(1.5, 1.5)
-			self.card.draggable = false
-
-			self.card.dragging = false
-
-			card.data.zone_data = cd.FieldCardZoneData.new(self.slot_index)
-
 			State.state.hand.remove_card(self.card)
 			self.card.update_position()
 			return
@@ -86,3 +67,30 @@ func lock():
 
 func unlock():
 	$Lock.visible = false
+
+func add_card(_card):
+	self.card = _card
+	var old_pos = self.card.global_position
+	if self.card.get_parent():
+		self.card.get_parent().remove_child(self.card)
+	self.add_child(self.card)
+	self.card.global_position = old_pos
+
+	self.card.rest_rotation = 0
+	self.card.rest_position = self.global_position
+	self.card.rest_scale = Vector2(1.0, 1.0)
+	self.card.hover_rotation = 0
+	self.card.hover_position = self.global_position
+	self.card.hover_scale = Vector2(1.5, 1.5)
+	self.card.draggable = false
+
+	self.card.dragging = false
+
+	self.card.data.zone_data = cd.FieldCardZoneData.new(self.slot_index)
+
+func destroy_card():
+	if not self.card:
+		return
+	self.card.queue_free()
+	self.card = null
+	self.data.card = null
