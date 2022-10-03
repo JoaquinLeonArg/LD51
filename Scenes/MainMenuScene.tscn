@@ -1,16 +1,22 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Resources/MainMenuButton.tres" type="Theme" id=1]
 [ext_resource path="res://Scripts/MainMenu.gd" type="Script" id=2]
 [ext_resource path="res://Scenes/SoundScene.tscn" type="PackedScene" id=3]
 [ext_resource path="res://RawResources/Graphics/logo.png" type="Texture" id=4]
+[ext_resource path="res://RawResources/Graphics/FONDO.png" type="Texture" id=5]
 
 [node name="MainMenuScene" type="Node2D"]
+
+[node name="TextureRect" type="TextureRect" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+texture = ExtResource( 5 )
 
 [node name="ColorRect" type="ColorRect" parent="."]
 margin_right = 1920.0
 margin_bottom = 1080.0
-color = Color( 0, 0, 0, 1 )
+color = Color( 0, 0, 0, 0.529412 )
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 anchor_bottom = 0.477

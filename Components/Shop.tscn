@@ -19,7 +19,7 @@ margin_left = 320.0
 margin_top = 100.0
 margin_right = 1600.0
 margin_bottom = 820.0
-color = Color( 0, 0, 0, 1 )
+color = Color( 0, 0, 0, 0.752941 )
 
 [node name="ShopText" type="RichTextLabel" parent="ColorRect"]
 margin_left = 512.0
