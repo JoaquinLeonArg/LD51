@@ -22,6 +22,7 @@ func _ready():
 		"people_screaming": $SoundEffectPeopleScreaming,
 		"ui_click": $SoundEffectUiClick,
 		"use_card": $SoundEffectUseCard,
+		"mining": $SoundEffectMining
 	}
 
 	music = {

@@ -22,6 +22,7 @@ func process_input():
 	
 	if Input.is_action_just_pressed("left_click") and self.data.locked and self.is_mouse_hovering() and State.state.current_card == null:
 		self.data.unlock()
+		Sound.sound.play_effect("cash_register")
 	if not self.is_mouse_hovering() or self.data.locked:
 		return
 	if Input.is_action_just_released("left_click"):
