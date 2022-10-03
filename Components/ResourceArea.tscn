@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://RawResources/Graphics/person.png" type="Texture" id=1]
 [ext_resource path="res://Resources/ResourceText.tres" type="DynamicFont" id=2]
@@ -6,9 +6,14 @@
 [ext_resource path="res://RawResources/Graphics/wood_ico.png" type="Texture" id=4]
 [ext_resource path="res://RawResources/Graphics/food_ico.png" type="Texture" id=5]
 [ext_resource path="res://RawResources/Graphics/coin_ico.png" type="Texture" id=6]
+[ext_resource path="res://Resources/KanitBold.tres" type="DynamicFont" id=7]
+[ext_resource path="res://RawResources/Graphics/icon-ACTION.png" type="Texture" id=8]
 
 [sub_resource type="Theme" id=1]
 default_font = ExtResource( 2 )
+
+[sub_resource type="Theme" id=2]
+default_font = ExtResource( 7 )
 
 [node name="ResourceArea" type="Node2D"]
 script = ExtResource( 3 )
@@ -34,8 +39,13 @@ scale = Vector2( 2, 2 )
 texture = ExtResource( 6 )
 
 [node name="APIcon" type="Sprite" parent="."]
+position = Vector2( 352, 866 )
+scale = Vector2( 2, 2 )
+texture = ExtResource( 8 )
+
+[node name="DrawIcon" type="Sprite" parent="."]
 modulate = Color( 0, 0, 0, 1 )
-position = Vector2( 0, 154 )
+position = Vector2( 352, 906 )
 scale = Vector2( 2, 2 )
 texture = ExtResource( 6 )
 
@@ -88,13 +98,25 @@ text = "12345 (+5)"
 scroll_active = false
 
 [node name="APCount" type="RichTextLabel" parent="."]
-margin_left = 24.0
-margin_top = 140.0
-margin_right = 1304.0
-margin_bottom = 460.0
+margin_left = 376.0
+margin_top = 852.0
+margin_right = 1656.0
+margin_bottom = 1172.0
 rect_scale = Vector2( 0.1, 0.1 )
 theme = SubResource( 1 )
 bbcode_enabled = true
 bbcode_text = "12345 [color=#113399](+5)[/color]"
 text = "12345 (+5)"
+scroll_active = false
+
+[node name="DrawCount" type="RichTextLabel" parent="."]
+margin_left = 376.0
+margin_top = 892.0
+margin_right = 1656.0
+margin_bottom = 1192.0
+rect_scale = Vector2( 0.1, 0.1 )
+theme = SubResource( 2 )
+bbcode_enabled = true
+bbcode_text = "3 / 3 (+2)"
+text = "3 / 3 (+2)"
 scroll_active = false

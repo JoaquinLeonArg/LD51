@@ -1,67 +1,84 @@
 [gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://Resources/RobotoLightFlavor.tres" type="DynamicFont" id=1]
+[ext_resource path="res://Resources/MainMenuButton.tres" type="Theme" id=1]
 [ext_resource path="res://Scripts/MainMenu.gd" type="Script" id=2]
 [ext_resource path="res://Scenes/SoundScene.tscn" type="PackedScene" id=3]
-
-[sub_resource type="Theme" id=1]
-default_font = ExtResource( 1 )
+[ext_resource path="res://RawResources/Graphics/logo.png" type="Texture" id=4]
 
 [node name="MainMenuScene" type="Node2D"]
 
-[node name="RichTextLabel" type="RichTextLabel" parent="."]
-margin_left = 349.0
-margin_top = 331.0
-margin_right = 1569.0
-margin_bottom = 491.0
-theme = SubResource( 1 )
-bbcode_enabled = true
-bbcode_text = "[center]The Winter Card Games[/center]"
-tab_size = 5
-text = "The Winter Card Games"
+[node name="ColorRect" type="ColorRect" parent="."]
+margin_right = 1920.0
+margin_bottom = 1080.0
+color = Color( 0, 0, 0, 1 )
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 anchor_bottom = 0.477
-margin_left = 646.0
-margin_top = 532.0
-margin_right = 864.0
-margin_bottom = 653.0
 rect_scale = Vector2( 3, 3 )
 rect_pivot_offset = Vector2( 2, 2 )
 size_flags_stretch_ratio = 0.82
 script = ExtResource( 2 )
 
-[node name="NewGameBtn" type="Button" parent="VBoxContainer"]
-margin_right = 218.0
-margin_bottom = 20.0
-text = "New Game"
+[node name="SoundScene" parent="." instance=ExtResource( 3 )]
+
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( 960, 356 )
+scale = Vector2( 0.25, 0.25 )
+texture = ExtResource( 4 )
+
+[node name="HowToPlayBtn" type="Button" parent="."]
+margin_left = 810.0
+margin_top = 520.0
+margin_right = 2010.0
+margin_bottom = 737.0
+rect_scale = Vector2( 0.25, 0.25 )
+theme = ExtResource( 1 )
+text = "How to play"
 __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="CreditsBtn" type="Button" parent="VBoxContainer"]
-margin_top = 24.0
-margin_right = 218.0
-margin_bottom = 44.0
+[node name="NewGameBtn" type="Button" parent="."]
+margin_left = 810.0
+margin_top = 592.0
+margin_right = 2010.0
+margin_bottom = 809.0
+rect_scale = Vector2( 0.25, 0.25 )
+theme = ExtResource( 1 )
+text = "New game"
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="CreditsBtn" type="Button" parent="."]
+margin_left = 810.0
+margin_top = 663.0
+margin_right = 2010.0
+margin_bottom = 880.0
+rect_scale = Vector2( 0.25, 0.25 )
+theme = ExtResource( 1 )
 text = "Credits"
 __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="QuitBtn" type="Button" parent="VBoxContainer"]
-margin_top = 48.0
-margin_right = 218.0
-margin_bottom = 68.0
+[node name="QuitBtn" type="Button" parent="."]
+margin_left = 810.0
+margin_top = 734.0
+margin_right = 2010.0
+margin_bottom = 951.0
+rect_scale = Vector2( 0.25, 0.25 )
+theme = ExtResource( 1 )
 text = "Quit"
 __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="SoundScene" parent="." instance=ExtResource( 3 )]
-
-[connection signal="mouse_entered" from="VBoxContainer/NewGameBtn" to="VBoxContainer" method="_on_NewGameBtn_mouse_entered"]
-[connection signal="pressed" from="VBoxContainer/NewGameBtn" to="VBoxContainer" method="_on_NewGameBtn_pressed"]
-[connection signal="mouse_entered" from="VBoxContainer/CreditsBtn" to="VBoxContainer" method="_on_CreditsBtn_mouse_entered"]
-[connection signal="pressed" from="VBoxContainer/CreditsBtn" to="VBoxContainer" method="_on_CreditsBtn_pressed"]
-[connection signal="mouse_entered" from="VBoxContainer/QuitBtn" to="VBoxContainer" method="_on_QuitBtn_mouse_entered"]
-[connection signal="pressed" from="VBoxContainer/QuitBtn" to="VBoxContainer" method="_on_QuitBtn_pressed"]
+[connection signal="mouse_entered" from="HowToPlayBtn" to="VBoxContainer" method="_on_NewGameBtn_mouse_entered"]
+[connection signal="pressed" from="HowToPlayBtn" to="VBoxContainer" method="_on_NewGameBtn_pressed"]
+[connection signal="mouse_entered" from="NewGameBtn" to="VBoxContainer" method="_on_NewGameBtn_mouse_entered"]
+[connection signal="pressed" from="NewGameBtn" to="VBoxContainer" method="_on_NewGameBtn_pressed"]
+[connection signal="mouse_entered" from="CreditsBtn" to="VBoxContainer" method="_on_CreditsBtn_mouse_entered"]
+[connection signal="pressed" from="CreditsBtn" to="VBoxContainer" method="_on_CreditsBtn_pressed"]
+[connection signal="mouse_entered" from="QuitBtn" to="VBoxContainer" method="_on_QuitBtn_mouse_entered"]
+[connection signal="pressed" from="QuitBtn" to="VBoxContainer" method="_on_QuitBtn_pressed"]

@@ -28,7 +28,7 @@ var season_icons: Dictionary = {
 	sd.Season.SUMMER: load("res://RawResources/Graphics/summer.png"),
 	sd.Season.AUTUMN: load("res://RawResources/Graphics/fall.png"),
 	sd.Season.WINTER: load("res://RawResources/Graphics/winter.png"),
-	sd.Season.DRAFT: load("res://RawResources/Graphics/coin.png")
+	sd.Season.DRAFT: load("res://RawResources/Graphics/coin_ico.png")
 }
 var season_effects: Dictionary = {
 	sd.Season.SPRING: "[b][center]Season effects[/center][/b]\n\n * Increased food production by 100%.",

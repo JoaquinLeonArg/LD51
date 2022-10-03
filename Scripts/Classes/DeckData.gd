@@ -22,6 +22,7 @@ class DeckData:
         if len(self.cards) == 0 and len(State.state.discard.data.cards) > 0:
             self.reshuffle()
         emit_signal("updated_cards")
+        State.state.resources.update_ui()
     func draw_action():
         if State.state.paused:
             return
@@ -36,3 +37,4 @@ class DeckData:
             State.state.deck.add_card(card)
             State.state.deck.data.cards.shuffle()
             card.flip(0.2)
+        State.state.resources.update_ui()

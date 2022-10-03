@@ -221,7 +221,7 @@ class DrawCardsBehavior extends cd.CardBehavior:
 		self.card_count = _card_count
 	func on_play(_target=null):
 		.on_play()
-		State.state.deck.draw(self.card_count)
+		State.state.deck.data.draw(self.card_count)
 
 class DeforestationBehavior extends cd.CardBehavior:
 	const rd = preload("res://Scripts/Classes/ResourceData.gd")
@@ -278,7 +278,7 @@ class HasResourceBehavior extends cd.CardBehavior:
 		self.amount = _amount
 
 	func can_be_played():
-		return State.state.resources.data.resource[self.resource_type] >= self.amount
+		return State.state.resources.data.resources[self.resource_type] >= self.amount
 
 class ChangeAdjacentSlotsModifier extends cd.CardBehavior:
 	const rd = preload("res://Scripts/Classes/ResourceData.gd")

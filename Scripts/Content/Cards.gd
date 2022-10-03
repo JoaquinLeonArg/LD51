@@ -24,6 +24,7 @@ class WoodlandCard extends cd.CardDataProperties:
 		self.rarity = cd.CardRarity.COMMON
 		self.draft_cost = 0
 		self.card_type = cd.CardType.ENVIRONMENT
+		self.artwork_path = "res://RawResources/Graphics/woodland.png"
 		self.behaviors = [
 			cb.YearChangeResourceBehavior.new(res.ResourceType.WOOD, 1),
 		]
@@ -38,6 +39,7 @@ class LakeCard extends cd.CardDataProperties:
 		self.rarity = cd.CardRarity.COMMON
 		self.draft_cost = 0
 		self.card_type = cd.CardType.ENVIRONMENT
+		self.artwork_path = "res://RawResources/Graphics/woodland.png"
 		self.behaviors = [
 			cb.SeasonChangeResourceByAdjacencyBehavior.new(res.ResourceType.FOOD, 1),
 		]
@@ -52,6 +54,7 @@ class GoHuntingCard extends cd.CardDataProperties:
 		self.rarity = cd.CardRarity.COMMON
 		self.draft_cost = 3
 		self.card_type = cd.CardType.ACTION
+		self.artwork_path = "res://RawResources/Graphics/woodland.png"
 		self.behaviors = [
 			cb.ChangeResourceBehavior.new(res.ResourceType.FOOD, 5),
 		]
@@ -66,10 +69,10 @@ class DangerousMiningCard extends cd.CardDataProperties:
 		self.rarity = cd.CardRarity.COMMON
 		self.draft_cost = 3
 		self.card_type = cd.CardType.ACTION
-		self.artwork_path = "res://RawResources/Graphics/art_test.jpg"
+		self.artwork_path = "res://RawResources/Graphics/woodland.png"
 		self.behaviors = [
-			cb.ChangeResourceBehavior.new(res.ResourceType.GOLD, 500),
-			cb.ChangeResourceBehavior.new(res.ResourceType.PEOPLE, -100)
+			cb.ChangeResourceBehavior.new(res.ResourceType.GOLD, 1),
+			cb.ChangeResourceBehavior.new(res.ResourceType.PEOPLE, -1)
 		]
 
 class ResearchCard extends cd.CardDataProperties:
@@ -82,7 +85,7 @@ class ResearchCard extends cd.CardDataProperties:
 		self.rarity = cd.CardRarity.COMMON
 		self.draft_cost = 5
 		self.card_type = cd.CardType.ACTION
-		self.artwork_path = "res://RawResources/Graphics/art_test.jpg"
+		self.artwork_path = "res://RawResources/Graphics/woodland.png"
 		self.behaviors = [
 			cb.DrawCardsBehavior.new(2)
 		]
@@ -97,7 +100,7 @@ class HighResearchCard extends cd.CardDataProperties:
 		self.rarity = cd.CardRarity.RARE
 		self.draft_cost = 10
 		self.card_type = cd.CardType.ACTION
-		self.artwork_path = "res://RawResources/Graphics/art_test.jpg"
+		self.artwork_path = "res://RawResources/Graphics/woodland.png"
 		self.behaviors = [
 			cb.DrawCardsBehavior.new(4)
 		]
@@ -112,7 +115,7 @@ class ExpertiseCard extends cd.CardDataProperties:
 		self.rarity = cd.CardRarity.LEGENDARY
 		self.draft_cost = 20
 		self.card_type = cd.CardType.ACTION
-		self.artwork_path = "res://RawResources/Graphics/art_test.jpg"
+		self.artwork_path = "res://RawResources/Graphics/woodland.png"
 		self.behaviors = [
 			cb.DrawCardsBehavior.new(4)
 		]
@@ -127,7 +130,7 @@ class GatherWoodCard extends cd.CardDataProperties:
 		self.rarity = cd.CardRarity.COMMON
 		self.draft_cost = 1
 		self.card_type = cd.CardType.ACTION
-		self.artwork_path = "res://RawResources/Graphics/art_test.jpg"
+		self.artwork_path = "res://RawResources/Graphics/woodland.png"
 		self.behaviors = [
 			cb.OnCardUseSoundBehavior.new("gather_wood"),
 			cb.DestroyTypeBuildingBehavior.new("Woodland"),
@@ -144,7 +147,7 @@ class GoldRushCard extends cd.CardDataProperties:
 		self.rarity = cd.CardRarity.COMMON
 		self.draft_cost = 3
 		self.card_type = cd.CardType.ACTION
-		self.artwork_path = "res://RawResources/Graphics/art_test.jpg"
+		self.artwork_path = "res://RawResources/Graphics/woodland.png"
 		self.behaviors = [
 			cb.ChangeResourceBehavior.new(res.ResourceType.GOLD, 2),
 		]
@@ -159,7 +162,7 @@ class MigratePeopleCard extends cd.CardDataProperties:
 		self.rarity = cd.CardRarity.COMMON
 		self.draft_cost = 3
 		self.card_type = cd.CardType.ACTION
-		self.artwork_path = "res://RawResources/Graphics/art_test.jpg"
+		self.artwork_path = "res://RawResources/Graphics/woodland.png"
 		self.behaviors = [
 			cb.ChangeResourceBehavior.new(res.ResourceType.PEOPLE, 10),
 		]
@@ -175,7 +178,7 @@ class IntermitentFastingCard extends cd.CardDataProperties:
 		self.rarity = cd.CardRarity.RARE
 		self.card_type = cd.CardType.BUILDING
 		self.duration = 10
-		self.artwork_path = "res://RawResources/Graphics/art_test.jpg"
+		self.artwork_path = "res://RawResources/Graphics/woodland.png"
 		self.behaviors = [
 			cb.ChangeModifierBehavior.new(res.ResourceType.FOOD, 0.5), # 50% food consumption for 10 seconds
 		]
@@ -190,7 +193,7 @@ class HuntMammothCard extends cd.CardDataProperties:
 		self.rarity = cd.CardRarity.RARE
 		self.draft_cost = 5
 		self.card_type = cd.CardType.ACTION
-		self.artwork_path = "res://RawResources/Graphics/art_test.jpg"
+		self.artwork_path = "res://RawResources/Graphics/woodland.png"
 		self.behaviors = [
 			cb.ChangeResourceBehavior.new(res.ResourceType.FOOD, 30),
 			cb.ChangeResourceBehavior.new(res.ResourceType.PEOPLE, -5)
@@ -206,7 +209,7 @@ class HireIllegalBulldozerCard extends cd.CardDataProperties:
 		self.rarity = cd.CardRarity.RARE
 		self.draft_cost = 10
 		self.card_type = cd.CardType.ACTION
-		self.artwork_path = "res://RawResources/Graphics/art_test.jpg"
+		self.artwork_path = "res://RawResources/Graphics/woodland.png"
 		self.behaviors = [
 			cb.DeforestationBehavior.new()
 		]
@@ -221,7 +224,7 @@ class ReforestationCard extends cd.CardDataProperties:
 		self.rarity = cd.CardRarity.COMMON
 		self.draft_cost = 5
 		self.card_type = cd.CardType.ACTION
-		self.artwork_path = "res://RawResources/Graphics/art_test.jpg"
+		self.artwork_path = "res://RawResources/Graphics/woodland.png"
 		self.behaviors = [
 			cb.ReforestationBehavior.new(WoodlandCard)
 		]
@@ -238,7 +241,7 @@ class FunHouseCard extends cd.CardDataProperties:
 		self.cooldown = 5
 		self.card_subtype = cd.CardSubType.ACTIVABLE
 		self.card_type = cd.CardType.BUILDING
-		self.artwork_path = "res://RawResources/Graphics/art_test.jpg"
+		self.artwork_path = "res://RawResources/Graphics/woodland.png"
 		self.behaviors = [
 			cb.ClickBehavior.new([
 				cb.OnCardInteractionSoundBehavior.new("cash_register"),
@@ -259,7 +262,7 @@ class TradingPostCard extends cd.CardDataProperties:
 		self.cooldown = 1
 		self.card_subtype = cd.CardSubType.ACTIVABLE
 		self.card_type = cd.CardType.BUILDING
-		self.artwork_path = "res://RawResources/Graphics/art_test.jpg"
+		self.artwork_path = "res://RawResources/Graphics/woodland.png"
 		self.behaviors = [
 			cb.ClickBehavior.new([
 				cb.OnCardInteractionSoundBehavior.new("cash_register"),
@@ -279,7 +282,7 @@ class StorageCard extends cd.CardDataProperties:
 		self.rarity = cd.CardRarity.RARE
 		self.draft_cost = 1
 		self.card_type = cd.CardType.BUILDING
-		self.artwork_path = "res://RawResources/Graphics/art_test.jpg"
+		self.artwork_path = "res://RawResources/Graphics/woodland.png"
 		self.behaviors = [
 			cb.ChangeMaxResourceBehavior.new(res.ResourceType.GOLD, 10),
 			cb.ChangeMaxResourceBehavior.new(res.ResourceType.WOOD, 10),
@@ -296,7 +299,7 @@ class TownCenterCard extends cd.CardDataProperties:
 		self.rarity = cd.CardRarity.RARE
 		self.draft_cost = 1
 		self.card_type = cd.CardType.BUILDING
-		self.artwork_path = "res://RawResources/Graphics/art_test.jpg"
+		self.artwork_path = "res://RawResources/Graphics/woodland.png"
 		self.behaviors = [
 			cb.ChangeExtraResourceBehavior.new(res.ExtraResourceType.AP_MAX, 1),
 		]
@@ -312,7 +315,7 @@ class MillCard extends cd.CardDataProperties:
 		self.rarity = cd.CardRarity.LEGENDARY
 		self.draft_cost = 10
 		self.card_type = cd.CardType.BUILDING
-		self.artwork_path = "res://RawResources/Graphics/art_test.jpg"
+		self.artwork_path = "res://RawResources/Graphics/woodland.png"
 		self.behaviors = [
 			cb.ChangeAdjacentSlotsModifier.new(psd.SlotModifier.FARM_PROD, 1.0),
 			# TODO: Add this to farms
@@ -330,7 +333,7 @@ class CarpentryShopCard extends cd.CardDataProperties:
 		self.rarity = cd.CardRarity.LEGENDARY
 		self.draft_cost = 10
 		self.card_type = cd.CardType.BUILDING
-		self.artwork_path = "res://RawResources/Graphics/art_test.jpg"
+		self.artwork_path = "res://RawResources/Graphics/woodland.png"
 		self.behaviors = [
 			cb.ChangeAdjacentSlotsModifier.new(psd.SlotModifier.WOOD_PROD, 1.0),
 			# TODO: Add this to woodlands
@@ -346,7 +349,7 @@ class BankCard extends cd.CardDataProperties:
 		self.rarity = cd.CardRarity.LEGENDARY
 		self.draft_cost = 10
 		self.card_type = cd.CardType.BUILDING
-		self.artwork_path = "res://RawResources/Graphics/art_test.jpg"
+		self.artwork_path = "res://RawResources/Graphics/woodland.png"
 		self.behaviors = [
 			cb.ChangeModifierBehavior.new(res.ResourceType.GOLD, 0.5),
 		]
@@ -363,7 +366,7 @@ class FarmCard extends cd.CardDataProperties:
 		self.rarity = cd.CardRarity.COMMON
 		self.draft_cost = 8
 		self.card_type = cd.CardType.BUILDING
-		self.artwork_path = "res://RawResources/Graphics/art_test.jpg"
+		self.artwork_path = "res://RawResources/Graphics/woodland.png"
 		self.behaviors = [
 			cb.FarmBehavior.new(),
 			cb.ClickBehavior.new([
@@ -384,7 +387,7 @@ class LumberCampCard extends cd.CardDataProperties:
 		self.rarity = cd.CardRarity.COMMON
 		self.draft_cost = 8
 		self.card_type = cd.CardType.BUILDING
-		self.artwork_path = "res://RawResources/Graphics/art_test.jpg"
+		self.artwork_path = "res://RawResources/Graphics/woodland.png"
 		self.behaviors = [
 			cb.LumberCampBehavior.new(),
 			cb.ClickBehavior.new([
@@ -403,7 +406,7 @@ class HouseCard extends cd.CardDataProperties:
 		self.rarity = cd.CardRarity.RARE
 		self.draft_cost = 3
 		self.card_type = cd.CardType.BUILDING
-		self.artwork_path = "res://RawResources/Graphics/art_test.jpg"
+		self.artwork_path = "res://RawResources/Graphics/woodland.png"
 		self.behaviors = [
 			cb.ChangeExtraResourceBehavior.new(res.ExtraResourceType.HAND_SIZE, 1)
 		]
@@ -420,7 +423,7 @@ class MiningCampCard extends cd.CardDataProperties:
 		self.rarity = cd.CardRarity.RARE
 		self.draft_cost = 5
 		self.card_type = cd.CardType.BUILDING
-		self.artwork_path = "res://RawResources/Graphics/art_test.jpg"
+		self.artwork_path = "res://RawResources/Graphics/woodland.png"
 		self.behaviors = [
 			cb.ClickBehavior.new([
 				cb.OnCardInteractionSoundBehavior.new("cash_register"),

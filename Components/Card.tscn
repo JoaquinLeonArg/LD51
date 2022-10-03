@@ -7,7 +7,7 @@
 [ext_resource path="res://RawResources/Graphics/card_duration.png" type="Texture" id=5]
 [ext_resource path="res://RawResources/Graphics/card_back.png" type="Texture" id=6]
 [ext_resource path="res://RawResources/Graphics/carta-formato.png" type="Texture" id=7]
-[ext_resource path="res://RawResources/Graphics/art_test.jpg" type="Texture" id=8]
+[ext_resource path="res://RawResources/Graphics/woodland.png" type="Texture" id=8]
 [ext_resource path="res://Resources/CardType.tres" type="DynamicFont" id=9]
 [ext_resource path="res://RawResources/Graphics/loading.png" type="Texture" id=10]
 [ext_resource path="res://RawResources/Graphics/icon-ACTION.png" type="Texture" id=11]
@@ -46,9 +46,8 @@ rect_pivot_offset = Vector2( 66, 102 )
 
 [node name="Artwork" type="Sprite" parent="Front"]
 position = Vector2( 0, -54 )
-scale = Vector2( 0.2, 0.2 )
+scale = Vector2( 0.1, 0.1 )
 texture = ExtResource( 8 )
-region_enabled = true
 region_rect = Rect2( 0, 0, 640, 980 )
 
 [node name="Frame" type="Sprite" parent="Front"]

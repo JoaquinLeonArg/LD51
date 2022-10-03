@@ -89,6 +89,7 @@ func update_ui():
 		
 		self.resource_nodes[resource_type].bbcode_text = "[color=%s]%s[/color]%s ([color=%s]%s%s[/color])" % [value_color, value, max_capacity_text, change_color, change_sign, change]
 	$APCount.bbcode_text = "%s / %s" % [self.data.extra_resources[rd.ExtraResourceType.AP], self.data.extra_resources[rd.ExtraResourceType.AP_MAX]]
+	$DrawCount.bbcode_text = "%s / %s (+%s)" % [len(State.state.hand.data.cards), self.data.extra_resources[rd.ExtraResourceType.HAND_SIZE], self.data.extra_resources[rd.ExtraResourceType.DRAW_SIZE]]
 
 
 func game_over():
