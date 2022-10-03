@@ -16,6 +16,7 @@ func _ready():
 	_x = self.data.connect("updated_cards", self, "update_text")
 	
 func add_card(card):
+	Sound.sound.play_effect("discard_card")
 	self.data.add_card(card)
 	var old_pos = card.global_position
 	if card.get_parent():

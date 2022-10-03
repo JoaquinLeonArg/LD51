@@ -48,6 +48,7 @@ func _process(_delta):
 func _input(event):
 	if event.is_action_pressed("left_click") and self.button_hovering:
 		if self.enabled and not self.bought:
+			Sound.sound.play_effect("cash_register")
 			self.bought = true
 			State.state.discard.add_card(self.card)
 			self.card = null
@@ -93,6 +94,7 @@ func refresh():
 	add_child(self.card)
 
 func on_mouse_entered_button():
+	Sound.sound.play_effect("hover")
 	self.button_hovering = true
 
 func on_mouse_exited_button():

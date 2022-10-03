@@ -9,6 +9,7 @@ class DeckData:
     func shuffle():
         self.cards.shuffle()
     func draw(_count: int):
+        Sound.sound.play_effect("draw_card_btn")
         for _i in range(_count):
             if len(State.state.hand.data.cards) < State.state.resources.data.extra_resources[rd.ExtraResourceType.HAND_SIZE]:
                 if len(self.cards) == 0 and len(State.state.discard.data.cards) > 0:

@@ -34,6 +34,7 @@ func process_input():
 				State.state.current_card = null
 				State.state.hand.remove_card(self.card)
 				self.card.update_position()
+				Sound.sound.play_effect("building")
 				return
 			else:
 				var curr_card = State.state.current_card
