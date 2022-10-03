@@ -25,10 +25,10 @@ class ChangeResourceBehavior extends cd.CardBehavior:
 class ChangeExtraResourceBehavior extends cd.CardBehavior:
 	const rd = preload("res://Scripts/Classes/ResourceData.gd")
 
-	var resource_type: int
-	var change: float
+	var resource_type
+	var change
 
-	func _init(_resource_type: int, _change: float).(cd.CardBehaviorPriority.NORMAL):
+	func _init(_resource_type, _change).(cd.CardBehaviorPriority.NORMAL):
 		self.resource_type = _resource_type
 		self.change = _change
 	func on_play(_target=null):
@@ -88,6 +88,8 @@ class ClickBehavior extends cd.CardBehavior:
 		.on_activated()
 		for behavior in self.behaviors:
 			behavior.on_activated()
+		for behavior in self.behaviors:
+			behavior.on_play()
 	func can_be_activated():
 		for behavior in self.behaviors:
 			if not behavior.can_be_activated():
@@ -361,14 +363,19 @@ class UpgradeBehavior extends cd.CardBehavior:
 	const rd = preload("res://Scripts/Classes/ResourceData.gd")
 
 	var cost: int
-	func _init(_cost: int).(cd.CardBehaviorPriority.LOW):
+	var required: bool
+
+	func _init(_cost: int, _required: bool=true).(cd.CardBehaviorPriority.LOW):
 		self.cost = _cost
+		self.required = _required
 
 	func on_activated():
 		if self.owner.upgrade < self.owner.max_upgrade and State.state.resources.data.resources[rd.ResourceType.GOLD] >= self.cost:
 			State.state.resources.data.spend_resource(rd.ResourceType.GOLD, self.cost)
 			self.owner.get_upgraded()
 	func can_be_activated():
+		if not self.required:
+			return State.state.resources.data.resources[rd.ResourceType.GOLD] >= self.cost
 		return self.owner.upgrade < self.owner.max_upgrade and State.state.resources.data.resources[rd.ResourceType.GOLD] >= self.cost
 
 class OnCardUseSoundBehavior extends cd.CardBehavior:

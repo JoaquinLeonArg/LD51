@@ -6,7 +6,7 @@ class SeasonData:
 	const content_behaviors = preload("res://Scripts/Content/Behaviors.gd")
 
 	var year: int = 0
-	var season: int = Season.WINTER
+	var season: int = Season.SPRING
 	var season_progress: float = 0
 	var season_behaviors: Dictionary = {
 		Season.SPRING: [

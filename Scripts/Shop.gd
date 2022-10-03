@@ -2,11 +2,12 @@ extends Node2D
 
 # Imports
 const sd = preload("res://Scripts/Classes/SeasonData.gd")
-
+const rd = preload("res://Scripts/Classes/ResourceData.gd")
 
 # Properties
 var button_hovering: bool = false
 var hide_hovering: bool = false
+var reroll_hovering: bool = false
 var hidden = false
 var options: Array
 
@@ -22,6 +23,8 @@ func _ready():
 	_x = $ColorRect/ExitButton.connect("mouse_exited", self, "on_mouse_exited_button")
 	_x = $HideButton.connect("mouse_entered", self, "on_mouse_entered_hide")
 	_x = $HideButton.connect("mouse_exited", self, "on_mouse_exited_hide")
+	_x = $ColorRect/RerollButton.connect("mouse_entered", self, "on_mouse_entered_reroll")
+	_x = $ColorRect/RerollButton.connect("mouse_exited", self, "on_mouse_exited_reroll")
 
 func initialize():
 	for option in self.options:
@@ -45,6 +48,10 @@ func _process(_delta):
 		$ColorRect/ExitButton.color = "#55cc55"
 	else:
 		$ColorRect/ExitButton.color = "228822"
+	if self.reroll_hovering:
+		$ColorRect/RerollButton.color = "#55cc55"
+	else:
+		$ColorRect/RerollButton.color = "228822"
 	if self.hide_hovering:
 		$HideButton.color = "#cacaca"
 	else:
@@ -66,6 +73,12 @@ func _input(event):
 			$ColorRect.visible = false
 			$Options.visible = false
 			$HideButton/HideButtonText.bbcode_text = "[center]SHOW[/center]"
+	if event.is_action_pressed("left_click") and self.reroll_hovering:
+		if State.state.resources.data.resources[rd.ResourceType.GOLD] >= 5:
+			Sound.sound.play_effect("ui_click")
+			State.state.resources.data.spend_resource(rd.ResourceType.GOLD, 5)
+			for option in self.options:
+				option.refresh()
 
 func on_mouse_entered_button():
 	Sound.sound.play_effect("hover")	
@@ -80,3 +93,10 @@ func on_mouse_entered_hide():
 
 func on_mouse_exited_hide():
 	self.hide_hovering = false
+
+func on_mouse_entered_reroll():
+	Sound.sound.play_effect("hover")	
+	self.reroll_hovering = true
+
+func on_mouse_exited_reroll():
+	self.reroll_hovering = false

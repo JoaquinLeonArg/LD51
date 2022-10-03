@@ -33,6 +33,7 @@ func process_input():
 				State.state.current_card = null
 				State.state.hand.remove_card(self.card)
 				self.card.update_position()
+				self.card.data.entered_field(self)
 				Sound.sound.play_effect("building")
 				return
 			else:

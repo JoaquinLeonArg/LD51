@@ -3,9 +3,6 @@
 [ext_resource path="res://RawResources/Fonts/Roboto-Medium.ttf" type="DynamicFontData" id=1]
 
 [resource]
-size = 140
-outline_size = 2
-outline_color = Color( 0, 0, 0, 1 )
-use_filter = true
+size = 300
 extra_spacing_char = 2
 font_data = ExtResource( 1 )

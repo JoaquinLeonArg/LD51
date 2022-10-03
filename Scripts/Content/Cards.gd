@@ -436,7 +436,7 @@ class MiningCampCard extends cd.CardDataProperties:
 		self.behaviors = [
 			cb.ClickBehavior.new([
 				cb.OnCardInteractionSoundBehavior.new("mining"),
-				cb.UpgradeBehavior.new(0),
+				cb.UpgradeBehavior.new(0, false),
 				cb.ChangeResourceBehavior.new(res.ResourceType.GOLD, 3, 1),
 			])
 		]

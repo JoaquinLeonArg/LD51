@@ -55,6 +55,28 @@ text = "DONE"
 scroll_active = false
 deselect_on_focus_loss_enabled = false
 
+[node name="RerollButton" type="ColorRect" parent="ColorRect"]
+margin_left = 1060.0
+margin_top = 652.0
+margin_right = 1256.0
+margin_bottom = 700.0
+color = Color( 0.639216, 0.639216, 0.639216, 1 )
+
+[node name="RerollButtonText" type="RichTextLabel" parent="ColorRect/RerollButton"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 8.0
+margin_right = 784.0
+margin_bottom = 200.0
+rect_scale = Vector2( 0.2, 0.2 )
+mouse_filter = 2
+theme = SubResource( 2 )
+bbcode_enabled = true
+bbcode_text = "[center]REROLL (5)[/center]"
+text = "REROLL (5)"
+scroll_active = false
+deselect_on_focus_loss_enabled = false
+
 [node name="Options" type="Node2D" parent="."]
 position = Vector2( 320, 100 )
 

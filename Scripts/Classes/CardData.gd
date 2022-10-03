@@ -140,15 +140,15 @@ class CardData:
 		if _active:
 			State.state.current_card = self
 	func entered_field(_slot):
-		State.state.resources.data.spend_resource(rd.ResourceType.WOOD, self.wood_cost)
-		self.zone_data = FieldCardZoneData.new(_slot)
+		#State.state.resources.data.spend_resource(rd.ResourceType.WOOD, self.wood_cost)
+		#self.zone_data = FieldCardZoneData.new(_slot)
 		emit_signal("entered_field", _slot)
 		#yield(self.ui_owner, "entered_field_finished") # Wait for animations
 		#print("Yielded")
 		for behavior in self.behaviors:
 			behavior.on_play()
 		if self.max_cooldown > 0:
-			self.remaining_cooldown = self.max_cooldown
+			self.remaining_cooldown = 0
 		if self.max_duration > 0:
 			self.remaining_duration = self.max_duration
 	func entered_hand(_index):
