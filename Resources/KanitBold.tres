@@ -3,7 +3,7 @@
 [ext_resource path="res://RawResources/Fonts/Kanit-Bold.ttf" type="DynamicFontData" id=1]
 
 [resource]
-size = 170
+size = 180
 outline_size = 12
 outline_color = Color( 0, 0, 0, 1 )
 extra_spacing_char = 2

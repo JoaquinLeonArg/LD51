@@ -21,21 +21,6 @@ margin_right = 1600.0
 margin_bottom = 820.0
 color = Color( 0.454902, 0.454902, 0.454902, 0.392157 )
 
-[node name="ShopOption3" parent="ColorRect" instance=ExtResource( 3 )]
-position = Vector2( 636, 400 )
-
-[node name="ShopOption6" parent="ColorRect" instance=ExtResource( 3 )]
-position = Vector2( 860, 400 )
-
-[node name="ShopOption7" parent="ColorRect" instance=ExtResource( 3 )]
-position = Vector2( 1084, 400 )
-
-[node name="ShopOption4" parent="ColorRect" instance=ExtResource( 3 )]
-position = Vector2( 412, 400 )
-
-[node name="ShopOption5" parent="ColorRect" instance=ExtResource( 3 )]
-position = Vector2( 188, 400 )
-
 [node name="ShopText" type="RichTextLabel" parent="ColorRect"]
 margin_left = 512.0
 margin_top = 32.0
@@ -69,3 +54,21 @@ bbcode_text = "[center]DONE[/center]"
 text = "DONE"
 scroll_active = false
 deselect_on_focus_loss_enabled = false
+
+[node name="Options" type="Node2D" parent="."]
+position = Vector2( 320, 100 )
+
+[node name="ShopOption3" parent="Options" instance=ExtResource( 3 )]
+position = Vector2( 636, 400 )
+
+[node name="ShopOption6" parent="Options" instance=ExtResource( 3 )]
+position = Vector2( 860, 400 )
+
+[node name="ShopOption7" parent="Options" instance=ExtResource( 3 )]
+position = Vector2( 1084, 400 )
+
+[node name="ShopOption4" parent="Options" instance=ExtResource( 3 )]
+position = Vector2( 412, 400 )
+
+[node name="ShopOption5" parent="Options" instance=ExtResource( 3 )]
+position = Vector2( 188, 400 )

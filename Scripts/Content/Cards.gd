@@ -19,13 +19,13 @@ class GoHuntingCard extends cd.CardDataProperties:
 
 	func _init():
 		self.name = "Go hunting"
-		self.description = "Gain food instantly."
-		self.wood_cost = 0
+		self.description = "Gain 5 food."
+		self.ap_cost = 1
 		self.rarity = cd.CardRarity.COMMON
-		self.draft_cost = CardDraftCost.COMMON
+		self.draft_cost = 5
 		self.card_type = cd.CardType.ACTION
 		self.behaviors = [
-			cb.ChangeResourceBehavior.new(res.ResourceType.FOOD, 100),
+			cb.ChangeResourceBehavior.new(res.ResourceType.FOOD, 5),
 		]
 
 class DangerousMiningCard extends cd.CardDataProperties:

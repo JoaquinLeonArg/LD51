@@ -19,27 +19,13 @@ var button_hovering: bool = false
 
 # Methods
 func _ready():
-	self.data = cd.CardData.new(self.choose_card().new())
-	self.card = card_component.instance()
-	self.card.set_data(self.data)
-
-	card.rest_position = self.global_position
-	card.rest_scale = Vector2(1.0, 1.0)
-	card.rest_rotation = 0
-	card.hover_position = self.global_position
-	card.hover_scale = Vector2(1.0, 1.0)
-	card.hover_rotation = 0
-	card.draggable = false
-
-	card.data.zone_data = cd.DeckCardZoneData.new()
-
-	card.update_position()
-
-	add_child(self.card)
 
 	var _x
 	_x = $BuyButton.connect("mouse_entered", self, "on_mouse_entered_button")
 	_x = $BuyButton.connect("mouse_exited", self, "on_mouse_exited_button")
+
+func initialize():
+	self.refresh()
 
 func _process(_delta):
 	if self.bought:
@@ -65,6 +51,7 @@ func _input(event):
 			self.bought = true
 			State.state.discard.add_card(self.card)
 			self.card = null
+			State.state.resources.data.spend_resource(rd.ResourceType.GOLD, self.data.draft_cost)
 
 func choose_card():
 	var available_rarities: Array = [cd.CardRarity.COMMON]
@@ -78,6 +65,31 @@ func choose_card():
 			available_cards.append(this_card)
 	available_cards.shuffle()
 	return available_cards.pop_back()
+
+func refresh():
+	if self.card:
+		self.card.queue_free()
+	self.data = cd.CardData.new(self.choose_card().new())
+	self.card = card_component.instance()
+	self.card.set_data(self.data)
+	var offset: Vector2 = Vector2.ZERO
+	if self.global_position.y < 0:
+		offset = Vector2(0, 1000)
+
+	card.rest_position = self.global_position + offset
+	card.rest_scale = Vector2(1.5, 1.5)
+	card.rest_rotation = 0
+	card.hover_position = self.global_position + offset
+	card.hover_scale = Vector2(1.8, 1.8)
+	card.hover_rotation = 0
+	card.draggable = false
+
+	card.data.zone_data = cd.DeckCardZoneData.new()
+
+	card.scale = Vector2(1.5, 1.5)
+	card.update_position()
+
+	add_child(self.card)
 
 func on_mouse_entered_button():
 	self.button_hovering = true

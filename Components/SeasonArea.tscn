@@ -2,7 +2,7 @@
 
 [ext_resource path="res://RawResources/Graphics/loading.png" type="Texture" id=1]
 [ext_resource path="res://Scripts/SeasonArea.gd" type="Script" id=2]
-[ext_resource path="res://Resources/KanitBold.tres" type="DynamicFont" id=3]
+[ext_resource path="res://Resources/SeasonText.tres" type="DynamicFont" id=3]
 
 [sub_resource type="Theme" id=1]
 default_font = ExtResource( 3 )
@@ -26,9 +26,9 @@ fill_mode = 4
 
 [node name="SeasonText" type="RichTextLabel" parent="."]
 margin_left = -96.0
-margin_top = 32.0
+margin_top = 40.0
 margin_right = 1184.0
-margin_bottom = 432.0
+margin_bottom = 440.0
 rect_scale = Vector2( 0.15, 0.15 )
 theme = SubResource( 1 )
 bbcode_enabled = true

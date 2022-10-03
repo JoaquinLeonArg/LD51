@@ -7,10 +7,6 @@ var hovering: bool = false
 
 func _process(_delta):
 	self.hovering = self.is_mouse_hovering()
-	if self.hovering:
-		self.modulate.a = 1
-	else:
-		self.modulate.a = 0.2
 
 func _input(event):
 	if not self.hovering:

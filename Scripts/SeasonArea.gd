@@ -9,11 +9,12 @@ const sd = preload("res://Scripts/Classes/SeasonData.gd")
 # Instance properties
 var data: sd.SeasonData
 var season_names: Dictionary = {
-        sd.Season.SPRING: "SPRING",
-        sd.Season.SUMMER: "SUMMER",
-        sd.Season.AUTUMN: "AUTUMN",
-        sd.Season.WINTER: "WINTER"
-    }
+		sd.Season.SPRING: "SPRING",
+		sd.Season.SUMMER: "SUMMER",
+		sd.Season.AUTUMN: "AUTUMN",
+		sd.Season.WINTER: "WINTER",
+		sd.Season.DRAFT: "SHOP"
+	}
 
 # Methods
 func _ready():

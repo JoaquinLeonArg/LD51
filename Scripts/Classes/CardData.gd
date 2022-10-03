@@ -1,5 +1,5 @@
 enum CardBehaviorPriority { MIN, LOW, NORMAL, HIGH, MAX }
-enum CardType { ACTION, BUILDING }
+enum CardType { ACTION, BUILDING, ENVIRONMENT }
 enum CardSubType { STATIC, DYNAMIC, ACTIVABLE }
 enum CardZone { HAND, FIELD, DECK, DISCARD, SHOP }
 enum CardRarity { COMMON, RARE, LEGENDARY}
@@ -38,6 +38,7 @@ class CardDataProperties:
 	var name: String = "Unknown"
 	var description: String = "Unknown"
 	var rarity: int # <CardRarity>
+	var ap_cost: int # 0, 1, 2, 3
 	var wood_cost: int
 	var draft_cost: int
 	var duration: int = -1
@@ -56,6 +57,7 @@ class CardData:
 	var rarity: int # <CardRarity>
 	var type: int # <CardType>
 	var subtype: int # <CardSubtype>
+	var ap_cost: int
 	var wood_cost: int
 	var draft_cost: int
 	var artwork: Resource
@@ -80,10 +82,11 @@ class CardData:
 		return _ba.priority < _bb.priority
 
 	func _init(_props: CardDataProperties):
-		#print("Creating card: %s (%s)" % [_props.name, self.get_instance_id()])
+		#print("Creating card: %s" % [_props.name, self.get_instance_id()])
 		self.name = _props.name
 		self.description = _props.description
 		self.rarity = _props.rarity
+		self.ap_cost = _props.ap_cost
 		self.wood_cost = _props.wood_cost
 		self.draft_cost = _props.draft_cost
 		self.type = _props.card_type
@@ -103,6 +106,8 @@ class CardData:
 			self.remaining_cooldown = _props.cooldown
 	func can_be_played():
 		if State.state.resources.data.resources[rd.ResourceType.WOOD] < self.wood_cost:
+			return false
+		if State.state.resources.data.extra_resources[rd.ExtraResourceType.AP] < self.ap_cost:
 			return false
 		for behavior in self.behaviors:
 			if not behavior.can_be_played():
@@ -157,6 +162,7 @@ class CardData:
 		emit_signal("entered_deck")
 	func play_as_action():
 		State.state.resources.data.spend_resource(rd.ResourceType.WOOD, self.wood_cost)
+		State.state.resources.data.change_extra_resource(rd.ExtraResourceType.AP, -self.ap_cost)
 		#yield(self.ui_owner, "entered_field_finished") # Wait for animations
 		#print("Yielded")
 		for behavior in self.behaviors:
@@ -168,21 +174,22 @@ class CardBehavior:
 
 	func _init(_priority=CardBehaviorPriority.NORMAL):
 		self.priority = _priority
+		self.owner = null
 	func set_owner(_owner: CardData):
 		self.owner = _owner
 	func _to_string():
 		return self.get_class()
 	func on_play(_target=null):
-		print("Triggered: on_play for %s on card %s (%s) targeting %s" % [self, self.owner.name, self.owner.get_instance_id(), _target])
+		print("Triggered: on_play for %s targeting %s" % [self, _target])
 	func on_discard():
-		print("Triggered: on_discard for %s on card %s (%s)" % [self, self.owner.name, self.owner.get_instance_id()])
+		print("Triggered: on_discard for %s" % [self])
 	func on_draw():
-		print("Triggered: on_draw for %s on card %s (%s)" % [self, self.owner.name, self.owner.get_instance_id()])
+		print("Triggered: on_draw for %s" % [self])
 	func on_destroy():
-		print("Triggered: on_destroy for %s on card %s (%s)" % [self, self.owner.name, self.owner.get_instance_id()])
+		print("Triggered: on_destroy for %s" % [self])
 	func on_cooldown():
-		print("Triggered: on_cooldown for %s on card %s (%s)" % [self, self.owner.name, self.owner.get_instance_id()])
+		print("Triggered: on_cooldown for %s" % [self])
 	func on_activated():
-		print("Triggered: on_activated for %s on card %s (%s)" % [self, self.owner.name, self.owner.get_instance_id()])
+		print("Triggered: on_activated for %s" % [self])
 	func can_be_played():
 		return true

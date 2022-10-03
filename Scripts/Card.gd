@@ -26,6 +26,18 @@ var hover_position: Vector2
 var rest_rotation: float
 var hover_rotation: float
 
+var type_names: Dictionary = {
+	cd.CardType.ACTION: "Action",
+	cd.CardType.BUILDING: "Building",
+	cd.CardType.ENVIRONMENT: "Environment"
+}
+
+var type_icons: Dictionary = {
+	cd.CardType.ACTION: preload("res://RawResources/Graphics/icon-ACTION.png"),
+	cd.CardType.BUILDING: preload("res://RawResources/Graphics/icon-BUILDING.png"),
+	cd.CardType.ENVIRONMENT: preload("res://RawResources/Graphics/icon-TREE.png")
+}
+
 # Methods
 func _ready():
 	var _x
@@ -38,11 +50,15 @@ func _ready():
 func _process(delta):
 	self.data.update(delta)
 	self.update_progress()
+	self.process_input()
 
 func set_data(_data):
 	self.data = _data
 	$Front/CardArea/CardName.bbcode_text = "[center]%s[/center]" % self.data.name
-
+	$Front/CardArea/CardCost.bbcode_text = "[center]%s[/center]" % self.data.ap_cost
+	$Front/CardArea/CardDescription.bbcode_text = "[center]%s[/center]" % self.data.description
+	$Front/CardArea/CardTypes.bbcode_text = "[center]%s[/center]" % self.type_names[self.data.type]
+	$Front/CardArea/TypeSprite.texture = self.type_icons[self.data.type]
 
 	var _x
 	_x = self.data.connect("entered_field", self, "entered_field")
@@ -52,13 +68,23 @@ func set_data(_data):
 	_x = self.data.connect("duration_over", self, "duration_over")
 	_x = self.data.connect("cooldown_over", self, "cooldown_over")
 
-func _input(event):
+func process_input():
 	if not self.enabled:
+		return
+	if State.state.paused:
+		if self.dragging:
+			self.dragging = false
+			self.update_position()
+		if State.state.current_card == self:
+			State.state.current_card = null
+		
 		return
 	var tween = create_tween()
 	if self.hovering and self.draggable:
-		if event.is_action_pressed("left_click"):
+		if Input.is_action_just_pressed("left_click"):
 			if State.state.current_card:
+				if State.state.current_card == self:
+					self.update_position()
 				var card = State.state.current_card
 				card.dragging = false
 				State.state.current_card = null
@@ -69,10 +95,13 @@ func _input(event):
 				tween.tween_property(self, "scale", Vector2(0.95, 0.95), 0.2)
 				self.drag_offset = get_global_mouse_position() - self.global_position
 	if self.dragging and self.draggable:
-		tween.tween_property(self, "global_position", get_global_mouse_position() - self.drag_offset, 0.01)
+		#tween.tween_property(self, "global_position", get_global_mouse_position() - self.drag_offset, 0.01)
+		self.global_position = get_global_mouse_position() - self.drag_offset
 		self.rotation = (self.global_position.x - get_global_mouse_position().x + self.drag_offset.x)*0.002
 
 func on_mouse_entered():
+	if State.state.current_card:
+		return
 	var tween = create_tween()
 	self.hovering = true
 	self.z_index = 1
@@ -81,6 +110,8 @@ func on_mouse_entered():
 	tween.tween_property(self, "rotation", self.hover_rotation, 0.1)
 
 func on_mouse_exited():
+	if State.state.current_card:
+		return
 	var tween = create_tween()
 	self.hovering = false
 	self.z_index = 0
@@ -92,7 +123,6 @@ func update_position():
 	var tween = create_tween()
 	if not tween:
 		return
-		# WTF
 	#self.enabled = false
 	tween.tween_property(self, "scale", self.rest_scale, 0.2)
 	tween.tween_property(self, "global_position", self.rest_position, 0.2)
@@ -124,5 +154,5 @@ func flip(duration: float):
 	else:
 		tween.tween_property($Back, "visible", false, 0)
 		tween.tween_property($Front, "visible", true, 0)
-	tween.tween_property(self, "scale", Vector2(1, self.scale.y), duration)
+	tween.tween_property(self, "scale", Vector2(self.rest_scale.x, self.rest_scale.y), duration)
 	self.is_showing = not self.is_showing

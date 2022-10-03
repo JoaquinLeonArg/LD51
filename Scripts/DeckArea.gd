@@ -39,21 +39,16 @@ func add_card(card):
 	card.data.zone_data = cd.DeckCardZoneData.new()
 
 	card.update_position()
-
-func _input(event):
-	if self.is_mouse_hovering() and event.is_action_pressed("left_click") and not State.state.current_card and self.draw_timer == 0.0:
-		self.start_draw()
-
-func start_draw():
-	self.draw_timer = 3.0
-	$Progress.visible = true
 	
-func _process(delta):
-	if self.draw_timer > 0.0:
-		self.draw_timer -= delta
-		if self.draw_timer <= 0.0:
+
+# func start_draw():
+# 	self.draw_timer = State.state.resources.data.extra_resources[rd.ExtraResourceType.DRAW_TIME]
+# 	$Progress.visible = true
+	
+func _process(_delta):
+	if self.is_mouse_hovering() and Input.is_action_just_pressed("left_click") and not State.state.current_card:
+		if State.state.resources.data.extra_resources[rd.ExtraResourceType.AP] > 0:
 			self.data.draw_action()
-			$Progress.visible = false
 	self.draw_timer = max(self.draw_timer, 0.0)
 	$Progress.value = 1.0 - draw_timer / State.state.resources.data.extra_resources[rd.ExtraResourceType.DRAW_TIME]
 

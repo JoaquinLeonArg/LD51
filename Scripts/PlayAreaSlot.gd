@@ -13,10 +13,19 @@ var slot_index = 0
 var hovering: bool = false
 var data: psd.PlaySlotData = null
 
-func _input(event):
-	if not self.hovering:
+func _ready():
+	var _x
+	_x = self.data.connect("unlock", self, "unlock")
+	_x = self.data.connect("lock", self, "lock")
+
+func process_input():
+	
+	if Input.is_action_just_pressed("left_click") and self.data.locked and self.hovering and State.state.current_card == null:
+		print(State.state.current_card)
+		self.data.unlock()
+	if not self.hovering or self.data.locked:
 		return
-	if event.is_action_released("left_click"):
+	if Input.is_action_just_released("left_click"):
 		if State.state.current_card and State.state.current_card.data.type == cd.CardType.BUILDING and not self.card:
 			self.card = State.state.current_card
 			State.state.current_card = null
@@ -32,7 +41,7 @@ func _input(event):
 			self.card.rest_scale = Vector2(1.0, 1.0)
 			self.card.hover_rotation = 0
 			self.card.hover_position = self.global_position
-			self.card.hover_scale = Vector2(1.2, 1.2)
+			self.card.hover_scale = Vector2(1.5, 1.5)
 			self.card.draggable = false
 
 			self.card.dragging = false
@@ -49,13 +58,20 @@ func _input(event):
 
 
 func _process(_delta):
-	if self.is_mouse_hovering() and State.state.current_card:
-		if State.state.current_card.data.type == cd.CardType.BUILDING:
-			self.hovering = true
-			self.modulate = Color(1, 0.5, 0.3, 1)
-	else:
+	self.process_input()
+	var tween = create_tween()
+	var current_card = State.state.current_card
+	if current_card:
+		if current_card.data.type == cd.CardType.BUILDING:
+			tween.tween_property($Sprite, "modulate:a", 0.5, 0.2)
+			if self.is_mouse_hovering():
+				self.hovering = true
+				tween.tween_property($Area, "modulate:a", 0.25, 0.2)
+	if not self.is_mouse_hovering():
 		self.hovering = false
-		self.modulate = Color(1, 1, 1, 0.2)
+		$Area.modulate.a = 0
+	if not current_card or current_card.data.type != cd.CardType.BUILDING:
+		$Sprite.modulate.a = 0.25
 
 func is_mouse_hovering():
 	return [
@@ -64,3 +80,9 @@ func is_mouse_hovering():
 		(get_global_mouse_position().x - self.global_position.x + 64) > 0,
 		(get_global_mouse_position().y - self.global_position.y + 152) > 0
 	].count(true) == 4
+
+func lock():
+	$Lock.visible = true
+
+func unlock():
+	$Lock.visible = false

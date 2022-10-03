@@ -37,13 +37,14 @@ func update_card_positions():
 		position.x = center_factor * min(MAX_DISTANCE_X, CARD_SPACING_X*len(self.data.cards))
 		position.y = abs(center_factor) * MAX_DISTANCE_Y
 		position += self.global_position
+		
 
 		card.rest_rotation = center_factor * ROTATION_RATE
 		card.rest_position = position
-		card.rest_scale = Vector2(1.0, 1.0)
+		card.rest_scale = Vector2(1.6, 1.6)
 		card.hover_rotation = 0
-		card.hover_position = position + Vector2(0, -35)
-		card.hover_scale = Vector2(1.3, 1.3)
+		card.hover_position = position + Vector2(0, -45)
+		card.hover_scale = Vector2(2, 2)
 		card.draggable = true
 
 		card.data.zone_data = cd.HandCardZoneData.new(i)
@@ -61,6 +62,7 @@ func add_card(card: Node2D):
 	self.add_child(card)
 	card.global_position = old
 	self.update_card_positions()
+	
 
 func remove_card(card: Node2D):
 	self.data.cards.erase(card)
