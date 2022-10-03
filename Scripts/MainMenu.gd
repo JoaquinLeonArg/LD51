@@ -1,6 +1,9 @@
 extends VBoxContainer
 
 
+func _on_MainMenuScene_ready():
+	Sound.sound.play_music("main_menu")
+
 func _on_NewGameBtn_pressed():
 	Sound.sound.play_effect("ui_click")
 	get_tree().change_scene("res://Scenes/GameScene.tscn")
