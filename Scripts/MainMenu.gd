@@ -31,3 +31,12 @@ func _on_CreditsBtn_mouse_entered():
 
 func _on_NewGameBtn_mouse_entered():
 	Sound.sound.play_effect("hover")
+
+
+func _on_HowToPlayBtn_pressed():
+	Sound.sound.play_effect("ui_click")	
+	get_tree().change_scene("res://Scenes/HowToPlayScene.tscn")
+
+
+func _on_HowToPlayBtn_mouse_entered():
+	Sound.sound.play_effect("hover")

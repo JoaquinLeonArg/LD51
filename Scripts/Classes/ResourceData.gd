@@ -89,6 +89,9 @@ class ResourceData:
 	func resource_tick():
 		for resource in self.resource_maintenance.keys():
 			self.resources[resource] += self.resource_production[resource] - self.resource_maintenance[resource]
+			if resources[ResourceType.FOOD] < 0:
+				resources[ResourceType.PEOPLE] += State.state.difficulty*resources[ResourceType.FOOD]
+				resources[ResourceType.PEOPLE] = max(resources[ResourceType.PEOPLE], 0)
 			self.resources[resource] = max(self.resources[resource], 0)
 			self.resources[resource] = min(self.resources[resource], self.resource_max[resource])
 		emit_signal("resources_changed")
