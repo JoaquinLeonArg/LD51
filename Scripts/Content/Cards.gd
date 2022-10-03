@@ -26,6 +26,7 @@ class WoodlandCard extends cd.CardDataProperties:
 		self.card_type = cd.CardType.ENVIRONMENT
 		self.artwork_path = "res://RawResources/Graphics/woodland.png"
 		self.behaviors = [
+			cb.OnCardUseSoundBehavior.new("gather_wood"),
 			cb.YearChangeResourceBehavior.new(res.ResourceType.WOOD, 1),
 		]
 
@@ -56,6 +57,7 @@ class GoHuntingCard extends cd.CardDataProperties:
 		self.card_type = cd.CardType.ACTION
 		self.artwork_path = "res://RawResources/Graphics/woodland.png"
 		self.behaviors = [
+			cb.OnCardUseSoundBehavior.new("use_card"),
 			cb.ChangeResourceBehavior.new(res.ResourceType.FOOD, 5),
 		]
 
@@ -71,8 +73,7 @@ class DangerousMiningCard extends cd.CardDataProperties:
 		self.card_type = cd.CardType.ACTION
 		self.artwork_path = "res://RawResources/Graphics/woodland.png"
 		self.behaviors = [
-			cb.ChangeResourceBehavior.new(res.ResourceType.GOLD, 1),
-			cb.ChangeResourceBehavior.new(res.ResourceType.PEOPLE, -1)
+			cb.ChangeResourceBehavior.new(res.ResourceType.GOLD, 1)
 		]
 
 class ResearchCard extends cd.CardDataProperties:
@@ -87,6 +88,7 @@ class ResearchCard extends cd.CardDataProperties:
 		self.card_type = cd.CardType.ACTION
 		self.artwork_path = "res://RawResources/Graphics/woodland.png"
 		self.behaviors = [
+			cb.OnCardUseSoundBehavior.new("use_card"),
 			cb.DrawCardsBehavior.new(2)
 		]
 
@@ -102,6 +104,7 @@ class HighResearchCard extends cd.CardDataProperties:
 		self.card_type = cd.CardType.ACTION
 		self.artwork_path = "res://RawResources/Graphics/woodland.png"
 		self.behaviors = [
+			cb.OnCardUseSoundBehavior.new("use_card"),
 			cb.DrawCardsBehavior.new(4)
 		]
 
@@ -117,6 +120,7 @@ class ExpertiseCard extends cd.CardDataProperties:
 		self.card_type = cd.CardType.ACTION
 		self.artwork_path = "res://RawResources/Graphics/woodland.png"
 		self.behaviors = [
+			cb.OnCardUseSoundBehavior.new("use_card"),
 			cb.DrawCardsBehavior.new(4)
 		]
 
@@ -149,6 +153,7 @@ class GoldRushCard extends cd.CardDataProperties:
 		self.card_type = cd.CardType.ACTION
 		self.artwork_path = "res://RawResources/Graphics/woodland.png"
 		self.behaviors = [
+			cb.OnCardUseSoundBehavior.new("mining"),
 			cb.ChangeResourceBehavior.new(res.ResourceType.GOLD, 2),
 		]
 
@@ -164,6 +169,7 @@ class MigratePeopleCard extends cd.CardDataProperties:
 		self.card_type = cd.CardType.ACTION
 		self.artwork_path = "res://RawResources/Graphics/woodland.png"
 		self.behaviors = [
+			cb.OnCardUseSoundBehavior.new("use_card"),
 			cb.ChangeResourceBehavior.new(res.ResourceType.PEOPLE, 10),
 		]
 
@@ -180,6 +186,7 @@ class IntermitentFastingCard extends cd.CardDataProperties:
 		self.duration = 10
 		self.artwork_path = "res://RawResources/Graphics/woodland.png"
 		self.behaviors = [
+			cb.OnCardUseSoundBehavior.new("use_card"),
 			cb.ChangeModifierBehavior.new(res.ResourceType.FOOD, 0.5), # 50% food consumption for 10 seconds
 		]
 
@@ -195,6 +202,7 @@ class HuntMammothCard extends cd.CardDataProperties:
 		self.card_type = cd.CardType.ACTION
 		self.artwork_path = "res://RawResources/Graphics/woodland.png"
 		self.behaviors = [
+			cb.OnCardUseSoundBehavior.new("use_card"),
 			cb.ChangeResourceBehavior.new(res.ResourceType.FOOD, 30),
 			cb.ChangeResourceBehavior.new(res.ResourceType.PEOPLE, -5)
 		]
@@ -226,6 +234,7 @@ class ReforestationCard extends cd.CardDataProperties:
 		self.card_type = cd.CardType.ACTION
 		self.artwork_path = "res://RawResources/Graphics/woodland.png"
 		self.behaviors = [
+			cb.OnCardUseSoundBehavior.new("gather_wood"),
 			cb.ReforestationBehavior.new(WoodlandCard)
 		]
 
@@ -426,7 +435,7 @@ class MiningCampCard extends cd.CardDataProperties:
 		self.artwork_path = "res://RawResources/Graphics/woodland.png"
 		self.behaviors = [
 			cb.ClickBehavior.new([
-				cb.OnCardInteractionSoundBehavior.new("cash_register"),
+				cb.OnCardInteractionSoundBehavior.new("mining"),
 				cb.UpgradeBehavior.new(0),
 				cb.ChangeResourceBehavior.new(res.ResourceType.GOLD, 3, 1),
 			])

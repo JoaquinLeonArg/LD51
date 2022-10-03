@@ -30,6 +30,32 @@ class SeasonData:
 	signal update_ui(season, year)
 	signal win
 
+	func stop_music(current_season: int):
+		match current_season:
+			Season.SPRING:
+				Sound.sound.stop_music("main_menu")
+			Season.SUMMER:
+				Sound.sound.stop_music("spring")
+			Season.AUTUMN:
+				Sound.sound.stop_music("summer")
+			Season.WINTER:
+				Sound.sound.stop_music("autumn")
+			Season.DRAFT:
+				Sound.sound.stop_music("winter")
+
+	func play_music(current_season: int):
+		match current_season:
+			Season.SPRING:
+				Sound.sound.play_music("spring")
+			Season.SUMMER:
+				Sound.sound.play_music("summer")
+			Season.AUTUMN:
+				Sound.sound.play_music("autumn")
+			Season.WINTER:
+				Sound.sound.play_music("winter")
+			Season.DRAFT:
+				Sound.sound.play_music("main_menu")
+
 	func update(delta):
 		if State.state.paused:
 			return
@@ -42,6 +68,8 @@ class SeasonData:
 			for behavior in self.season_behaviors[self.season]:
 				behavior.on_destroy()
 			self.season = (self.season + 1) % 5
+			stop_music(self.season)
+			play_music(self.season)
 			for behavior in self.season_behaviors[self.season]:
 				behavior.on_play()
 			State.state.deck.data.draw(State.state.resources.data.extra_resources[rd.ExtraResourceType.DRAW_SIZE])
